@@ -1,8 +1,8 @@
 <?php
-	$this->extend('Layout/layout_users')
+	$this->extend('Layout/layout_main')
 ?>
-<!-- Estara buscando os dados da secao conteudo  do arquivo layout_user.php -->
+
 <?php $this->section('conteudo')?>
-	<H1>Essa é minha View</H1>
+	<a href="<?php echo site_url('users')?>"class="btn btn-primary btn-200 mt-5 mp-5">Users</a>
 <?php $this->endSection()?>
 

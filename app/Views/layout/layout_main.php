@@ -16,16 +16,18 @@
 </head>
 <body>
 
-
-<!-- Criado a secao conteudo com as 4 linhas de h1 abaixo -->
-
-<!-- ======================================================== -->
-<h1>Estou no layout 1</h1>
-<h1>Estou no layout 2</h1>
-<?php $this-> renderSection('conteudo')?>
-<h1>Estou no layout 3</h1>
-<h1>Estou no layout 4</h1>
-<!-- ======================================================== -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-center bg-dark text-light p-3">
+            <h3>Projeto Geral</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <?php $this-> renderSection('conteudo')?>
+        </div>
+    </div>
+</div>
 
 
 
