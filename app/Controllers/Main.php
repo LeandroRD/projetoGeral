@@ -5,7 +5,7 @@ class Main extends BaseController
 	//====================================================
 	public function index()
 	{
-		return view('Main');
+		echo view('Main');
 	}
 
 	//--------------------------------------------------------------------
