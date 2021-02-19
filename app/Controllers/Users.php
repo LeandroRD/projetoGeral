@@ -2,6 +2,7 @@
 
 use CodeIgniter\Controller;
 
+
 class Users extends BaseController
 {	
     private $sessao;
@@ -24,8 +25,28 @@ class Users extends BaseController
 	}
 	//====================================================
     public function login(){
+        $error='';
+        $data= [];
+        $request = \Config\Services::request();
+
+        //checar se os campos foram preenchidos 
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $username = $request->getPost('text_username');
+            $password = $request->getPost('text_password');
+            if($username=='' || $password==''){
+                $error= 'Erro no preenchimento dos campos';
+            }
+        
+        //checar a BD 
+        
+
+        }
+        if($error !=''){
+            $data['error']=$error;
+        }
+       
         //mostra a pagina de login
-        echo view('users/login');
+        echo view('users/login',$data);
 
     }
 
