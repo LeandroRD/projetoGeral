@@ -12,38 +12,24 @@ class Users extends BaseController
 	//====================================================
 	public function index()
 	{
-        //=====================================
-        //Exemplo para testar com a funcao TESTE()
-		// $session = session();
-        // $this->sessao->set('nome','Carlos');
+        //checar se a sessao esta ativa
+        if($this->checkSession()){
+            //sessao ativa
 
-        // echo "<pre>";
-        //     print_r($_SESSION);
-        // echo"</pre>";
-        //=====================================
+        }else{
+            //mostrar o formulario login
+            $this->login();
 
-        //login com sucesso
-        $dados = [
-            'id_user'=>1,
-            'name'=>'joao'
-        ];
-        $this->sessao->set($dados);
+        }
 	}
 	//====================================================
+    public function login(){
+        //mostra a pagina de login
+        echo view('users/login');
 
-    public function teste(){
-        echo $this->sessao->nome;
-    }
-    //====================================================
-    public function menu_inicial(){
-        if(!$this->sessao->has('id_user')){
-            echo"Acesso negado";
-            exit();       
-        }
-        echo 'estou no menu principal';
     }
 
-    private function checkSessao(){
+    private function checkSession(){
         //verifica se existe sessao
         return $this->sessao->has('id_user');
     }
