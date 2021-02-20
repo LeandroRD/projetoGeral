@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 
+use App\Models\UsersModel;
 use CodeIgniter\Controller;
 
 
@@ -38,6 +39,10 @@ class Users extends BaseController
             }
         
         //checar a BD 
+        if($error ==''){
+            $model = new UsersModel();
+            $model->teste();
+        }
         
 
         }

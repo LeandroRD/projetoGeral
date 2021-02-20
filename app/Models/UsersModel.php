@@ -1,15 +1,22 @@
-<?php namespace App\Models;
+<?php
 
-use CodeIgniter\Database\ConnectionInterface;
+namespace App\Models;
 
-class UserModel
-{
+use CodeIgniter\Model;
+
+
+
+class UsersModel extends Model
+{   //Inicio da variavel conectada na BD
     protected $db;
 
-    public function __construct(ConnectionInterface &$db)
-    {
-        $this->db = &$db;
+    public function __construct(){
+        $this->db = db_connect();
     }
-
-  
+        public function teste(){
+            
+            $results = $this->db->query("SELECT * FROM users")->getResultArray();
+            echo $results[0]['username'].'->'.$results[2]['passwrd'];
+            exit();
+        }
 }
