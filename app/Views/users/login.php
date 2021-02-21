@@ -6,13 +6,7 @@
     
     <div class="row mt-3 mb-3">
         <div class="col-4 offset-4 card bg-light p-3">
-            
-            <?php if(isset($error)): ?>
-                <div class="alert alert-danger">
-                    <?php echo $error?>
-                </div>
-            <?php endif; ?>
-            
+                
             <form action="<?php echo site_url('users/login')?> "method="post">
                 <div class="form-group mt-2">
                    <input type="text" name="text_username" class="form-control" placeholder="UserName">
@@ -34,6 +28,11 @@
                     </div>
                 </div>
             </form>
+            <?php if(isset($error)): ?>
+                <div class="alert alert-danger text-center mt-2"id="error-message">
+                    <?php echo $error?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 <?php $this->endSection()?>

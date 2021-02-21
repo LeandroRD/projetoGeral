@@ -6,10 +6,10 @@ use CodeIgniter\Controller;
 
 class Users extends BaseController
 {	
-    private $sessao;
+    protected $session;
 
     public function __construct(){
-        $this->sessao = session();
+        $this->session = session();
     }
 	//====================================================
 	public function index()
@@ -27,7 +27,7 @@ class Users extends BaseController
 	//====================================================
     public function login(){
         $error='';
-        $data= [];
+        $data= array();
         $request = \Config\Services::request();
 
         //checar se os campos foram preenchidos 
@@ -38,25 +38,61 @@ class Users extends BaseController
                 $error= 'Erro no preenchimento dos campos';
             }
         
-        //checar a BD 
-        if($error ==''){
-            $model = new UsersModel();
-            $model->teste();
+            //checar a BD 
+            if($error ==''){
+                $model = new UsersModel();
+                $result = $model->verifyLogin($username,$password);
+                
+                if(is_array($result)){
+                    //login valido
+                    
+                    // echo"ok";
+                    // exit();
+
+                    $this->setSession($result);
+                    $this->homePage();
+                    return;
+                    
+                    
+                   
+                }else{
+                    //login invalido
+                    $error= 'Login inválido !!';   
+                }    
+            }
         }
         
-
-        }
         if($error !=''){
             $data['error']=$error;
         }
-       
+    
         //mostra a pagina de login
         echo view('users/login',$data);
+    }
+    //===============================================
+    private function setSession($data){
+        // Iniciar sessao
+        $session_data=array(
+            
+            'id_user'=>$data['id_user'],
+            'name'=>$data['name']
+    );
+    
+       $this->session->set($session_data);
+
+    }    
+    //===============================================
+    public function homePage(){
+        echo"entrei na Aplicação";
+        echo"<pre>";
+        print_r($_SESSION);
+        echo"</pre>";
 
     }
+    //===============================================
 
     private function checkSession(){
         //verifica se existe sessao
-        return $this->sessao->has('id_user');
+        return $this->session->has('id_user');
     }
 }
