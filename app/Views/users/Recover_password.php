@@ -15,12 +15,8 @@
                     <a href="<?php echo site_url('users')?>"class="btn btn-secondary me-2 ">Cancelar</a>
                     <input type="submit" class="btn btn-primary " value="Reset">
                     </div>
-                   
-                    
                 </form>
             </div>
         </div>
     </div>
-
-
 <?php $this->endSection()?>

@@ -109,6 +109,21 @@ class Users extends BaseController
     public function recover(){
         //aparesenta form para recover passaword
         echo view('users/Recover_password');
-
     }
+    //===============================================
+    public function reset_password(){
+
+        //reset no users pasword
+        //redefine  a password e envia por email
+        $request = \Config\Services::request();
+        $email = $request->getPost('text_email');
+    //===============================================
+    // verifica se há um usuário neste e-mail
+        $users = new UsersModel();
+        $users->resetPassword($email);
+    
+    
+    }
+    
+
 }
