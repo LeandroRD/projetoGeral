@@ -17,6 +17,7 @@ class Users extends BaseController
         //checar se a sessao esta ativa
         if($this->checkSession()){
             //sessao ativa
+            $this->homePage();
 
         }else{
             //mostrar o formulario login
@@ -26,6 +27,12 @@ class Users extends BaseController
 	}
 	//====================================================
     public function login(){
+        //checar se  ja existe sessao vai para homepae
+        if ($this->checkSession()){
+            $this->homePage();
+            return;
+
+        } 
         $error='';
         $data= array();
         $request = \Config\Services::request();
@@ -45,16 +52,10 @@ class Users extends BaseController
                 
                 if(is_array($result)){
                     //login valido
-                    
-                    // echo"ok";
-                    // exit();
-
                     $this->setSession($result);
                     $this->homePage();
                     return;
-                    
-                    
-                   
+            
                 }else{
                     //login invalido
                     $error= 'Login inválido !!';   
@@ -73,21 +74,30 @@ class Users extends BaseController
     private function setSession($data){
         // Iniciar sessao
         $session_data=array(
-            
             'id_user'=>$data['id_user'],
             'name'=>$data['name']
     );
-    
        $this->session->set($session_data);
 
     }    
     //===============================================
     public function homePage(){
-        echo"entrei na Aplicação";
-        echo"<pre>";
-        print_r($_SESSION);
-        echo"</pre>";
 
+        // se check session existe
+        if (!$this->checkSession()){
+            $this->login();
+            return;
+        }
+        //apresentar homepage view
+        echo view('users/homepage');
+
+    }
+    //===============================================
+    public function logout(){
+        //logout
+        $this->session->destroy();
+        // redirect('users','refresh');
+        return redirect()->to(site_url('users'));
     }
     //===============================================
 

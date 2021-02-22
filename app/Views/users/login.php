@@ -1,5 +1,6 @@
-<?php $this->extend('Layout/layout_users')?>
-
+<?php 
+    $this->extend('Layout/layout_users')
+?>
 
 
 <?php $this->section('conteudo')?>
