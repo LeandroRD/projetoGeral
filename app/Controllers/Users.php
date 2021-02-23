@@ -12,8 +12,7 @@ class Users extends BaseController
         $this->session = session();
     }
 	//====================================================
-	public function index()
-	{
+	public function index(){
         //checar se a sessao esta ativa
         if($this->checkSession()){
             //sessao ativa
@@ -76,8 +75,7 @@ class Users extends BaseController
         $session_data=array(
             'id_user'=>$data['id_user'],
             'name'=>$data['name'],
-            'profile'=>$data['profile']
-    );
+            'profile'=>$data['profile']);
        $this->session->set($session_data);
     }    
     //===============================================
@@ -107,7 +105,7 @@ class Users extends BaseController
         return redirect()->to(site_url('users'));
     }
     //===============================================
-
+    
     private function checkSession(){
         //verifica se existe sessao
         return $this->session->has('id_user');
@@ -119,15 +117,7 @@ class Users extends BaseController
     }
     //===============================================
     public function reset_password(){
-        // metodo 1=========================================
-        //reset no users pasword
-        //redefine  a password e envia por email
-
-        // $request = \Config\Services::request();
-        // $email = $request->getPost('text_email');
-    //===============================================
-    // verifica se há um usuário neste e-mail
-    // se existe muda a senha e envie email
+       
 
         // $users = new UsersModel();
         // $users->resetPassword($email);
@@ -185,13 +175,26 @@ class Users extends BaseController
 
 
     }
+
+    public function teste($value){
+        if($this->checkProfile($value)){
+            echo"Existe";
+        }else{
+            echo "Não Existe";
+        }
+    }
+    
+  
+    
     //===============================================
     private function checkProfile($profile){
         //verifique se o usuário tem permissão para acessar o recurso
-        if($this->session->profile == $profile){
+        if(preg_match("/$profile/", $this->session->profile)){
             return true;
         }else{
             return false;
         }
     }
+    
+    
 }
