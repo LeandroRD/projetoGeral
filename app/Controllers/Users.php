@@ -88,7 +88,7 @@ class Users extends BaseController
             $this->login();
             return;
         }
-        //verifica o profile
+        //verifica o profile de cada usuario
         if($this->checkProfile('admin')){
             echo "Sou Admin";
         }else{
