@@ -86,16 +86,14 @@ class Users extends BaseController
             $this->login();
             return;
         }
-        //verifica o profile de cada usuario
-        if($this->checkProfile('admin')){
-            echo "Sou Admin";
-        }else{
-            echo "Não sou Admin";
-        }
-        exit();
+        $data = array();
+       //verifica se user é admin
+       if($this->checkProfile('admin')){
+           $data['admin'] = true;
+       }
         
         //apresentar homepage view
-        echo view('users/homepage');
+        echo view('users/homepage',$data);
     }
     //===============================================
     public function logout(){
@@ -184,16 +182,31 @@ class Users extends BaseController
         }
     }
     
-  
-    
     //===============================================
     private function checkProfile($profile){
         //verifique se o usuário tem permissão para acessar o recurso
+        //codigo consegue buscar pedacos de palavras
         if(preg_match("/$profile/", $this->session->profile)){
             return true;
         }else{
             return false;
         }
+    }
+    //===============================================
+    public function op1(){
+        echo "OP1";
+    }
+    //===============================================
+    public function op2(){
+        echo "OP2";
+    }
+    //===============================================
+    public function admin_users(){
+        // verifique se o usuário tem permissão
+        if($this->checkProfile('admin')==false){
+            return redirect()->to(site_url('users'));  
+        }
+        echo "ADM Users";
     }
     
     
