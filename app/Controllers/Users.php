@@ -107,23 +107,41 @@ class Users extends BaseController
     }
     //===============================================
     public function recover(){
-        //aparesenta form para recover passaword
+        //apresenta form para recover passaword
         echo view('users/Recover_password');
     }
     //===============================================
     public function reset_password(){
-
+        // metodo 1=========================================
         //reset no users pasword
         //redefine  a password e envia por email
-        $request = \Config\Services::request();
-        $email = $request->getPost('text_email');
+
+        // $request = \Config\Services::request();
+        // $email = $request->getPost('text_email');
     //===============================================
     // verifica se há um usuário neste e-mail
+    // se existe muda a senha e envie email
+
+        // $users = new UsersModel();
+        // $users->resetPassword($email);
+
+        //metodo 2==========================================
+        $request = \Config\Services::request();
+        $email = $request->getPost('text_email');
         $users = new UsersModel();
-        $users->resetPassword($email);
-    
-    
+        $result = $users->checkEmail($email);
+            if(count($result)!=0){
+                //existe email associado
+                $users->sendPurl($email, $result[0]['id_user']);
+            echo"existe email associado";
+        }else{
+            echo "Nao existe o email associado";
+        }
     }
-    
+    //===============================================
+    public function redefine_password($purl){
+        echo"ola";
+        echo"<p>$purl</p>";
+    }
 
 }

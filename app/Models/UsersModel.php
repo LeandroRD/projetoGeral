@@ -62,7 +62,7 @@ class UsersModel extends Model
                 echo('(Mensagem de email)');
                 echo 'A sua nova password é : '. $newPassword;
                 return true;
-                
+
             }else{
                 //nao existe email igual
                 echo "nao existe este email registrado";
@@ -70,9 +70,41 @@ class UsersModel extends Model
             }
         }
         //==========================================
-        public function randomPassword(){
+        public function checkEmail($email){
+            //verifica se o e-mail é de uma conta de usuário
+            $params=array(
+                $email
+            );
+            $query = "SELECT id_user FROM users WHERE email =?";
+            return $this->db->query($query,$params)->getResult('array');
+
+        }
+
+
+        //==========================================
+        //Gerar um codigo purl de 6 caracteres e guardar na BD
+        public function sendPurl($email, $id_user){
+            $purl = $this->randomPassword(6);
+            $params = array(
+                $purl,
+                $id_user
+            );
+            $query = "UPDATE users SET purl =? WHERE id_user =?";
+            $this->db->query($query,$params);
+
+            // envio do email
+            echo "mensagem de email link para altera password";
+            echo'<a href="'.site_url('users/redefine_password/'.$purl).'">Redefinir Password</a>';
+
+           
+        }
+
+        //==========================================
+        public function randomPassword($numChars = 8){
             //gera uma senha aleatória
             $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            return  substr(str_shuffle($chars),0,8) ;
+            return  substr(str_shuffle($chars),0,$numChars) ;
         }
+
+        
 }
