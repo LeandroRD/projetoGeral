@@ -78,7 +78,6 @@ class Users extends BaseController
             'name'=>$data['name']
     );
        $this->session->set($session_data);
-
     }    
     //===============================================
     public function homePage(){
@@ -90,7 +89,6 @@ class Users extends BaseController
         }
         //apresentar homepage view
         echo view('users/homepage');
-
     }
     //===============================================
     public function logout(){
@@ -140,8 +138,42 @@ class Users extends BaseController
     }
     //===============================================
     public function redefine_password($purl){
-        echo"ola";
-        echo"<p>$purl</p>";
-    }
+        
 
+        $users = new UsersModel();
+        $results = $users->getPurl($purl);
+        if(count($results)==0){
+            // nenhum purl encontrado redireciona para o main
+            return redirect()->to(site_url('main'));
+        }else{
+            //existe purl na BD
+            $data['user'] = $results[0];
+            echo view('users/redefine_password',$data);       
+        }
+    }
+    //===============================================
+    public function redefine_password_submit(){
+        $request = \Config\Services::request();
+        $id_user = $request->getPost('text_id_user');
+        $nova_password = $request->getPost('text_nova_password');
+        $nova_password_repetida = $request->getPost('text_repetir_password');
+
+        $error ='';
+        // verifique se ambas as senhas correspondem
+        if ($nova_password != $nova_password_repetida){
+            $error='As passwords nao são iguais';
+            die($error);
+        }
+        
+        //atualização da nova Password
+        if($error == ''){
+            $users = new UsersModel();
+            $users->redefine_password($id_user, $nova_password);
+        }
+
+        
+
+
+
+    }
 }

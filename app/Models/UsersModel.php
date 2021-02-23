@@ -98,6 +98,30 @@ class UsersModel extends Model
 
            
         }
+        //==========================================
+        public function getPurl($purl){
+            //retorna a linha com o purl fornecido
+            $params=array(
+                $purl
+            );
+            $query = "SELECT id_user FROM users WHERE purl = ?";
+            return  $this->db->query($query,$params)->getResult('array');    
+        }
+        //==========================================
+        public function redefine_password($id,$pass){
+            //metodo que atualiza a users password na BD
+            $params = array(
+                md5(sha1($pass)),
+                $id
+            );
+            $query = "UPDATE users SET passwrd = ? WHERE id_user =?";
+            $this->db->query($query,$params); 
+            //remove o registro PURL na BD de USERS
+            $params = array(
+                $id
+            );
+            $this->db->query("UPDATE users SET purl='' WHERE id_user = ?",$params);        
+        }
 
         //==========================================
         public function randomPassword($numChars = 8){
