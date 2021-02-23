@@ -173,7 +173,7 @@ class Users extends BaseController
 
 
     }
-
+    //===============================================
     public function teste($value){
         if($this->checkProfile($value)){
             echo"Existe";
@@ -181,7 +181,6 @@ class Users extends BaseController
             echo "Não Existe";
         }
     }
-    
     //===============================================
     private function checkProfile($profile){
         //verifique se o usuário tem permissão para acessar o recurso

@@ -22,7 +22,7 @@
             <h3>Projeto Geral - Users</h3>
         </div>
     </div>
-    <div class="row mt-5 mb-5">
+    <div class="row mb-5">
         <div class="col-12 ">
             <?php $this-> renderSection('conteudo')?>
         </div>

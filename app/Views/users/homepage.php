@@ -4,6 +4,10 @@
 ?>
 
 <?php $this->section('conteudo')?>
+    
+    <?php echo view('users/userbar') ?>
+    
+    
     <div>Olá, <?php echo $s->name.'('.$s->id_user.')'?></div>
     <div>O meu perfil é de: <?php echo $s->profile?></div>
     
