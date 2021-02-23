@@ -75,7 +75,8 @@ class Users extends BaseController
         // Iniciar sessao
         $session_data=array(
             'id_user'=>$data['id_user'],
-            'name'=>$data['name']
+            'name'=>$data['name'],
+            'profile'=>$data['profile']
     );
        $this->session->set($session_data);
     }    
@@ -87,6 +88,14 @@ class Users extends BaseController
             $this->login();
             return;
         }
+        //verifica o profile
+        if($this->checkProfile('admin')){
+            echo "Sou Admin";
+        }else{
+            echo "Não sou Admin";
+        }
+        exit();
+        
         //apresentar homepage view
         echo view('users/homepage');
     }
@@ -175,5 +184,14 @@ class Users extends BaseController
 
 
 
+    }
+    //===============================================
+    private function checkProfile($profile){
+        //verifique se o usuário tem permissão para acessar o recurso
+        if($this->session->profile == $profile){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -79,8 +79,6 @@ class UsersModel extends Model
             return $this->db->query($query,$params)->getResult('array');
 
         }
-
-
         //==========================================
         //Gerar um codigo purl de 6 caracteres e guardar na BD
         public function sendPurl($email, $id_user){
@@ -94,9 +92,7 @@ class UsersModel extends Model
 
             // envio do email
             echo "mensagem de email link para altera password";
-            echo'<a href="'.site_url('users/redefine_password/'.$purl).'">Redefinir Password</a>';
-
-           
+            echo'<a href="'.site_url('users/redefine_password/'.$purl).'">Redefinir Password</a>';         
         }
         //==========================================
         public function getPurl($purl){
