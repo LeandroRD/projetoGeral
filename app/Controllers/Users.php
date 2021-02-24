@@ -236,28 +236,34 @@ class Users extends BaseController
                 $error = 'preencha todos os campos de texto!!';
             }
 
-            //verifica se as passwords coicidem
+            //verifica se as passwords coincidem
             if($error ==''){
                 if ($dados['text_password'] !=  $dados['text_password_repetir']){
                     $error = 'As Passwords não coicidem!!'; 
                 }
             }
-
-            //verifica se pelo menos uma check de profile foi checada
-            if(!isset($dados['check_admin'])&&
-               !isset($dados['check_moderator'])&&
-               !isset($dados['check_user'])
-            ){
-                $error = 'Indique pelo menos, um tipo de Profile !!'; 
+            if($error ==''){
+                //verifica se pelo menos uma check de profile foi checada
+                if(!isset($dados['check_admin'])&&
+                   !isset($dados['check_moderator'])&&
+                   !isset($dados['check_user'])){
+                    $error = 'Indique pelo menos, um tipo de Profile !!'; 
+                }
             }
-            if($error==''){
-                $model = new UsersModel();
-                $model->addNewUser();
+            
+            $model = new UsersModel();
+            
+            //verificar se ja existe um user com o mesmo username ou email
+            if($error ==''){
+                $result = $model->checkExistingUser();
+                if(count($result)!=0){
+                    $error= "Já Existe um utilizador com esses dados";
+                }
+            }
 
-                return redirect()->to(site_url('users/admin_users'));
-                
-                
-                  
+            if($error==''){
+                $model->addNewUser();
+                return redirect()->to(site_url('users/admin_users'));       
             }
             
         }
