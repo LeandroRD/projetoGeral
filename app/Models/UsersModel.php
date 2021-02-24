@@ -118,6 +118,13 @@ class UsersModel extends Model
             );
             $this->db->query("UPDATE users SET purl='' WHERE id_user = ?",$params);        
         }
+        //==========================================
+        public function getUsers(){
+            //retorna todos os usuarios da BD
+            $query = "SELECT * FROM users";
+            return  $this->db->query($query)->getResult('array');    
+
+        }
 
         //==========================================
         public function randomPassword($numChars = 8){
