@@ -212,6 +212,26 @@ class Users extends BaseController
         
         echo view('users/admin_users',$data);
     }
+    //===============================================
+    public function admin_new_user(){
+        //adicionar um novo usuario na BD
+        $error='';
+        $data= array();
+        $request = \Config\Services::request();
+
+        // verificar se houve uma submissao
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //redirecionar para a tabela de utilizadores
+        }
+
+        //verificar se ha erro
+        if($error !=''){
+            $data['error'] = $error;
+
+        }
+
+        echo view('users/admin_new_user',$data);
+    }
     
     
 }
