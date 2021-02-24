@@ -125,6 +125,37 @@ class UsersModel extends Model
             return  $this->db->query($query)->getResult('array');    
 
         }
+        //==========================================
+        public function addNewUser(){
+            $request = \Config\Services::request();
+            $dados = $request->getPost();
+            //profile
+            $profileTemp = array();
+            if(isset($dados['check_admin'])){
+                array_push($profileTemp,'admin');
+            }
+            if(isset($dados['check_moderator'])){
+                array_push($profileTemp,'moderator');
+            }
+            if(isset($dados['check_user'])){
+                array_push($profileTemp,'user');
+            }
+
+            //codigo implode para inserir "virgulas" 
+            $profile = implode(',',$profileTemp);
+            
+            $params=array(
+                $dados['text_username'],
+                md5(sha1($dados['text_password'])),
+                $dados['text_name'],
+                $dados['text_email'],
+                $profile
+            );
+            //Query para inserir um novo user
+            $this->db->query("INSERT INTO users(username, passwrd, name, email, profile) 
+                              VALUES(?,?,?,?,?)",$params);
+        }
+
 
         //==========================================
         public function randomPassword($numChars = 8){

@@ -217,7 +217,7 @@ class Users extends BaseController
         //adicionar um novo usuario na BD
         $error='';
         $data= array();
-        $request = \Config\Services::request();
+        
 
         // verificar se houve uma submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -251,7 +251,13 @@ class Users extends BaseController
                 $error = 'Indique pelo menos, um tipo de Profile !!'; 
             }
             if($error==''){
-                die('ok');
+                $model = new UsersModel();
+                $model->addNewUser();
+
+                return redirect()->to(site_url('users/admin_users'));
+                
+                
+                  
             }
             
         }
