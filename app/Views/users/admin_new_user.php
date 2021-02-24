@@ -13,10 +13,13 @@
      <!-- formulario para novo usuario -->
     <h3>Adicionar novo usuario: </h3>
     <form action="" method="post">
-        <p><input type="text" name="text_username"></p>
-        <p><input type="text" name="text_password"></p>
-        <p><input type="text" name="text_name"></p>
-        <p><input type="email" name="text_email"></p>
+        <p><input type="text" name="text_username" required placeholder="Username"></p>
+        <p><input type="text" name="text_password" required placeholder="Password"></p>
+        <p><input type="text" name="text_password_repetir" required placeholder="Repetir Password"></p>
+        <button type="button" class="btn btn-primary" id="btn-password">Gerar password</button>
+        
+        <p><input type="text" name="text_name"required placeholder="Nome"></p>
+        <p><input type="email" name="text_email" reuired placeholder="Email"></p>
         <!-- profile -->
         <p>Profile</p>
         <label><input type="checkbox" name="check_admin" > Admin</label></br>
