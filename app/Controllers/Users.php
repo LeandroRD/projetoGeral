@@ -222,6 +222,38 @@ class Users extends BaseController
         // verificar se houve uma submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
             //redirecionar para a tabela de utilizadores
+            $request = \Config\Services::request();
+            $dados = $request->getPost();
+
+            //verifica se vieram os dados corretos
+            if($dados['text_username']==''||
+               $dados['text_password']==''||
+               $dados['text_password_repetir']==''||
+               $dados['text_name']==''||
+               $dados['text_email']=='')
+            
+            {
+                $error = 'preencha todos os campos de texto!!';
+            }
+
+            //verifica se as passwords coicidem
+            if($error ==''){
+                if ($dados['text_password'] !=  $dados['text_password_repetir']){
+                    $error = 'As Passwords não coicidem!!'; 
+                }
+            }
+
+            //verifica se pelo menos uma check de profile foi checada
+            if(!isset($dados['check_admin'])&&
+               !isset($dados['check_moderator'])&&
+               !isset($dados['check_user'])
+            ){
+                $error = 'Indique pelo menos, um tipo de Profile !!'; 
+            }
+            if($error==''){
+                die('ok');
+            }
+            
         }
 
         //verificar se ha erro

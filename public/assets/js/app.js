@@ -1,6 +1,6 @@
 /* desaparecer a mensagem de erro ligado ao ID*/
 $('#error-message').delay(2000).fadeOut('slow');
-
+//===============================================================
 // geracao de password aleatorio javascript
 $('#btn-password').click(
     function(){
@@ -20,4 +20,14 @@ $('#btn-password').click(
     
         }
     
+);
+//===============================================================
+// para limpar os inputs
+$('#btn-limpar').click(
+    function(){
+        $('input[name=text_password]').val('');
+        $('input[name=text_password_repetir]').val('');
+
+    }
+
 );
