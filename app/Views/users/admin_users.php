@@ -4,8 +4,17 @@
 ?>
 
 <?php $this->section('conteudo')?>
+<div class="row">
+    <div class="col-6 ">
+        <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Utilizadores...</a></div>
+    </div>
+    <div class="col-6 text-end mt-2">
+        <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
+    </div>
+</div>
+</div>
     
-    <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Utilizadores...</a></div>
+    
     <div>
         <table class="table table-striped">
             <thead class="table-dark">
@@ -22,10 +31,17 @@
                 <?php foreach($users as $user): ?>
                     <tr>
                         <!-- editar e eliminiar -->
-                        <td>
-                            <a href="" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
-                            <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                        </td>
+                        <?php if(preg_match("/admin/", $user['profile'])): ?>
+                            <td>
+                                <span class="btn btn-secondary btn-sm"> <i class="fa fa-pencil"></i></span>
+                                <span class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></spa>
+                            </td>    
+                        <?php else:?>
+                            <td>
+                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+                                <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            </td>
+                        <?php endif;?>
 
                         <td><?php echo $user['username'] ?></td>
                         <td><?php echo $user['name'] ?></td>
@@ -60,7 +76,6 @@
         </table>
     </div>
     <div>Total: <strong><?php echo count($users) ?></strong></div>
-
-   
+ 
 <?php $this->endSection()?>
     
