@@ -12,7 +12,7 @@
     <?php endif;?>
      <!-- formulario para novo usuario -->
     <h3>Adicionar novo usuario: </h3>
-    <form action="" method="post">
+    <form action="<?php echo site_url('users/admin_new_user') ?>" method="post">
         <p><input type="text" name="text_username" required placeholder="Username"></p>
         <p><input type="text" name="text_password" required placeholder="Password"></p>
         <p><input type="text" name="text_password_repetir" required placeholder="Repetir Password"></p>

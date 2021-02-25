@@ -278,6 +278,15 @@ class Users extends BaseController
     }
     //===============================================
     public function admin_edit_user($id_user){
+
+        $error='';
+        $data= array();
+        
+        //se  houve submissao
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //trata a alteracao dos dados do user
+            
+        }
         //abrir o quadro para edicao do utilizador
         $users = new UsersModel();
 
@@ -290,7 +299,5 @@ class Users extends BaseController
         }
         $data['user'] = $user[0];
         echo view('users/admin_edit_user',$data);
-
-    }
-    
+    }    
 }
