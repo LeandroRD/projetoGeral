@@ -276,6 +276,21 @@ class Users extends BaseController
 
         echo view('users/admin_new_user',$data);
     }
-    
+    //===============================================
+    public function admin_edit_user($id_user){
+        //abrir o quadro para edicao do utilizador
+        $users = new UsersModel();
+
+        //verifica se vieram dados do user
+        $user=$users->getUser($id_user);
+        //condicao para que nao altere para o numero do usuario admin no endereco de browser 
+        if(count($user) == 0 || $user[0]['id_user'] == $this->session->id_user){
+            return redirect()->to(site_url('users/admin_users'));
+            
+        }
+        $data['user'] = $user[0];
+        echo view('users/admin_edit_user',$data);
+
+    }
     
 }

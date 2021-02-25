@@ -126,6 +126,14 @@ class UsersModel extends Model
 
         }
         //==========================================
+        public function getUser($id_user){
+            //retorna  o usuario da BD
+            $params = array($id_user);
+            $query = "SELECT * FROM users WHERE id_user =?";
+            return  $this->db->query($query,$params)->getResult('array');    
+
+        }
+        //==========================================
         public function checkExistingUser(){
             // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
             $request = \Config\Services::request();
@@ -169,8 +177,6 @@ class UsersModel extends Model
             $this->db->query("INSERT INTO users(username, passwrd, name, email, profile) 
                               VALUES(?,?,?,?,?)",$params);
         }
-
-
         //==========================================
         public function randomPassword($numChars = 8){
             //gera uma senha aleatória
