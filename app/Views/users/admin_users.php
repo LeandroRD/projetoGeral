@@ -4,17 +4,15 @@
 ?>
 
 <?php $this->section('conteudo')?>
-<div class="row">
-    <div class="col-6 ">
-        <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Utilizadores...</a></div>
+    <div class="row">
+        <div class="col-6 ">
+            <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Utilizadores...</a></div>
+        </div>
+        <div class="col-6 text-end mt-2">
+            <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
+        </div>
     </div>
-    <div class="col-6 text-end mt-2">
-        <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
-    </div>
-</div>
-</div>
-    
-    
+
     <div>
         <table class="table table-striped">
             <thead class="table-dark">
@@ -69,11 +67,9 @@
                             <td class="text-center"><i class="fa fa-check text-success" title="Não Eliminado"></i></td>        
                         <?php else:?>
                             <td class="text-center"><i class="fa fa-times text-danger" title="Eliminado"></i></td>        
-                        <?php endif;?>
-                                            
+                        <?php endif;?>                        
                     </tr>
-                <?php endforeach;?>
-            
+                <?php endforeach;?>   
             </tbody>
         </table>
     </div>

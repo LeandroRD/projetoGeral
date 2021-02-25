@@ -148,6 +148,20 @@ class UsersModel extends Model
 
         }   
         //==========================================
+        public function checkAnotherUserEmail($id_user){
+            // verifica se outro usuario com o mesmo nome ou email
+            $request = \Config\Services::request();
+            $dados = $request->getPost(); 
+            
+            $params = array(
+                $dados['text_email'],
+                $id_user   
+            );
+           
+            return $this->db->query("SELECT id_user FROM users WHERE  email = ? AND id_user <> ?",$params)->getResult('array');
+
+        }   
+        //==========================================
         public function addNewUser(){
             $request = \Config\Services::request();
             $dados = $request->getPost();
@@ -182,6 +196,10 @@ class UsersModel extends Model
             //gera uma senha aleatória
             $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             return  substr(str_shuffle($chars),0,$numChars) ;
+        }
+        //==========================================
+        public function editUser(){
+            //editar os daods do utilizador na BD
         }
 
         

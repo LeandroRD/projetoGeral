@@ -221,7 +221,7 @@ class Users extends BaseController
 
         // verificar se houve uma submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            //redirecionar para a tabela de utilizadores
+            //ir buscar os dados do post
             $request = \Config\Services::request();
             $dados = $request->getPost();
 
@@ -285,6 +285,42 @@ class Users extends BaseController
         //se  houve submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
             //trata a alteracao dos dados do user
+            
+            //verificar se os campos estao corretos
+            
+            $request = \Config\Services::request();
+            $dados = $request->getPost();
+
+            //verifica se vieram os dados corretos
+            if($dados['text_name']==''||
+               $dados['text_email']=='')
+            
+            {
+                $error = 'preencha todos os campos de texto!!';
+            }
+
+            if($error ==''){
+                //verifica se pelo menos uma check de profile foi checada
+                if(!isset($dados['check_admin'])&&
+                   !isset($dados['check_moderator'])&&
+                   !isset($dados['check_user'])){
+                        $error = 'Indique pelo menos, um tipo de Profile !!'; 
+                }
+            }
+
+            //verificar se existe outro utilizador com os mesmos dados
+            $model = new UsersModel(); 
+            if($error == ''){
+                $results=$model->checkAnotherUserEmail($dados['id_user']);
+                if(count($results)!=0){
+                    $error='Já existe outro usuario com o mesmo email!!'; 
+                }
+            }
+            
+            // if($error = ''){
+            //     $model->edituser
+            // }
+            //atualizar os dados na BD
             
         }
         //abrir o quadro para edicao do utilizador

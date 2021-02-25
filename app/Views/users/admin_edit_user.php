@@ -2,12 +2,13 @@
     $this->extend('Layout/layout_users');
     $s = session();
 
-    // profile
+    // profile 
     $profile = explode(',',$user['profile']);
     $check_admin = '';
     $check_moderator = '';
     $check_user = '';
     
+    //checkbox do profile ficar checado conforme a categoria do user(admin,user,modera)
     if(in_array('admin',$profile)){
         $check_admin = 'checked';
     }
@@ -28,10 +29,10 @@
     <?php endif;?>
      <!-- formulario para editar usuario -->
     <h3>Editar usuario: </h3>
-    <form action=" <?php echo site_url('users/admin_edit_user') ?>" method="post">
+    <form action="users/admin_edit_user" method="post">
         
         <p>Username: <b><?php echo $user['username']?></b></p>
-        
+        <input type="hidden" name="id_user" value="<?php echo $user['id_user']?>">
         
         <p><input type="text" size="30" name="text_name"required placeholder="Nome" value="<?php echo $user['name']?>"></p>
         <p><input type="email" size="30" name="text_email" reuired placeholder="Email" value="<?php echo $user['email']?>"></p>
