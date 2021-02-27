@@ -201,6 +201,12 @@ class Users extends BaseController
     }
     //===============================================
     public function admin_users(){
+        //checar se  ja existe sessao vai para homepae
+        if (!$this->checkSession()){
+            $this->homePage();
+            return;
+
+        }
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
@@ -214,6 +220,16 @@ class Users extends BaseController
     }
     //===============================================
     public function admin_new_user(){
+        //checar se  ja existe sessao vai para homepae
+        if (!$this->checkSession()){
+            $this->homePage();
+            return;
+
+        }
+        // verifique se o usuário tem permissão
+        if($this->checkProfile('admin')==false){
+            return redirect()->to(site_url('users'));  
+        }
         //adicionar um novo usuario na BD
         $error='';
         $data= array();
@@ -279,6 +295,16 @@ class Users extends BaseController
     //===============================================
     public function admin_edit_user($id_user){
 
+        //checar se  ja existe sessao vai para homepae
+        if (!$this->checkSession()){
+            $this->homePage();
+            return;
+
+        }
+        // verifique se o usuário tem permissão
+        if($this->checkProfile('admin')==false){
+            return redirect()->to(site_url('users'));  
+        }
         $error='';
         $data= array();
         
@@ -364,5 +390,35 @@ class Users extends BaseController
         } 
        
         echo view('users/admin_edit_user',$data);   
-    }    
+    } 
+
+    //===============================================
+    public function admin_delete_user($id_user,$response =''){
+        
+        // checar se  ja existe sessao vai para homepae
+        if (!$this->checkSession()){
+            $this->homePage();
+            return;
+
+        }
+        // verifique se o usuário tem permissão
+        if($this->checkProfile('admin')==false){
+            return redirect()->to(site_url('users'));  
+        }
+
+        $model = new UsersModel();
+         //verificar se veio resposta de yes
+        if($response == 'yes'){
+          
+            $model->deleteUser($id_user);
+            return redirect()->to(site_url('users/admin_users'));  
+        }
+
+        //apresentar quadro para questionar se pretende eliminar user
+        
+        $data['user'] = $model->getUser($id_user)[0];
+        
+        echo view('users/admin_delete_user',$data);
+        // return redirect()->to(site_url('users/admin_users')); 
+    }   
 }

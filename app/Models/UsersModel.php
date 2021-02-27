@@ -237,6 +237,15 @@ class UsersModel extends Model
             return $this->db->query("SELECT id_user FROM users WHERE  name = ? AND id_user <> ?",$params)->getResult('array');
         }   
         //==========================================
+        public function deleteUser($id_user){
+            $params =array(
+                $id_user
+            );
+            $this->db->query('UPDATE users SET deleted = UNIX_TIMESTAMP() WHERE id_user = ?',$params);
+
+        //==========================================
+        }
+        
 
         
 }
