@@ -291,7 +291,7 @@ class Users extends BaseController
             $request = \Config\Services::request();
             $dados = $request->getPost();
 
-            //verifica se vieram os dados corretos
+            //verifica se vieram os dados estao preenchidos
             if($dados['text_name']==''||
                $dados['text_email']=='')
             
@@ -305,35 +305,64 @@ class Users extends BaseController
                    !isset($dados['check_moderator'])&&
                    !isset($dados['check_user'])){
                         $error = 'Indique pelo menos, um tipo de Profile !!'; 
+                        
                 }
             }
 
-            //verificar se existe outro utilizador com os mesmos dados
+            
+            //verificar se existe outro utilizador com os mesmo email
             $model = new UsersModel(); 
             if($error == ''){
                 $results=$model->checkAnotherUserEmail($dados['id_user']);
+                
                 if(count($results)!=0){
-                    $error='Já existe outro usuario com o mesmo email!!'; 
+                    $error='Já existe outro usuario com o mesmo email!!';
+                     
                 }
             }
             
-            // if($error = ''){
-            //     $model->edituser
-            // }
-            //atualizar os dados na BD
+            //verificar se existe outro utilizador com os mesmos nome
+            $model = new UsersModel(); 
+            if($error == ''){
+                $results=$model->checkAnotherUserName($dados['id_user']);               
+                if(count($results)!=0){
+                    $error='Já existe outro usuario com o mesmo nome!!';                     
+                }
+            }
             
+            
+            if($error == ''){
+                
+                $model->editUser();
+               
+                return redirect()->to(site_url('users/admin_users'));    
+               
+            }
+           
         }
+        
         //abrir o quadro para edicao do utilizador
         $users = new UsersModel();
 
         //verifica se vieram dados do user
         $user=$users->getUser($id_user);
         //condicao para que nao altere para o numero do usuario admin no endereco de browser 
-        if(count($user) == 0 || $user[0]['id_user'] == $this->session->id_user){
-            return redirect()->to(site_url('users/admin_users'));
-            
+        
+        if(count($user) == 0 || $user[0]['id_user'] == $this->session->id_user){    
+           return redirect()->to(site_url('users/admin_users'));
         }
+       
+        
+        
         $data['user'] = $user[0];
-        echo view('users/admin_edit_user',$data);
+        
+        
+        if ($error != ''){
+
+            $data['error'] = $error;
+            
+        } 
+       
+        echo view('users/admin_edit_user',$data);   
     }    
 }

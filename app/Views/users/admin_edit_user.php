@@ -29,7 +29,7 @@
     <?php endif;?>
      <!-- formulario para editar usuario -->
     <h3>Editar usuario: </h3>
-    <form action="users/admin_edit_user" method="post">
+    <form action="<?php site_url('users/admin_edit_users') ?>" method="post">
         
         <p>Username: <b><?php echo $user['username']?></b></p>
         <input type="hidden" name="id_user" value="<?php echo $user['id_user']?>">
@@ -48,5 +48,6 @@
             <button class="btn btn-primary">Atualizar</button>
         </div>    
     </form>
+ 
 
 <?php $this->endSection()?>

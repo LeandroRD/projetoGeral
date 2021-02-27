@@ -157,9 +157,7 @@ class UsersModel extends Model
                 $dados['text_email'],
                 $id_user   
             );
-           
             return $this->db->query("SELECT id_user FROM users WHERE  email = ? AND id_user <> ?",$params)->getResult('array');
-
         }   
         //==========================================
         public function addNewUser(){
@@ -200,7 +198,45 @@ class UsersModel extends Model
         //==========================================
         public function editUser(){
             //editar os daods do utilizador na BD
+            $request = \Config\Services::request();
+            $dados = $request->getPost();
+            //profile
+            $profileTemp = array();
+            if(isset($dados['check_admin'])){
+                array_push($profileTemp,'admin');
+            }
+            if(isset($dados['check_moderator'])){
+                array_push($profileTemp,'moderator');
+            }
+            if(isset($dados['check_user'])){
+                array_push($profileTemp,'user');
+            }
+
+            //codigo implode para inserir "virgulas" 
+            $profile = implode(',',$profileTemp);
+
+            $params=array(
+                $dados['text_name'],
+                $dados['text_email'],
+                $profile,
+                $dados['id_user']
+            );
+            $this->db->query('UPDATE users 
+                              SET name = ?, email = ?, profile = ? 
+                              WHERE id_user = ?',$params );
         }
+        public function checkAnotherUserName($id_user){
+            // verifica se outro usuario com o mesmo nome ou nome
+            $request = \Config\Services::request();
+            $dados = $request->getPost(); 
+            
+            $params = array(
+                $dados['text_name'],
+                $id_user   
+            );
+            return $this->db->query("SELECT id_user FROM users WHERE  name = ? AND id_user <> ?",$params)->getResult('array');
+        }   
+        //==========================================
 
         
 }
