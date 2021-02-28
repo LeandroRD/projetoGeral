@@ -140,7 +140,7 @@ class UsersModel extends Model
             $dados = $request->getPost(); 
             
             $params = array(
-                $dados['text_username'],
+                $dados['text_name'],
                 $dados['text_email']   
             );
            
@@ -179,7 +179,7 @@ class UsersModel extends Model
             $profile = implode(',',$profileTemp);
             
             $params=array(
-                $dados['text_username'],
+                $dados['text_name'],
                 md5(sha1($dados['text_password'])),
                 $dados['text_name'],
                 $dados['text_email'],
@@ -197,7 +197,7 @@ class UsersModel extends Model
         }
         //==========================================
         public function editUser(){
-            //editar os daods do utilizador na BD
+            //editar os dados do utilizador na BD
             $request = \Config\Services::request();
             $dados = $request->getPost();
             //profile

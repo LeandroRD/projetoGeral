@@ -242,7 +242,7 @@ class Users extends BaseController
             $dados = $request->getPost();
 
             //verifica se vieram os dados corretos
-            if($dados['text_username']==''||
+            if($dados['text_name']==''||
                $dados['text_password']==''||
                $dados['text_password_repetir']==''||
                $dados['text_name']==''||
@@ -358,7 +358,7 @@ class Users extends BaseController
                     $error='Já existe outro usuario com o mesmo nome!!';                     
                 }
             }
-            
+            //ultima verificacao de erros para a edicao do user
             if($error == ''){
                 $model->editUser();
                 return redirect()->to(site_url('users/admin_users'));    
