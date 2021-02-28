@@ -294,6 +294,10 @@ class Users extends BaseController
     }
     //===============================================
     public function admin_edit_user($id_user){
+         //evitar se usuario forçar deletar a si mesmo pelo browser
+         if($id_user == $this->session->id_user ){          
+            return redirect()->to(site_url('users'));            
+        }
 
         //checar se  ja existe sessao vai para homepae
         if (!$this->checkSession()){
@@ -317,7 +321,7 @@ class Users extends BaseController
             $request = \Config\Services::request();
             $dados = $request->getPost();
 
-            //verifica se vieram os dados estao preenchidos
+            //verifica se vieram os dados  preenchidos
             if($dados['text_name']==''||
                $dados['text_email']=='')
             
@@ -334,8 +338,7 @@ class Users extends BaseController
                         
                 }
             }
-
-            
+   
             //verificar se existe outro utilizador com os mesmo email
             $model = new UsersModel(); 
             if($error == ''){
@@ -347,7 +350,7 @@ class Users extends BaseController
                 }
             }
             
-            //verificar se existe outro utilizador com os mesmos nome
+            //verificar se existe outro utilizador com o mesmo nome
             $model = new UsersModel(); 
             if($error == ''){
                 $results=$model->checkAnotherUserName($dados['id_user']);               
@@ -356,11 +359,8 @@ class Users extends BaseController
                 }
             }
             
-            
             if($error == ''){
-                
                 $model->editUser();
-               
                 return redirect()->to(site_url('users/admin_users'));    
                
             }
@@ -372,42 +372,44 @@ class Users extends BaseController
 
         //verifica se vieram dados do user
         $user=$users->getUser($id_user);
+
         //condicao para que nao altere para o numero do usuario admin no endereco de browser 
-        
         if(count($user) == 0 || $user[0]['id_user'] == $this->session->id_user){    
            return redirect()->to(site_url('users/admin_users'));
         }
-       
-        
         
         $data['user'] = $user[0];
         
-        
+        //se nao houver nenhum erro fara a edicao
         if ($error != ''){
-
             $data['error'] = $error;
-            
         } 
-       
         echo view('users/admin_edit_user',$data);   
     } 
 
     //===============================================
     public function admin_delete_user($id_user,$response =''){
+        //evitar se usuario forçar deletar a si mesmo pelo browser      
+        if($id_user == $this->session->id_user ){          
+            return redirect()->to(site_url('users'));            
+        }
         
         // checar se  ja existe sessao vai para homepae
         if (!$this->checkSession()){
             $this->homePage();
             return;
-
         }
+        
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
         }
-
+        
         $model = new UsersModel();
-         //verificar se veio resposta de yes
+        
+        //verificar se veio resposta de yes
+        
+       
         if($response == 'yes'){
           
             $model->deleteUser($id_user);
@@ -417,8 +419,37 @@ class Users extends BaseController
         //apresentar quadro para questionar se pretende eliminar user
         
         $data['user'] = $model->getUser($id_user)[0];
-        
         echo view('users/admin_delete_user',$data);
-        // return redirect()->to(site_url('users/admin_users')); 
+       
+    }
+    //===============================================
+    public function admin_recover_user($id_user, $response=''){
+        //evitar se usuario forçar deletar a si mesmo pelo browser
+        if($id_user == $this->session->id_user ){          
+            return redirect()->to(site_url('users'));            
+        }
+        
+        // checar se  ja existe sessao vai para homepae
+        if (!$this->checkSession()){
+            
+            $this->homePage();
+            return;
+        }
+        // verifique se o usuário tem permissão
+        if($this->checkProfile('admin')==false){        
+            return redirect()->to(site_url('users'));  
+        }
+       
+        $model = new UsersModel();
+        
+        //verificar se veio resposta de yes   
+       if($response == 'yes'){
+           $model->recoverUser($id_user);
+           return redirect()->to(site_url('users/admin_users'));  
+       }
+
+       //apresentar quadro para questionar se pretende recuperar o  usuario 
+       $data['user'] = $model->getUser($id_user)[0];
+       echo view('users/admin_recover_user',$data);
     }   
 }

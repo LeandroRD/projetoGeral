@@ -225,6 +225,7 @@ class UsersModel extends Model
                               SET name = ?, email = ?, profile = ? 
                               WHERE id_user = ?',$params );
         }
+        //==========================================
         public function checkAnotherUserName($id_user){
             // verifica se outro usuario com o mesmo nome ou nome
             $request = \Config\Services::request();
@@ -238,6 +239,7 @@ class UsersModel extends Model
         }   
         //==========================================
         public function deleteUser($id_user){
+            
             $params =array(
                 $id_user
             );
@@ -245,6 +247,19 @@ class UsersModel extends Model
 
         //==========================================
         }
+        
+        public function recoverUser($id_user){
+           
+
+            // recuperar user deletado
+            $params =array(
+                $id_user
+            );
+            $this->db->query('UPDATE users SET deleted = 0 WHERE id_user = ?',$params);
+
+
+        }
+
         
 
         
