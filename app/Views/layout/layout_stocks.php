@@ -23,12 +23,20 @@
         </div>
     </div>
     <div class="row mb-5">
-    <div class="col-2   "style="background-color: rgb(200,200,200)">
-        <div class="text-center mt-3 mb-3">
-            <a href="<?php echo site_url('stocks/metodo1')?>" class="btn btn-primary mb-2 btn-180">botao1</a></br>
-            <a href="<?php echo site_url('stocks/metodo2')?>" class="btn btn-primary mb-2 btn-180">botao2</a></br>
-            <a href="<?php echo site_url('stocks/metodo3')?>" class="btn btn-primary mb-2 btn-180">botao3</a></br>
-            <a href="<?php echo site_url('stocks/metodo4')?>" class="btn btn-primary mb-2 btn-180">botao4</a></br>   
+    <div class="col-2   ">
+        <div class=" mt-3 mb-3">
+            <div class="mb-1 mt-1">
+                <a  href="<?php echo site_url('stocks/familias')?>" >Familias</a>
+            </div>
+            <div class="mb-1 mt-1">
+                <a  href="<?php echo site_url('stocks/movimentos')?>" >Movimentos</a>
+            </div>
+            <div class="mb-1 mt-1">
+                <a  href="<?php echo site_url('stocks/produtos')?>" >Produtos</a>
+            </div>
+            <div class="mb-1 mt-1">
+                <a  href="<?php echo site_url('stocks/taxas')?>" >Taxas</a>   
+            </div>
         </div>
         
     </div>

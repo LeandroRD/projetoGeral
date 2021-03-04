@@ -4,7 +4,14 @@
 
 <?php $this->section('conteudo')?>
 
-	<h3>Estou na View Stock main</h3>
+	<div class="row mt-5 ">
+		<div class="col-12 text-center">
+			<div class="card bg-light p-4">
+				<h3>Área de gestão de Stocks</h3>
+			</div>
+		</div>
+	</div>
+	
 
 <?php $this->endSection()?>
 

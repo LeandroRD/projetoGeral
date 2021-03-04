@@ -7,18 +7,22 @@ class Stocks extends BaseController{
     public function index(){
         echo view('stocks/main');
     }
-
-    public function metodo1(){
-        echo "1";
+    //========================================================
+    public function familias(){
+        echo view('stocks/familias');
     }
-    public function metodo2(){
-        echo "2";
+    //========================================================
+    public function movimentos(){
+        echo view('stocks/movimentos');
     }
-    public function metodo3(){
-        echo "3";
+    //========================================================
+    public function produtos(){
+        echo view('stocks/produtos');
     }
-    public function metodo4(){
-        echo "4";
+    //========================================================
+    public function taxas(){
+        echo view('stocks/taxas');
     }
+    //========================================================
 
 }
