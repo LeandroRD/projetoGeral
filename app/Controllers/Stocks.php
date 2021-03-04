@@ -1,6 +1,6 @@
 <?php namespace App\Controllers;
-use App\Models\CriptoModel;
-// use CodeIgniter\Controller;
+use App\Models\StocksModel;
+use CodeIgniter\Controller;
 
 class Stocks extends BaseController{
     //========================================================
@@ -9,7 +9,13 @@ class Stocks extends BaseController{
     }
     //========================================================
     public function familias(){
-        echo view('stocks/familias');
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families();
+
+       
+
+        echo view('stocks/familias',$data);
     }
     //========================================================
     public function movimentos(){
