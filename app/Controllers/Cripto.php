@@ -4,7 +4,8 @@ use App\Models\CriptoModel;
 use CodeIgniter\Controller;
 
 
-class Cripto extends BaseController{
+class Cripto extends BaseController
+{
     //========================================================
     public function index(){
         echo "estou no cripto";
