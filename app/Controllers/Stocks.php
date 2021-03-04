@@ -8,6 +8,21 @@ class Stocks extends BaseController{
         echo view('stocks/main');
     }
     //========================================================
+    public function familia_adicionar(){
+        echo "familia_adicionar";
+
+    }
+    //========================================================
+    public function familia_editar($id_familia){
+        echo "familia_editar";
+
+    }
+    //========================================================
+    public function familia_eliminar($id_familia){
+        echo "familia_eliminar";
+
+    }
+    //========================================================
     public function familias(){
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
