@@ -22,6 +22,7 @@
 				<thead class="table-dark">
 					<th>ID</th>
 					<th>Família</th>
+					<th>Parent</th>
 					<th class="text-end">Ações</th>
 				</thead>
 				<tbody>
@@ -29,6 +30,8 @@
 						<tr>
 							<td><?php echo $familia['id_familia'] ?></td>
 							<td><?php echo $familia['designacao'] ?></td>
+							<td><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
+
 							<td class="text-end">
 								<a href="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia'])?>">Editar</a>
 								<span class="ms-2 me-2">|</span>
