@@ -10,6 +10,12 @@
         </div>
         <div class="col-12 mt-3">
             <form action="<?php echo site_url('stocks/familia_adicionar') ?>" method="post">
+                <?php if(isset($error)): ?>
+                    <div class="alert alert-danger p-3 text-center">
+                        <?php echo $error ?>
+                    </div>
+
+                <?php endif; ?>
                 <div >
                     <label>Familia a que pertence:</label>
                     <select class="form-control" name="select_parent">

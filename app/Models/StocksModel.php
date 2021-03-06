@@ -44,6 +44,19 @@ class StocksModel extends Model
         ')->getResult('array');
 
         //=======================================================
+        }
+        public function check_family($designacao){
+            $params = array(
+                $designacao
+            );
+            $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ?",$params
+            )->getResult('array');
+
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
 
     }
  }

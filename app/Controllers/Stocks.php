@@ -16,6 +16,8 @@ class Stocks extends BaseController{
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
+        $error = '';
+
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
             //vamos buscar a submissao pelo formulario
@@ -23,13 +25,24 @@ class Stocks extends BaseController{
             $id_parent = $request->getPost('select_parent');
             $designacao = $request->getPost('text_designacao');
 
-            $this->verDados(array($id_parent,$designacao));
-            // echo $id_parent,'<br>';
-            // echo $designacao;
-            // helper('funcoes');
-           
-            die();
+            
+
+            //confirmar se ja existe a familia com o mesmo nome
+            $resultado = $model->check_family($designacao);
+            if($resultado){
+                $error = 'Já existe uma família com a mesma desigção!!';
+            }
+
+            //guardar na base de dados
+            if($error ==''){
+
+            }  
         }
+        //tratar erros
+        if($error != ''){
+            $data['error'] = $error;
+        }
+
         echo view('stocks/familias_adicionar',$data);
 
     }
@@ -63,14 +76,5 @@ class Stocks extends BaseController{
         echo view('stocks/taxas');
     }
     //========================================================
-    private function verDados($array){
-        echo '<pre>';
-        echo'dados do array';
-        foreach ($array as $key => $value) {
-            echo '<p> $key => '.$value.'</p>';
-        }
-
-        echo '</pre>';
-        die();
-    }
+   
 }
