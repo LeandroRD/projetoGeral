@@ -61,7 +61,7 @@ class Stocks extends BaseController{
             // }
             //atualizar os dados da familia na BD 
             if($error ==''){
-                $model -> family_add();
+                $model -> family_edit($id_familia);
                 $data['success']= "Familia atualizada com sucesso !!";
                 //redirecionamento para stock/familias
             }else{

@@ -9,7 +9,8 @@ use CodeIgniter\Model;
 class StocksModel extends Model
 {
     protected $db;
-    //==========================================
+    
+    //==================================================
     public function __construct(){
         $this->db = db_connect();
     }
@@ -82,5 +83,22 @@ class StocksModel extends Model
 
 
     }
+    //=====================================================
+    public function family_edit($id_family){
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_designacao'),
+            $id_family
+        );
+        $this->query("UPDATE stock_familias
+         SET id_parent = ?,
+         designacao =?
+          WHERE id_familia = ? ",
+          $params);
+    }
+
+
    
  }
