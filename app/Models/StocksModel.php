@@ -51,16 +51,23 @@ class StocksModel extends Model
             );
             $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ?",$params
             )->getResult('array');
-
-        if(count($results)!=0){
-            return true;
+            if(count($results)!=0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+     //=====================================================
+     public function get_family($id_family){
+         //retorna a familia
+         $params = array($id_family);
+        $results = $this->query('SELECT * FROM stock_familias WHERE id_familia =?',$params)->getResult('array');
+        if(count($results)==1){
+            return $results[0];
         }else{
-            return false;
+            return array();
         }
-
-
-       
-
+        
     }
     //=====================================================
     public function family_add(){
@@ -75,4 +82,5 @@ class StocksModel extends Model
 
 
     }
+   
  }

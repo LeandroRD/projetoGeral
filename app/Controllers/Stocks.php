@@ -10,9 +10,6 @@ class Stocks extends BaseController{
     //========================================================
     public function familia_adicionar(){
         //adicionar nova familia
-
-        
-
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
@@ -20,19 +17,14 @@ class Stocks extends BaseController{
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
-
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
             
-
-            
-
             //confirmar se ja existe a familia com o mesmo nome
             $resultado = $model->check_family($request->getPost('text_designacao'));
             if($resultado){
                 $error = 'Já existe uma família com a mesma desigção!!';
             }
-
             //guardar na base de dados e trata erro
             if($error ==''){
                 $model -> family_add();
@@ -42,15 +34,41 @@ class Stocks extends BaseController{
             }else{
                 $data['error'] = $error;
             }  
-        }
-       
-
+        }   
         echo view('stocks/familias_adicionar',$data);
-
     }
     //========================================================
     public function familia_editar($id_familia){
-        echo "familia_editar";
+        //editar familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families();
+        $data['familia']=$model->get_family($id_familia);
+
+   
+
+        $error = '';
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            //confirmar se ja existe a familia com o mesmo nome
+            // $resultado = $model->check_family($request->getPost('text_designacao'));
+            // if($resultado){
+            //     $error = 'Já existe uma família com a mesma desigção!!';
+            // }
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> family_add();
+                $data['success']= "Familia atualizada com sucesso !!";
+                //redirecionamento para stock/familias
+            }else{
+                $data['error'] = $error;
+            }  
+        }   
+        echo view('stocks/familias_editar',$data);
 
     }
     //========================================================

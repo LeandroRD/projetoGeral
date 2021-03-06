@@ -12,7 +12,7 @@
         echo '</pre>';
         die();
 
-        //codigo para fazer teste
+        //para fazer teste
         // helper('funcoes');
         // VerDados();
     }
@@ -27,7 +27,7 @@
         echo '</pre>';
         die();
 
-        //codigo para fazer teste
+        
         // helper('funcoes');
         // VerSessao();
     }
