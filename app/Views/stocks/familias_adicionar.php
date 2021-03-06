@@ -9,10 +9,10 @@
 			<hr>
         </div>
         <div class="col-12 mt-3">
-            <form action="" method="post">
+            <form action="<?php echo site_url('stocks/familia_adicionar') ?>" method="post">
                 <div >
                     <label>Familia a que pertence:</label>
-                    <select class="form-control" name="" id="">
+                    <select class="form-control" name="select_parent">
                         <option value="0">Nenhuma</option>
                         <?php foreach($familias as $familia):?>
                             <option value="<?php echo $familia['id_familia'] ?>"><?php echo $familia['designacao'];?></option>
@@ -29,10 +29,5 @@
                 </div>
             </form>
         </div>
-
     </div>
-
-
-
-
 <?php $this->endSection()?>
