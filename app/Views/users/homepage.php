@@ -11,6 +11,7 @@
     <div>Olá, <?php echo $s->name.'('.$s->id_user.')'?></div>
     <div>O meu perfil é de: <?php echo $s->profile?></div>
     
+    
     <div class="row">
         <div class="col-4 text-center"><a href="<?php echo site_url('users/op1')?>" class="btn btn-primary">Operação 01</a></div>
         <div class="col-4 text-center"><a href="<?php echo site_url('users/op2')?>" class="btn btn-primary">Operação 2</a></div>

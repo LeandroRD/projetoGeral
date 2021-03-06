@@ -14,7 +14,11 @@
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
                     </div>
-
+                <?php endif; ?>
+                <?php if(isset($success)): ?>
+                    <div class="alert alert-success p-3 text-center">
+                        <?php echo $success ?>
+                    </div>
                 <?php endif; ?>
                 <div >
                     <label>Familia a que pertence:</label>

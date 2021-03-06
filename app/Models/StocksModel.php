@@ -58,5 +58,21 @@ class StocksModel extends Model
             return false;
         }
 
+
+       
+
+    }
+    //=====================================================
+    public function family_add(){
+
+        //adiciona uma nova familia de produtos na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_designacao')
+        );
+        $this->query("INSERT INTO stock_familias VALUES(0,?,?,'' )",$params);
+
+
     }
  }
