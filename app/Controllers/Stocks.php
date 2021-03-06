@@ -9,7 +9,14 @@ class Stocks extends BaseController{
     }
     //========================================================
     public function familia_adicionar(){
-        echo "familia_adicionar";
+        //adicionar nova familia
+
+        
+
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families();
+        echo view('stocks/familias_adicionar',$data);
 
     }
     //========================================================
@@ -27,12 +34,6 @@ class Stocks extends BaseController{
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
-
-       
-        // echo '<pre>';
-        //     print_r($data['familias']);
-        // echo '</pre>';
-        // die();
         echo view('stocks/familias',$data);
     }
     //========================================================

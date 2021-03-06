@@ -39,13 +39,9 @@
 							</td>
 						</tr>
 					<?php endforeach;?>
-
-
 				</tbody>
 			</table>
 		</div>
 	</div>
-	
-
 <?php $this->endSection()?>
 
