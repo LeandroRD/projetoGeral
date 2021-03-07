@@ -33,9 +33,13 @@
 							<td><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
 
 							<td class="text-end">
-								<a href="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia'])?>">Editar</a>
-								<span class="ms-2 me-2">|</span>
-								<a href="<?php echo site_url('stocks/familia_eliminar/'.$familia['id_familia'])?>">Eliminar</a>
+								<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia'])?>">
+								<i class="fa fa-pencil me-2"></i>Editar
+								</a>
+								<!-- <span class="ms-2 me-2">|</span> -->
+								<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/familia_eliminar/'.$familia['id_familia'])?>">
+									<i class="fa fa-trash me-2"></i> Eliminar
+								</a>
 							</td>
 						</tr>
 					<?php endforeach;?>
