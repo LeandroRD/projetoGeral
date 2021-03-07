@@ -44,19 +44,20 @@ class StocksModel extends Model
         ON a.id_parent = b.id_familia
         ')->getResult('array');
 
-        //=======================================================
+        
         }
-        public function check_family($designacao){
-            $params = array(
-                $designacao
-            );
-            $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ?",$params
-            )->getResult('array');
-            if(count($results)!=0){
-                return true;
-            }else{
-                return false;
-            }
+    //=======================================================
+    public function check_family($designacao){
+        $params = array(
+            $designacao
+        );
+        $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ?",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
     }
      //=====================================================
      public function get_family($id_family){
@@ -84,6 +85,20 @@ class StocksModel extends Model
 
     }
     //=====================================================
+    public function check_other_family($designacao,$id_family){
+        $params = array(
+            $designacao,
+            $id_family
+        );
+        $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ? 
+                   AND id_familia != ? ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public function family_edit($id_family){
         //atualizar os dados da family
         $request = \Config\Services::request();
