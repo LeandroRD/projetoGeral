@@ -15,7 +15,10 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css')?>">
     <!-- DATATABLE -->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/datatables.min.css')?>">
-</head>
+    
+    <!-- ESTE LINK eu copie do projeto Compras porque do joao ribeiro nao vem a seta -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    
 <body>
 
 <div class="container-fluid">
