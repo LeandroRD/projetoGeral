@@ -18,7 +18,7 @@
 				<div class="col-6 text-end"><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary">Adicionar familia...</a></div>
 			</div>
 			
-			<table class="table table-striped">
+			<table class="table table-striped" id="tabela_familias">
 				<thead class="table-dark">
 					<th>ID</th>
 					<th>Família</th>
@@ -47,5 +47,12 @@
 			</table>
 		</div>
 	</div>
+	<script>
+	$(document).ready( function () {
+    $('#tabela_familias').DataTable();
+} );
+</script>
 <?php $this->endSection()?>
+
+
 
