@@ -99,6 +99,7 @@ class StocksModel extends Model
             return false;
         }
     }
+    //=====================================================
     public function family_edit($id_family){
         //atualizar os dados da family
         $request = \Config\Services::request();
@@ -112,6 +113,22 @@ class StocksModel extends Model
          designacao =?
           WHERE id_familia = ? ",
           $params);
+    }
+     //=====================================================
+     public function delete_family($id_family){
+        //eliminar a familia e alterar o id_parents
+        $params = array($id_family);
+
+        //deletendo a familia
+        $this->query("DELETE FROM  stock_familias
+          WHERE id_familia = ? ",
+          $params);
+
+        //   atualizando todas as familias onde id_parent é id_familia
+        //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
+        $this->query("UPDATE stock_familias SET id_parent = 0 
+                    WHERE id_parent = ? ",$params);
+
     }
 
 
