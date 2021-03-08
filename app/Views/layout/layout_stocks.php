@@ -16,7 +16,7 @@
     <!-- DATATABLE -->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/datatables.min.css')?>">
     
-    <!-- ESTE LINK eu copie do projeto Compras porque do joao ribeiro nao vem a seta -->
+    <!-- ESTE LINK eu copiei do projeto Compras porque do joao ribeiro nao vem a seta -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     
 <body>

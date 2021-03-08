@@ -130,6 +130,14 @@ class StocksModel extends Model
                     WHERE id_parent = ? ",$params);
 
     }
+    //=====================================================
+    public function get_all_taxes(){ 
+        //retorna todas as taxas
+        return $this->query("SELECT * FROM stock_taxas")->getResult('array');
+
+        
+        }
+    //=======================================================
 
 
    

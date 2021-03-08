@@ -103,8 +103,37 @@ class Stocks extends BaseController{
     }
     //========================================================
     public function taxas(){
-        echo view('stocks/taxas');
+        //carregar os dados das taxas para passar a View
+        $model = new StocksModel();
+        $data['taxas']= $model->get_all_taxes();
+        echo view('stocks/taxas',$data);
     }
     //========================================================
-   
+   public function taxas_adicionar(){
+        $model = new StocksModel();
+        //Data = array vazio
+        $data = array();
+        //adicionar nova taxa
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            print_r($_POST);
+            die();
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            //confirmar se ja existe a taxa com o mesmo nome
+            $resultado = $model->check_tax($request->getPost('text_designacao'));
+            if($resultado){
+                $error = 'Já existe uma taxa com a mesma desigção!!';
+            }
+            //guardar a nova taxa na base de dados e trata erro
+            if($error ==''){
+                $model -> tax_add();
+                $data['success']= "Taxa adicionada com sucesso";
+            }else{
+                $data['error'] = $error;
+            }  
+        }   
+        echo view('stocks/taxas_adicionar',$data);
+   }
 }
