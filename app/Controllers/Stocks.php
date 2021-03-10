@@ -110,14 +110,13 @@ class Stocks extends BaseController{
     }
     //========================================================
    public function taxas_adicionar(){
+        $error = '';
         $model = new StocksModel();
         //Data = array vazio
         $data = array();
         //adicionar nova taxa
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            print_r($_POST);
-            die();
-
+            
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
             

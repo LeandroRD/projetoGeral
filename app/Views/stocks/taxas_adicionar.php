@@ -23,21 +23,24 @@
                
                 <div class="mt-3">
                     <label>Designação:</label>
-                    <input class="form-control" type="text" name="text_designacao" required >
+                    <input class="form-control" 
+                           type="text" 
+                           name="text_designacao" 
+                           required >
                 </div>
                 <div class="mt-3">
                     <label>Valor da taxa (%):</label>
                     <input class="form-control" 
                            type="number"
                            name="text_valor"
-                           step="0.5"
+                           step="0.01"
                            min = "0"
                            max = "100"
-                           value="10" 
+                           placeholder="0.00" 
                            required >
                 </div>
                 <div class="mt-3">
-                    <a href="<?php echo site_url('stocks/familias') ?>" class="btn btn-secondary btn-150">Cancelar</a>
+                    <a href="<?php echo site_url('stocks/taxas') ?>" class="btn btn-secondary btn-150">Cancelar</a>
                     <button class="btn btn-primary btn-150">Salvar</button>
                 </div>
             </form>
