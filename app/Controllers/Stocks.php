@@ -101,9 +101,14 @@ class Stocks extends BaseController{
     public function produtos(){
 
         //carregar os produtos existentes
-         //carregar os dados da familias para passar a View
-         $model = new StocksModel();
-         $data['produtos']= $model->get_all_products();
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['produtos']= $model->get_all_products();
+         echo '<pre>';
+         print_r($data['produtos']);
+         echo '</pre>';
+        die();
+
         echo view('stocks/produtos', $data);
     }
     //========================================================

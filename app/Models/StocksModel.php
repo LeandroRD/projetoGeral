@@ -220,9 +220,34 @@ class StocksModel extends Model
                     WHERE id_taxa = ? ",$params);
         }
         //=====================================================
-            //PRODUTOS
+        //PRODUTOS
         //=====================================================
         public function get_all_products(){
+            // retorna todos os produtos
+            //stock_produtos p 
+            //stock_familias f
+            //stock_taxas    t
+
+            //  ID - id_produto(produto)
+			//  Produto - designacao(produto)
+			//  Familia -  designacao(familia)
+			//  Preço/unidade - preco (produtos)
+			//  Taxa - designacao + (percentagem )(taxas)
+			//  Quantidade - quantidade (produtos)
+
+            return $this->query(
+                // o AS é necessario porque o campo designacao repete o mesmo nome das outras tabelas
+                "SELECT 
+                    p.id_produto,p.designacao AS nome_produto, p.preco, p.quantidade,
+                    f.designacao AS familia,
+                    t.designacao AS taxa, t.percentagem
+                FROM 
+                    stock_produtos p, stock_familias f, stock_taxas t
+                WHERE 
+                    p.id_familia = f.id_familia
+                AND 
+                    p.id_taxa = t.id_taxas"
+            )->getResult('array');
 
         }   
  }
