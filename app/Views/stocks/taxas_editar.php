@@ -9,7 +9,6 @@
 			<hr>
         </div>
         <div class="col-12 mt-3">
-        
             <form action="<?php echo site_url('stocks/taxas_editar/'.$taxa['id_taxas']) ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">

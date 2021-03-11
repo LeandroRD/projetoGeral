@@ -133,6 +133,7 @@ class Stocks extends BaseController{
                 $data['error'] = $error;
             }  
         }   
+        
         echo view('stocks/taxas_adicionar',$data);
    }
     //========================================================

@@ -190,6 +190,7 @@ class StocksModel extends Model
         }
     }
  //=====================================================
+ 
     public function tax_edit($id_taxa){
         //atualizar os dados da family
         $request = \Config\Services::request();   

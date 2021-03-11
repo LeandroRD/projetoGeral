@@ -31,6 +31,7 @@
 				</thead>
 				<tbody>
 					<?php foreach($taxas as $taxa):?>
+						
 						<tr>
 							<td><?php echo $taxa['id_taxas'] ?></td>
 							<td><?php echo $taxa['designacao'] ?></td>
