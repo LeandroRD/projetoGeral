@@ -218,5 +218,13 @@ class StocksModel extends Model
         //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
         $this->query("UPDATE stock_produtos SET id_taxa = 0 
                     WHERE id_taxa = ? ",$params);
+        }
+        //=====================================================
+            //PRODUTOS
+        //=====================================================
+        public function get_all_products(){
+
         }   
  }
+
+ 
