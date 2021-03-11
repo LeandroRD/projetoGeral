@@ -241,21 +241,16 @@ class StocksModel extends Model
                     p.id_produto,p.designacao AS nome_produto, p.preco, p.quantidade,
                     f.designacao AS familia,
                     t.designacao AS taxa, t.percentagem
-                    FROM 
-                        stock_produtos p
-                    LEFT JOIN 
-                        stock_familias f 
-                    ON 
-                        p.id_familia = f.id_familia
-                    LEFT JOIN 
-                        stock_taxas t 
-                    ON  p.id_taxa = t.id_taxas
-                
-                "
-
-
+                FROM 
+                    stock_produtos p
+                LEFT JOIN 
+                    stock_familias f 
+                ON 
+                    p.id_familia = f.id_familia
+                LEFT JOIN 
+                    stock_taxas t 
+                ON  p.id_taxa = t.id_taxas"
             )->getResult('array');
-
         }   
  }
 
