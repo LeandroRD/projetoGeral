@@ -174,7 +174,7 @@ class StocksModel extends Model
        }
        
    }
- //=====================================================
+   //=====================================================
     public function check_other_tax($designacao,$id_tax){
         $params = array(
             $designacao,
@@ -189,8 +189,7 @@ class StocksModel extends Model
             return false;
         }
     }
- //=====================================================
- 
+   //===================================================== 
     public function tax_edit($id_taxa){
         //atualizar os dados da family
         $request = \Config\Services::request();   
@@ -205,6 +204,19 @@ class StocksModel extends Model
           WHERE id_taxas = ? ",
           $params);
 }
-
-   
+   //=====================================================
+    public function delete_tax($id_taxa){
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_taxa
+        );
+        //deletendo a taxa 
+        $this->query("DELETE FROM  stock_taxas
+          WHERE id_taxas = ? ",
+          $params);
+        //   atualizando todas os produtos onde id_taxa é id_taxa
+        //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
+        $this->query("UPDATE stock_produtos SET id_taxa = 0 
+                    WHERE id_taxa = ? ",$params);
+        }   
  }
