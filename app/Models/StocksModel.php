@@ -224,18 +224,19 @@ class StocksModel extends Model
         //=====================================================
         public function get_all_products(){
             // retorna todos os produtos
+            //=================================================
+            //----------TABELAS----------------------
             //stock_produtos p 
             //stock_familias f
             //stock_taxas    t
-
+            //----------Colunas----------------------
             //  ID - id_produto(produto)
 			//  Produto - designacao(produto)
 			//  Familia -  designacao(familia)
 			//  Preço/unidade - preco (produtos)
 			//  Taxa - designacao + (percentagem )(taxas)
 			//  Quantidade - quantidade (produtos)
-
-
+            //=================================================
             return $this->query(
                 "SELECT
                     p.id_produto,p.designacao AS nome_produto, p.preco, p.quantidade,
@@ -253,5 +254,8 @@ class StocksModel extends Model
             )->getResult('array');
         }   
  }
+
+ 
+
 
  
