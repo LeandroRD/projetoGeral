@@ -50,7 +50,7 @@
                 </div>
                 <div class="mt-3">
                     <a href="<?php echo site_url('stocks/familias') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Salvar</button>
+                    <button class="btn btn-primary btn-150">Atualizar</button>
                 </div>
             </form>
         </div>

@@ -135,4 +135,35 @@ class Stocks extends BaseController{
         }   
         echo view('stocks/taxas_adicionar',$data);
    }
+    //========================================================
+    public function taxas_editar($id_taxa){
+        
+        //editar taxa
+        // carregar os dados das taxas para passar a View
+        $model = new StocksModel();
+        $data['taxa']=$model->get_tax($id_taxa);
+        $error = '';
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            //confirmar se ja existe a taxa com o mesmo nome
+            $resultado = $model->check_other_tax($request->getPost('text_designacao'),$id_taxa);
+            if($resultado){
+                $error = 'Já existe outra taxa com a mesma desigção!!';
+            }
+            //atualizar os dados da taxa na BD 
+            if($error ==''){
+                $model -> tax_edit($id_taxa);
+                
+                //redirecionamento para stock/familias
+                return redirect()->to(site_url('stocks/taxas'));
+            }else{
+                $data['error'] = $error;
+            }  
+        }   
+        echo view('stocks/taxas_editar',$data);
+    }  
 }

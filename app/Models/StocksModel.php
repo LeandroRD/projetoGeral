@@ -162,7 +162,48 @@ class StocksModel extends Model
         );
         $this->query("INSERT INTO stock_taxas VALUES(0,?,?)",$params);
     }
-
+    //=======================================================
+    public function get_tax($id_tax){
+        //retorna a familia
+       $params = array($id_tax);
+       $results = $this->query('SELECT * FROM stock_taxas WHERE id_taxas =?',$params)->getResult('array');
+       if(count($results)==1){
+           return $results[0];
+       }else{
+           return array();
+       }
+       
+   }
+ //=====================================================
+    public function check_other_tax($designacao,$id_tax){
+        $params = array(
+            $designacao,
+            $id_tax
+        );
+        $results = $this-> query("SELECT * FROM stock_taxas WHERE designacao = ? 
+                   AND id_taxas != ? ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+ //=====================================================
+    public function tax_edit($id_taxa){
+        //atualizar os dados da family
+        $request = \Config\Services::request();   
+        $params = array(
+            // $request->getPost('select_parent'),
+            $request->getPost('text_designacao'),
+            $request->getPost('text_percentagem'),
+            $id_taxa
+        );
+        $this->query("UPDATE stock_taxas
+         SET designacao = ?, percentagem=?
+          WHERE id_taxas = ? ",
+          $params);
+}
 
    
  }
