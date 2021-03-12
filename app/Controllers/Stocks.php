@@ -8,6 +8,8 @@ class Stocks extends BaseController{
         echo view('stocks/main');
     }
     //========================================================
+            //FAMILIA
+    //========================================================
     public function familia_adicionar(){
         //adicionar nova familia
         // carregar os dados das familias para passar a View
@@ -98,19 +100,7 @@ class Stocks extends BaseController{
         echo view('stocks/movimentos');
     }
     //========================================================
-    public function produtos(){
-
-        //carregar os produtos existentes
-        //carregar os dados da familias para passar a View
-        $model = new StocksModel();
-        $data['produtos']= $model->get_all_products();
-        //  echo '<pre>';
-        //  print_r($data['produtos']);
-        //  echo '</pre>';
-        // die();
-
-        echo view('stocks/produtos', $data);
-    }
+            //TAXAS
     //========================================================
     public function taxas(){
         //carregar os dados das taxas para passar a View
@@ -190,5 +180,38 @@ class Stocks extends BaseController{
         
         echo view('stocks/taxas_eliminar',$data);
     }
-    //========================================================  
+    //========================================================
+            //PRODUTOS
+    //========================================================
+    public function produtos(){
+
+        //carregar os produtos existentes
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['produtos']= $model->get_all_products();
+        
+
+        echo view('stocks/produtos', $data);
+    }
+    //======================================================== 
+    public function produtos_adicionar(){
+        $model = new StocksModel();
+        //carregar familias
+        $data['familias']=$model->get_all_families();
+        
+        //carregar as taxas
+        $data['taxas']=$model->get_all_taxes();
+        
+        //tratar a submissao do formulario
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){
+            die('formulario submetido');
+        }
+       
+
+        //apresenta o formulario
+        echo view('stocks/produtos_adicionar',$data);
+
+
+
+    } 
 }
