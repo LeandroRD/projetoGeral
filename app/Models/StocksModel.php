@@ -173,7 +173,7 @@ class StocksModel extends Model
            return array();
        }
        
-   }
+    }
    //=====================================================
     public function check_other_tax($designacao,$id_tax){
         $params = array(
@@ -203,7 +203,7 @@ class StocksModel extends Model
          SET designacao = ?, percentagem=?
           WHERE id_taxas = ? ",
           $params);
-}
+    }
    //=====================================================
     public function delete_tax($id_taxa){
         //eliminar a taxa e alterar o id nos produtos
@@ -219,10 +219,8 @@ class StocksModel extends Model
         $this->query("UPDATE stock_produtos SET id_taxa = 0 
                     WHERE id_taxa = ? ",$params);
         }
-        //=====================================================
-        //PRODUTOS
-        //=====================================================
-        public function get_all_products(){
+    //=====================================================
+    public function get_all_products(){
             // retorna todos os produtos
             //=================================================
             //----------TABELAS----------------------
@@ -252,7 +250,40 @@ class StocksModel extends Model
                     stock_taxas t 
                 ON  p.id_taxa = t.id_taxas"
             )->getResult('array');
-        }   
+        }
+    //===================================================== 
+    public function product_add($nome_ficheiro){
+        /*
+        [combo_familia] => 9
+        [text_designacao] => Computadores
+        [text_descricao] => Computador1
+        [text_preco] => 1500
+        [combo_taxa] => 4
+        [text_quantidade] => 1
+        [text_detalhes] =>
+        [file_imagem] => Array 
+        */
+        //adiciona uma novo produto  na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('combo_familia'),
+            $request->getPost('text_designacao'),
+            $request->getPost('text_descricao'),
+            $nome_ficheiro,
+            $request->getPost('text_preco'),
+            $request->getPost('combo_taxa'),
+            $request->getPost('text_quantidade'),
+            $request->getPost('text_detalhes'),
+            
+        );
+        $this->query("INSERT INTO stock_produtos VALUES(
+            0,
+            ?,?,?,?,?,?,?,?,
+            NOW()
+            )
+            ",$params
+        );   
+    }
  }
 
  

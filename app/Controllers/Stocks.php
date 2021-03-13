@@ -208,18 +208,17 @@ class Stocks extends BaseController{
         IF($_SERVER['REQUEST_METHOD'] =='POST'){
             
 
-            echo '<pre>';
-            print_r($_POST).'</br>';
-            print_r($_FILES);
-
-            echo '</pre>';
-            die();
-            //upload da imagem
+            //definicao do nome da imagem do produto
             // $novo_ficheito  variavel para associar o nome da imagem + um valor aleatorio em forma de microsegundos  
             $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
+            
+            $model = new StocksModel();
+            $model->product_add($novo_ficheito);
+            
             $target_file = '';
             $target_file .= 'assets/product_images/'.'/';
             $target_file .= $novo_ficheito;
+            
             //Codigo confimando o upload do arquivo
             $file_sucess = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
                                 
