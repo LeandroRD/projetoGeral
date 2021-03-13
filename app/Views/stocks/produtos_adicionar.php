@@ -20,6 +20,8 @@
 			<hr>
         </div>
         <div class="col-12 mt-3">
+            <!-- necessario inserir a propriedade enctype="multipart/form-data"
+             para submeter arquivo JPG -->
             <form action="<?php echo site_url('stocks/produtos_adicionar') ?>" method="post" enctype="multipart/form-data">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
@@ -93,7 +95,7 @@
                         <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number"  >                
                     </div>  
                 </div>
-                
+
                 <!--  detalhes-->
                 <div class="mt-2 mb-2">
                     <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ></textarea>
