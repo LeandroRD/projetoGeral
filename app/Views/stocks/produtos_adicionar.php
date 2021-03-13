@@ -20,7 +20,7 @@
 			<hr>
         </div>
         <div class="col-12 mt-3">
-            <form action="<?php echo site_url('stocks/produtos_adicionar') ?>" method="post">
+            <form action="<?php echo site_url('stocks/produtos_adicionar') ?>" method="post" enctype="multipart/form-data">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
@@ -50,10 +50,11 @@
                 <div class="mt-3 ">
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição"></textarea>
                 </div>
+
                  <!--  imagem-->
                  <div class="mt-3 mb-3 card card-claro  p-4">
                      <label class="mb-2">Imagem do produto:</label>
-                     <input type="file" class="form-control">
+                     <input type="file" class="form-control" name="file_imagem"accept=".jpg .png">
 
                   
                 </div>
@@ -64,7 +65,7 @@
                         <label class="">Preço/Unidade (R$):</label>
                     </div>
                     <div class="col-3">
-                        <input style="width: 240px; " name="text-preco" min="0" max="100000" step="0.05" class="form-control " type="number"  >                
+                        <input name="text_preco" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number"  >                
                     </div>  
                 </div>
 
@@ -83,27 +84,16 @@
                     </div>  
                 </div>
 
-                <div class="row mt-2 mb-2 " >
-                    <div class="col-2">
-                        
-                    </div>
-                    <div class="col-3">
-                       
-                    </div>  
-                </div>
-
-
-
-                
                 <!--  quantidade-->
                 <div class="row mt-2 mb-2" >
                     <div class="col-2">
                         <label>Quantidade:</label>
                     </div>
                     <div class="col-4">
-                        <input style="width: 240px; " name="text-quantidade" min="0" max="100000"  class="form-control " type="number"  >                
+                        <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number"  >                
                     </div>  
                 </div>
+                
                 <!--  detalhes-->
                 <div class="mt-2 mb-2">
                     <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ></textarea>
