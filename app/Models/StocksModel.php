@@ -252,6 +252,22 @@ class StocksModel extends Model
             )->getResult('array');
         }
     //===================================================== 
+    public function product_check(){
+        //verifica se ja existe um produto com o mesmo nome
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_designacao')
+        );
+        $results = $this-> query("SELECT designacao FROM stock_produtos WHERE designacao = ? 
+                    ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //=====================================================
     public function product_add($nome_ficheiro){
         /*
         [combo_familia] => 9

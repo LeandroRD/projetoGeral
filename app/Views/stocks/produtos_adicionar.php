@@ -54,11 +54,9 @@
                 </div>
 
                  <!--  imagem-->
-                 <div class="mt-3 mb-3 card card-claro  p-4">
+                <div class="mt-3 mb-3 card card-claro  p-4">
                      <label class="mb-2">Imagem do produto:</label>
                      <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" required>
-
-                  
                 </div>
 
                 <!--  preço-->

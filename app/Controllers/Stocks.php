@@ -202,10 +202,18 @@ class Stocks extends BaseController{
         
         //carregar as taxas
         $data['taxas']=$model->get_all_taxes();
+        $sucesso = '';
+        $erro = '';
+
         
         //tratar a submissao do formulario
       
         IF($_SERVER['REQUEST_METHOD'] =='POST'){
+
+            
+            //tenta fazer oupload da imagem do produto
+            //em caso de sucesso, faz o rgistro na BD
+            //apresentacao de mensagem com sucesso
             
 
             //definicao do nome da imagem do produto
@@ -213,18 +221,41 @@ class Stocks extends BaseController{
             $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
             
             $model = new StocksModel();
-            $model->product_add($novo_ficheito);
             
-            $target_file = '';
-            $target_file .= 'assets/product_images/'.'/';
-            $target_file .= $novo_ficheito;
-            
-            //Codigo confimando o upload do arquivo
-            $file_sucess = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
-                                
-            
+            //verifica se ja existe produto com o mesmo nome
+            if($model->product_check()){
+                //erro ja existe outro produto com o mesmo nome
+                $erro = 'Já existe outro produto com o mesmo nome!';
+            }
+
+            if($erro==''){
+                //UPLOAD DA IMAGEM 
+                $target_file = '';
+                $target_file .= 'assets/product_images/'.'/';
+                $target_file .= $novo_ficheito;
+                //Codigo confimando o upload do arquivo
+                $file_success = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
+                
+                //registro da imagem na BD
+                if($file_success){$model->product_add($novo_ficheito);
+                    $sucesso = 'Produto adicionado com sucesso!';                   
+                }else{
+                    $erro = 'Não foi possível adicionar o produto!';
+                }
+            }        
         }
+        //passar para a $data a mensagem de erro ou nao
+        if($erro !=''){ 
+            $data['error']= $erro;
+        }
+        
+        if($sucesso !=''){ 
+            $data['success']= $sucesso;
+        }
+        
+        
         //apresenta o formulario de adicionar
+        
         echo view('stocks/produtos_adicionar',$data);
    
     }
