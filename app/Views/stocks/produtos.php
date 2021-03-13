@@ -8,7 +8,7 @@
 			<hr>	
 			<div class="row mb-3">
 				<div class="col-6 align-self-end"><h5>Produtos: </h5></div>
-				<div class="col-6 text-end"><a href="<?php echo site_url('stocks/produto_adicionar')?>"class="btn btn-primary">Adicionar Produto...</a></div>
+				<div class="col-6 text-end"><a href="<?php echo site_url('stocks/produtos_adicionar')?>"class="btn btn-primary">Adicionar Produto...</a></div>
 			</div>
 			<table class="table table-striped  " id="tabela_produtos">
 				<thead class="table-dark">

@@ -47,43 +47,61 @@
                 </div>
     
                 <!--  inscricao-->
-                <div class="mt-3">
+                <div class="mt-3 ">
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição"></textarea>
                 </div>
                  <!--  imagem-->
-                 <div class="mt-3">
-                     <label >Imagem do produto:</label>
+                 <div class="mt-3 mb-3 card card-claro  p-4">
+                     <label class="mb-2">Imagem do produto:</label>
                      <input type="file" class="form-control">
 
-                 </div>
+                  
+                </div>
 
                 <!--  preço-->
-                <div class="row mt-2 mb-2" >
+                <div class="row mt-2 mb-2 " >
                     <div class="col-2">
-                        <label>Preço/Unidade (R$):</label>
+                        <label class="">Preço/Unidade (R$):</label>
                     </div>
-                    <div class="col-4">
-                        <input style="width: 200px; " name="text-preco" min="0" max="100000" step="0.05" class="form-control " type="number"  >                
+                    <div class="col-3">
+                        <input style="width: 240px; " name="text-preco" min="0" max="100000" step="0.05" class="form-control " type="number"  >                
                     </div>  
                 </div>
 
                 <!--  taxa-->
-                <div class="mt-3">
-                    <label>Taxa / Imposto:</label>
-                    <select name="combo_taxa" class="form-control" >
-                        <option value="0">Nenhuma (0 %)</option>
-                        <?php foreach($taxas as $taxa):?>
-                            <option value="<?php echo $taxa['id_taxas'] ?>"><?php echo $taxa['designacao'].'('.$taxa['percentagem'].' %)'?></option>
-                        <?php endforeach;?>
-                    </select>
+                <div class="row mt-2 mb-2 " >
+                    <div class="col-2">
+                        <label>Taxa / Imposto:</label>
+                    </div>
+                    <div class="col-3">
+                        <select name="combo_taxa" class="form-control" >
+                            <option value="0">Nenhuma (0 %)</option>
+                            <?php foreach($taxas as $taxa):?>
+                                <option value="<?php echo $taxa['id_taxas'] ?>"><?php echo $taxa['designacao'].'('.$taxa['percentagem'].' %)'?></option>
+                            <?php endforeach;?>
+                        </select>                       
+                    </div>  
                 </div>
+
+                <div class="row mt-2 mb-2 " >
+                    <div class="col-2">
+                        
+                    </div>
+                    <div class="col-3">
+                       
+                    </div>  
+                </div>
+
+
+
+                
                 <!--  quantidade-->
                 <div class="row mt-2 mb-2" >
                     <div class="col-2">
                         <label>Quantidade:</label>
                     </div>
                     <div class="col-4">
-                        <input style="width: 200px; " name="text-quantidade" min="0" max="100000"  class="form-control " type="number"  >                
+                        <input style="width: 240px; " name="text-quantidade" min="0" max="100000"  class="form-control " type="number"  >                
                     </div>  
                 </div>
                 <!--  detalhes-->
