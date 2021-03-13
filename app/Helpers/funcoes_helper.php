@@ -31,3 +31,14 @@
         // helper('funcoes');
         // VerSessao();
     }
+    //==========================================================
+    function aesEncrypt($valor_original){
+        //funcao para criar mecanismo de seguranca, encriptar QueryString
+        return bin2hex(openssl_encrypt($valor_original,'aes-256-cbc',AES_KEY, OPENSSL_RAW_DATA,AES_IV));  
+    }
+    //==========================================================
+    function aesDecrypt($valor_encriptado){
+        //funcao para criar mecanismo de seguranca, desencriptar QueryString
+        return openssl_decrypt(hex2bin($valor_encriptado),'aes-256-cbc',AES_KEY, OPENSSL_RAW_DATA,AES_IV);
+
+    }
