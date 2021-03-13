@@ -45,10 +45,10 @@
                 </div>
                 <!--designacao-->
                 <div class="mt-3">
-                    <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto">
+                    <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required>
                 </div>
     
-                <!--  inscricao-->
+                <!--  descricao-->
                 <div class="mt-3 ">
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição"></textarea>
                 </div>
@@ -56,7 +56,7 @@
                  <!--  imagem-->
                  <div class="mt-3 mb-3 card card-claro  p-4">
                      <label class="mb-2">Imagem do produto:</label>
-                     <input type="file" class="form-control" name="file_imagem"accept=".jpg .png">
+                     <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" required>
 
                   
                 </div>
@@ -67,7 +67,7 @@
                         <label class="">Preço/Unidade (R$):</label>
                     </div>
                     <div class="col-3">
-                        <input name="text_preco" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number"  >                
+                        <input name="text_preco" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number" required >                
                     </div>  
                 </div>
 
@@ -92,7 +92,7 @@
                         <label>Quantidade:</label>
                     </div>
                     <div class="col-4">
-                        <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number"  >                
+                        <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number" value="0" required >                
                     </div>  
                 </div>
 

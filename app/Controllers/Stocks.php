@@ -195,6 +195,7 @@ class Stocks extends BaseController{
     }
     //======================================================== 
     public function produtos_adicionar(){
+        
         $model = new StocksModel();
         //carregar familias
         $data['familias']=$model->get_all_families();
@@ -203,21 +204,29 @@ class Stocks extends BaseController{
         $data['taxas']=$model->get_all_taxes();
         
         //tratar a submissao do formulario
+      
         IF($_SERVER['REQUEST_METHOD'] =='POST'){
+            
 
-            //upload da imagem
-            $target_file = base_url('assets/product_images/').'/'.basename($_FILES["file_imagem"]["name"]);
-            echo $target_file.'</br>';
-            echo time().'</br>';
-            echo round(microtime(true)*1000);
+            echo '<pre>';
+            print_r($_POST).'</br>';
+            print_r($_FILES);
+
+            echo '</pre>';
             die();
+            //upload da imagem
+            // $novo_ficheito  variavel para associar o nome da imagem + um valor aleatorio em forma de microsegundos  
+            $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
+            $target_file = '';
+            $target_file .= 'assets/product_images/'.'/';
+            $target_file .= $novo_ficheito;
+            //Codigo confimando o upload do arquivo
+            $file_sucess = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
+                                
+            
         }
-       
-
-        //apresenta o formulario
+        //apresenta o formulario de adicionar
         echo view('stocks/produtos_adicionar',$data);
-
-
-
-    } 
+   
+    }
 }
