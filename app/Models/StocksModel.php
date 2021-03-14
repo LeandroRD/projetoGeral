@@ -306,7 +306,7 @@ class StocksModel extends Model
             "SELECT * FROM stock_produtos
              WHERE id_produto = ?",$params
                 
-        )->getResult('array');
+        )->getResult('array')[0];
       }
 //===================================================== 
  }

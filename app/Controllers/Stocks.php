@@ -264,10 +264,20 @@ class Stocks extends BaseController{
         }
         //buscar os dados do produto e editar 
         $model = new StocksModel(); 
-        $results = $model->get_product($id);
-        echo '<pre>';
-            print_r($results);
-        echo'</pre>';
+        $result = $model->get_product($id); 
+        $data['produto'] = $result;
+
+        //carregar familias
+        $data['familias']=$model->get_all_families();
+        
+        //carregar as taxas
+        $data['taxas']=$model->get_all_taxes();
+        
+        //apresenta o formulario de edicao
+        echo view('stocks/produtos_editar',$data);
+
+
+
     }
      
 
