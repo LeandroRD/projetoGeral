@@ -251,28 +251,26 @@ class Stocks extends BaseController{
         
         if($sucesso !=''){ 
             $data['success']= $sucesso;
-        }
-        
-        
-        //apresenta o formulario de adicionar
-        
-        echo view('stocks/produtos_adicionar',$data);
-   
+        }    
+        //apresenta o formulario de adiciona
+        echo view('stocks/produtos_adicionar',$data);  
      }
     //========================================================
     public function produtos_editar($id){
         helper('funcoes');
-        
-        try {
-            //codigo para mostrar se a variarel é string ou boleano
-            $id = aesDecrypt($id);
-            if(gettype($id)=='boolean'){
-                return;
-            }  
+        $id = aesDecrypt($id);
+        if($id == -1){
+            return;
         }
-        catch (\Throwable $th){
-            return; 
-        }
-        echo $id.' (ok)';        
-     }
+        //buscar os dados do produto e editar 
+        $model = new StocksModel(); 
+        $results = $model->get_product($id);
+        echo '<pre>';
+            print_r($results);
+        echo'</pre>';
+    }
+     
+
+
+    
 }

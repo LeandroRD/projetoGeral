@@ -296,6 +296,19 @@ class StocksModel extends Model
             ",$params
         );   
      }
+//=====================================================
+     public function get_product($id){
+        // retorna o espedifico produto
+        $params = array(
+            $id
+        );
+        return $this->query(
+            "SELECT * FROM stock_produtos
+             WHERE id_produto = ?",$params
+                
+        )->getResult('array');
+      }
+//===================================================== 
  }
 
  

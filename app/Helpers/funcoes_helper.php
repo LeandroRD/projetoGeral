@@ -38,7 +38,21 @@
     }
     //==========================================================
     function aesDecrypt($valor_encriptado){
-        //funcao para criar mecanismo de seguranca, desencriptar QueryString
-        return openssl_decrypt(hex2bin($valor_encriptado),'aes-256-cbc',AES_KEY, OPENSSL_RAW_DATA,AES_IV);
+         //funcao para criar mecanismo de seguranca, desencriptar QueryString
+        $resultado = -1;
+        try {
+            $resultado = openssl_decrypt(hex2bin($valor_encriptado),'aes-256-cbc',AES_KEY, OPENSSL_RAW_DATA,AES_IV);       
+            if(gettype($resultado)=='boolean'){
+                return -1;
+            }
+        }catch(\Throwable $th){
+            return -1;
+           }  
+        return $resultado;
+       
+       
+       
 
     }
+
+    
