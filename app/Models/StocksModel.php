@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use CodeIgniter\Model;
 
 
@@ -13,7 +12,9 @@ class StocksModel extends Model
     //==================================================
     public function __construct(){
         $this->db = db_connect();
-    }
+     }
+    //=====================================================
+    //              FAMILIAS
     //=====================================================
     public function get_all_families(){
         
@@ -58,7 +59,7 @@ class StocksModel extends Model
         }else{
             return false;
         }
-    }
+     }
      //=====================================================
      public function get_family($id_family){
          //retorna a familia
@@ -70,7 +71,7 @@ class StocksModel extends Model
             return array();
         }
         
-    }
+     }
     //=====================================================
     public function family_add(){
 
@@ -83,7 +84,7 @@ class StocksModel extends Model
         $this->query("INSERT INTO stock_familias VALUES(0,?,?,'' )",$params);
 
 
-    }
+     }
     //=====================================================
     public function check_other_family($designacao,$id_family){
         $params = array(
@@ -98,7 +99,7 @@ class StocksModel extends Model
         }else{
             return false;
         }
-    }
+     }
     //=====================================================
     public function family_edit($id_family){
         //atualizar os dados da family
@@ -113,7 +114,7 @@ class StocksModel extends Model
          designacao =?
           WHERE id_familia = ? ",
           $params);
-    }
+     }
      //=====================================================
      public function delete_family($id_family){
         //eliminar a familia e alterar o id_parents
@@ -129,7 +130,9 @@ class StocksModel extends Model
         $this->query("UPDATE stock_familias SET id_parent = 0 
                     WHERE id_parent = ? ",$params);
 
-    }
+     }
+    //=====================================================
+    //               TAXAS
     //=====================================================
     public function get_all_taxes(){ 
         //retorna todas as taxas
@@ -150,7 +153,7 @@ class StocksModel extends Model
         }
 
 
-    }
+     }
     //=======================================================
     public function tax_add(){
 
@@ -161,7 +164,7 @@ class StocksModel extends Model
             $request->getPost('text_valor')
         );
         $this->query("INSERT INTO stock_taxas VALUES(0,?,?)",$params);
-    }
+     }
     //=======================================================
     public function get_tax($id_tax){
         //retorna a familia
@@ -173,8 +176,8 @@ class StocksModel extends Model
            return array();
        }
        
-    }
-   //=====================================================
+     }
+    //=====================================================
     public function check_other_tax($designacao,$id_tax){
         $params = array(
             $designacao,
@@ -188,8 +191,8 @@ class StocksModel extends Model
         }else{
             return false;
         }
-    }
-   //===================================================== 
+     }
+    //===================================================== 
     public function tax_edit($id_taxa){
         //atualizar os dados da family
         $request = \Config\Services::request();   
@@ -203,8 +206,8 @@ class StocksModel extends Model
          SET designacao = ?, percentagem=?
           WHERE id_taxas = ? ",
           $params);
-    }
-   //=====================================================
+        }
+    //=====================================================
     public function delete_tax($id_taxa){
         //eliminar a taxa e alterar o id nos produtos
         $params = array(
@@ -219,6 +222,8 @@ class StocksModel extends Model
         $this->query("UPDATE stock_produtos SET id_taxa = 0 
                     WHERE id_taxa = ? ",$params);
         }
+    //=====================================================
+                    //PRODUTOS
     //=====================================================
     public function get_all_products(){
             // retorna todos os produtos
@@ -266,19 +271,10 @@ class StocksModel extends Model
         }else{
             return false;
         }
-    }
+     }
     //=====================================================
     public function product_add($nome_ficheiro){
-        /*
-        [combo_familia] => 9
-        [text_designacao] => Computadores
-        [text_descricao] => Computador1
-        [text_preco] => 1500
-        [combo_taxa] => 4
-        [text_quantidade] => 1
-        [text_detalhes] =>
-        [file_imagem] => Array 
-        */
+        
         //adiciona uma novo produto  na BD
         $request = \Config\Services::request();
         $params = array(
@@ -299,7 +295,7 @@ class StocksModel extends Model
             )
             ",$params
         );   
-    }
+     }
  }
 
  

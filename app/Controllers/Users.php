@@ -23,7 +23,7 @@ class Users extends BaseController
             $this->login();
 
         }
-	}
+	 }
 	//====================================================
     public function login(){
         //checar se  ja existe sessao vai para homepae
@@ -68,7 +68,7 @@ class Users extends BaseController
     
         //mostra a pagina de login
         echo view('users/login',$data);
-    }
+     }
     //===============================================
     private function setSession($data){
         // Iniciar sessao
@@ -77,7 +77,7 @@ class Users extends BaseController
             'name'=>$data['name'],
             'profile'=>$data['profile']);
        $this->session->set($session_data);
-    }    
+     }    
     //===============================================
     public function homePage(){
 
@@ -94,25 +94,24 @@ class Users extends BaseController
         
         //apresentar homepage view
         echo view('users/homepage',$data);
-    }
+     }
     //===============================================
     public function logout(){
         //logout
         $this->session->destroy();
         // redirect('users','refresh');
         return redirect()->to(site_url('users'));
-    }
-    //===============================================
-    
+     }
+    //=============================================== 
     private function checkSession(){
         //verifica se existe sessao
         return $this->session->has('id_user');
-    }
+     }
     //===============================================
     public function recover(){
         //apresenta form para recover passaword
         echo view('users/Recover_password');
-    }
+     }
     //===============================================
     public function reset_password(){
        
@@ -132,7 +131,7 @@ class Users extends BaseController
         }else{
             echo "Nao existe o email associado";
         }
-    }
+     }
     //===============================================
     public function redefine_password($purl){
         
@@ -147,7 +146,7 @@ class Users extends BaseController
             $data['user'] = $results[0];
             echo view('users/redefine_password',$data);       
         }
-    }
+     }
     //===============================================
     public function redefine_password_submit(){
         $request = \Config\Services::request();
@@ -172,7 +171,7 @@ class Users extends BaseController
 
 
 
-    }
+     }
     //===============================================
     public function teste($value){
         if($this->checkProfile($value)){
@@ -180,7 +179,7 @@ class Users extends BaseController
         }else{
             echo "Não Existe";
         }
-    }
+     }
     //===============================================
     private function checkProfile($profile){
         //verifique se o usuário tem permissão para acessar o recurso
@@ -190,15 +189,15 @@ class Users extends BaseController
         }else{
             return false;
         }
-    }
+     }
     //===============================================
     public function op1(){
         echo "OP1";
-    }
+     }
     //===============================================
     public function op2(){
         echo "OP2";
-    }
+     }
     //===============================================
     public function admin_users(){
         //checar se  ja existe sessao vai para homepae
@@ -217,7 +216,7 @@ class Users extends BaseController
         $data['users'] = $results;
         
         echo view('users/admin_users',$data);
-    }
+     }
     //===============================================
     public function admin_new_user(){
         //checar se  ja existe sessao vai para homepae
@@ -291,7 +290,7 @@ class Users extends BaseController
         }
 
         echo view('users/admin_new_user',$data);
-    }
+     }
     //===============================================
     public function admin_edit_user($id_user){
          //evitar se usuario forçar deletar a si mesmo pelo browser
@@ -385,8 +384,7 @@ class Users extends BaseController
             $data['error'] = $error;
         } 
         echo view('users/admin_edit_user',$data);   
-    } 
-
+     } 
     //===============================================
     public function admin_delete_user($id_user,$response =''){
         //evitar se usuario forçar deletar a si mesmo pelo browser      
@@ -421,7 +419,7 @@ class Users extends BaseController
         $data['user'] = $model->getUser($id_user)[0];
         echo view('users/admin_delete_user',$data);
        
-    }
+     }
     //===============================================
     public function admin_recover_user($id_user, $response=''){
         //evitar se usuario forçar deletar a si mesmo pelo browser
@@ -451,5 +449,5 @@ class Users extends BaseController
        //apresentar quadro para questionar se pretende recuperar o  usuario 
        $data['user'] = $model->getUser($id_user)[0];
        echo view('users/admin_recover_user',$data);
-    }   
+     }   
 }

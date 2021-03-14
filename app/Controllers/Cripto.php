@@ -9,7 +9,7 @@ class Cripto extends BaseController
     //========================================================
     public function index(){
         echo "estou no cripto";
-    }
+     }
     //========================================================
     public function guardarCartao(){
         $numero_cartao = 'Guilherme';
@@ -17,14 +17,15 @@ class Cripto extends BaseController
         $model = new CriptoModel();
         $model->encriptar($numero_cartao);
         echo 'cartao adicionado com sucesso';
-    }
+     }
     //========================================================
     public function apresentarCartao($id){
         $model = new CriptoModel();
         $resultado = $model->desencriptar($id);
         echo "<pre>";
         print_r($resultado);
-        echo "<pre>";    }
+        echo "<pre>";    
+     }
     //========================================================
     public function procurarCartao($numero_cartao){
         $model = new CriptoModel();
@@ -32,7 +33,5 @@ class Cripto extends BaseController
         echo "<pre>";
         print_r($resultado);
         echo "<pre>";
-
-
-    }
+     }
 }

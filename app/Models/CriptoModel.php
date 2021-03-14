@@ -14,7 +14,7 @@ class CriptoModel extends Model
     //========================================================
     public function __construct(){
         $this->db = db_connect();
-    }
+     }
     //========================================================
     public function encriptar($cartao){
         //guardar na BD o cartao de credito encriptado
@@ -30,7 +30,7 @@ class CriptoModel extends Model
             // exemplo do endereco para incriptar dados na BD
             // http://localhost/projetogeral/public/index.php/cripto/guardarCartao
 
-    }
+     }
     //========================================================
     public function desencriptar($id){
         //retorna desencriptado o cartao de credito
@@ -45,7 +45,7 @@ class CriptoModel extends Model
         
         // exemplo do endereco para procurar cartao pelo id
         // http://localhost/projetogeral/public/index.php/cripto/apresentarCartao/3
-    }
+     }
     //========================================================
     public function ProcurarCartao($numero_cartao){
         $params = array(
@@ -60,6 +60,6 @@ class CriptoModel extends Model
 
         //Exemplo do endereco a ser consultado na BD
         // http://localhost/projetogeral/public/index.php/cripto/procurarCartao/Guilherme
-    }
+     }
 
 }

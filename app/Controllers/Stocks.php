@@ -38,7 +38,7 @@ class Stocks extends BaseController{
             }  
         }   
         echo view('stocks/familias_adicionar',$data);
-    }
+     }
     //========================================================
     public function familia_editar($id_familia){
         //editar familia
@@ -73,7 +73,7 @@ class Stocks extends BaseController{
         }   
         echo view('stocks/familias_editar',$data);
 
-    }
+     }
     //========================================================
     public function familia_eliminar($id_familia,$resposta = 'nao'){
         $model = new StocksModel();
@@ -87,18 +87,18 @@ class Stocks extends BaseController{
         
         echo view('stocks/familias_eliminar',$data);
 
-    }
+     }
     //========================================================
     public function familias(){
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
         echo view('stocks/familias',$data);
-    }
+     }
     //========================================================
     public function movimentos(){
         echo view('stocks/movimentos');
-    }
+     }
     //========================================================
             //TAXAS
     //========================================================
@@ -107,9 +107,9 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $data['taxas']= $model->get_all_taxes();
         echo view('stocks/taxas',$data);
-    }
+     }
     //========================================================
-   public function taxas_adicionar(){
+    public function taxas_adicionar(){
         $error = '';
         $model = new StocksModel();
         //Data = array vazio
@@ -135,7 +135,7 @@ class Stocks extends BaseController{
         }   
         
         echo view('stocks/taxas_adicionar',$data);
-   }
+     }
     //========================================================
     public function taxas_editar($id_taxa){
         
@@ -166,7 +166,7 @@ class Stocks extends BaseController{
             }  
         }   
         echo view('stocks/taxas_editar',$data);
-    }
+     }
     //========================================================
     public function taxas_eliminar($id_taxa,$resposta = 'nao'){
         $model = new StocksModel();
@@ -179,7 +179,7 @@ class Stocks extends BaseController{
         }
         
         echo view('stocks/taxas_eliminar',$data);
-    }
+     }
     //========================================================
             //PRODUTOS
     //========================================================
@@ -192,7 +192,7 @@ class Stocks extends BaseController{
         
 
         echo view('stocks/produtos', $data);
-    }
+     }
     //======================================================== 
     public function produtos_adicionar(){
         
@@ -258,11 +258,21 @@ class Stocks extends BaseController{
         
         echo view('stocks/produtos_adicionar',$data);
    
-    }
+     }
     //========================================================
     public function produtos_editar($id){
         helper('funcoes');
-        $id = aesDecrypt($id);
-        echo $id;
-    }
+        
+        try {
+            //codigo para mostrar se a variarel é string ou boleano
+            $id = aesDecrypt($id);
+            if(gettype($id)=='boolean'){
+                return;
+            }  
+        }
+        catch (\Throwable $th){
+            return; 
+        }
+        echo $id.' (ok)';        
+     }
 }
