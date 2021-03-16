@@ -262,6 +262,16 @@ class Stocks extends BaseController{
         if($id == -1){
             return;
         }
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            echo "<pre>";
+            print_r($_POST);
+            print_r($_FILES);
+
+            echo "</pre>";
+            die();
+        }
+
         //buscar os dados do produto e editar 
         $model = new StocksModel(); 
         $result = $model->get_product($id); 

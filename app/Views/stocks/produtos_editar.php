@@ -1,18 +1,14 @@
 <?php
 	$this->extend('Layout/layout_stocks');
     
-    
+    // tratar o id do produto a editar
+    helper('funcoes');
+    $id = aesEncrypt($produto['id_produto']);
 
 ?>
 
 <?php $this->section('conteudo')?>
-<?php
-// echo '<pre>';
-//     print_r($familias);
-//     echo"<br>";
-//     print_r($taxas);
-//     echo '</pre>';
-?>
+
 
     <div class="row mt-2">
 		<div class="col-12 ">
@@ -23,8 +19,10 @@
             
             <!-- necessario inserir a propriedade enctype="multipart/form-data"
              para submeter arquivo JPG -->
-            <form action="<?php echo site_url('stocks/produtos_editar') ?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo site_url('stocks/produtos_editar/'.$id) ?>" method="post" enctype="multipart/form-data">
                 
+                
+
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
@@ -87,7 +85,7 @@
                 <div class="mt-3 mb-3 card card-claro  p-4">
                     <div class="row">
                         <div class="col-sm-5 col-12">
-                        <img src="http://localhost/projetogeral/public/assets/product_images/<?php echo $produto['imagem'] ?>" class="img-thumbnail" alt="Imagem do produto..">
+                        <img src="<?php echo base_url('assets/product_images/'.$produto['imagem'])?>" class="img-thumbnail" alt="Imagem do produto..">
                         </div>
                         <div class="col-sm-7 col-12">
                             <label class="mb-2">Imagem do produto:</label>
