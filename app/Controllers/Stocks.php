@@ -262,18 +262,99 @@ class Stocks extends BaseController{
         if($id == -1){
             return;
         }
+        $model = new StocksModel();
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            echo "<pre>";
-            print_r($_POST);
-            print_r($_FILES);
+            // echo "<pre>";
+            // print_r($_POST);
+            // print_r($_FILES);
+            // echo "</pre>";
+            // die();
 
-            echo "</pre>";
-            die();
+            
+            
+           $erro = '';
+           $sucesso = '';
+
+            
+            //verifica se ja existe produto com o mesmo nome
+            $request = \Config\Services::request();
+            if($model->product_other_check($id,$request->getPost('text_designacao'))){
+                //erro ja existe outro produto com o mesmo nome
+                $erro = 'Já existe outro produto com o mesmo nome!';
+            }
+
+            if($erro==''){
+
+                $existe_ficheiro_para_upload = true;
+                if( !file_exists($_FILES['file_imagem']['tmp_name'])  ||
+                !is_uploaded_file($_FILES['file_imagem']['tmp_name'])){
+                    $existe_ficheiro_para_upload = false;
+
+                }
+
+
+                //verifica se é necessario carregar novo ficheiro
+                if($existe_ficheiro_para_upload ){
+                
+                //atualiza os dados do produto com imagem nova
+                // definicao do nome da imagem do produto
+                $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
+                
+                //UPLOAD DA IMAGEM 
+                $target_file = '';
+                $target_file .= 'assets/product_images/'.'/';
+                $target_file .= $novo_ficheito;
+                //Codigo confimando o upload do arquivo
+                $file_success = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
+                   
+                //atualizacao do produto  na BD
+                if($file_success){
+                    $model->product_adit($novo_ficheito);
+                    $sucesso = 'Produto adicionado com sucesso!';                   
+                }else{
+                    $erro = 'Não foi possível adicionar o produto!';
+                }
+
+                }else{
+
+                    //atualiza os dados do produto sem imagem nova
+                    $model->product_adit('');
+
+                }
+
+            }        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         //buscar os dados do produto e editar 
-        $model = new StocksModel(); 
+         
         $result = $model->get_product($id); 
         $data['produto'] = $result;
 

@@ -92,7 +92,7 @@ class StocksModel extends Model
             $id_family
         );
         $results = $this-> query("SELECT * FROM stock_familias WHERE designacao = ? 
-                   AND id_familia != ? ",$params
+                   AND id_familia <> ? ",$params
         )->getResult('array');
         if(count($results)!=0){
             return true;
@@ -184,7 +184,7 @@ class StocksModel extends Model
             $id_tax
         );
         $results = $this-> query("SELECT * FROM stock_taxas WHERE designacao = ? 
-                   AND id_taxas != ? ",$params
+                   AND id_taxas <> ? ",$params
         )->getResult('array');
         if(count($results)!=0){
             return true;
@@ -296,7 +296,7 @@ class StocksModel extends Model
             ",$params
         );   
      }
-//=====================================================
+    //=====================================================
      public function get_product($id){
         // retorna o espedifico produto
         $params = array(
@@ -308,7 +308,25 @@ class StocksModel extends Model
                 
         )->getResult('array')[0];
       }
-//===================================================== 
+    //=====================================================
+    public function product_other_check($id_produto,$designacao){
+        //verifica se ja existe outro produto com o mesmo nome
+        $request = \Config\Services::request();
+        $params = array(
+            $designacao,
+            $id_produto
+        );
+        $results = $this-> query("SELECT designacao FROM stock_produtos WHERE designacao = ? 
+                   AND id_produto<> ?
+                    ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+    //===================================================== 
  }
 
  
