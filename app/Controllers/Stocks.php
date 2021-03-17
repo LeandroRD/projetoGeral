@@ -263,7 +263,7 @@ class Stocks extends BaseController{
             return;
         }
         $model = new StocksModel();
-
+        $erro = '';
         if($_SERVER['REQUEST_METHOD']=='POST'){
             // echo "<pre>";
             // print_r($_POST);
@@ -273,8 +273,8 @@ class Stocks extends BaseController{
 
             
             
-           $erro = '';
-           $sucesso = '';
+        //    $erro = '';
+        //    $sucesso = '';
 
             
             //verifica se ja existe produto com o mesmo nome
@@ -310,8 +310,8 @@ class Stocks extends BaseController{
                    
                 //atualizacao do produto  na BD
                 if($file_success){
-                    $model->product_adit($novo_ficheito);
-                    $sucesso = 'Produto adicionado com sucesso!';                   
+                    $model->product_edit($id, $novo_ficheito);
+                    // $sucesso = 'Produto adicionado com sucesso!';                   
                 }else{
                     $erro = 'Não foi possível adicionar o produto!';
                 }
@@ -319,43 +319,27 @@ class Stocks extends BaseController{
                 }else{
 
                     //atualiza os dados do produto sem imagem nova
-                    $model->product_adit('');
+                    $model->product_edit($id);
 
+                }
+                if($erro == ''){
+                    $this->produtos();
+                    return;
                 }
 
             }        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         }
 
         //buscar os dados do produto e editar 
          
-        $result = $model->get_product($id); 
+        $result = $model->get_product($id);
+        
+        //se existir erro passa o mesmo para a View
+
+        if($erro != ''){
+            $data['error']=$erro;
+        }
         $data['produto'] = $result;
 
         //carregar familias

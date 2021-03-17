@@ -58,7 +58,7 @@
                 
                 <!--designacao-->
                 <div class="mt-3">
-                    <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required value=<?php echo $produto['designacao'] ?>>
+                    <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required value="<?php echo $produto['designacao'] ?>">
                 </div>
     
                 <!--  descricao-->
@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-sm-7 col-12">
                             <label class="mb-2">Imagem do produto:</label>
-                            <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" required>
+                            <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" >
                         </div>
                     </div>    
                 </div>
