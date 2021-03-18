@@ -115,8 +115,8 @@ class StocksModel extends Model
           WHERE id_familia = ? ",
           $params);
      }
-     //=====================================================
-     public function delete_family($id_family){
+    //=====================================================
+    public function delete_family($id_family){
         //eliminar a familia e alterar o id_parents
         $params = array($id_family);
 
@@ -297,7 +297,7 @@ class StocksModel extends Model
         );   
      }
     //=====================================================
-     public function get_product($id){
+    public function get_product($id){
         // retorna o espedifico produto
         $params = array(
             $id
@@ -384,13 +384,18 @@ class StocksModel extends Model
                 atualizacao = NOW()
                 WHERE id_produto = ?
             ",$params);
-
         }
-            
-       
-
+     }
+//=====================================================
+    public function delete_product($id_produto){
+        //eliminar o produto e alterar o id_parents
+        $params = array($id_produto);
+        //deletendo o produto
+        $this->query("DELETE FROM  stock_produtos
+          WHERE id_produto = ? ",
+          $params);
+         }
     }
- }
 
  
 

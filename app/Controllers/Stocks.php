@@ -326,17 +326,13 @@ class Stocks extends BaseController{
                     $this->produtos();
                     return;
                 }
-
             }        
-
         }
 
-        //buscar os dados do produto e editar 
-         
+        //buscar os dados do produto e editar         
         $result = $model->get_product($id);
         
         //se existir erro passa o mesmo para a View
-
         if($erro != ''){
             $data['error']=$erro;
         }
@@ -350,12 +346,25 @@ class Stocks extends BaseController{
         
         //apresenta o formulario de edicao
         echo view('stocks/produtos_editar',$data);
-
-
-
     }
-     
+    //========================================================
+    public function produtos_eliminar($id_produto,$resposta = 'nao'){
+        helper('funcoes');
+        $id_produto = aesDecrypt($id_produto);
+        if($id_produto == -1){
+            return;
+        }
+        $model = new StocksModel();
+        $data['produto']=$model->get_product($id_produto);
+        if($resposta=='sim'){
 
+            //Eliminacao do produto
+            $model->delete_product($id_produto);
+            //redirecionamento para stock/produtos
+            return redirect()->to(site_url('stocks/produtos'));
+        }
+        
+        echo view('stocks/produtos_eliminar',$data);
 
-    
+     }
 }
