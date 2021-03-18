@@ -4,12 +4,9 @@
     // tratar o id do produto a editar
     helper('funcoes');
     $id = aesEncrypt($produto['id_produto']);
-
 ?>
 
 <?php $this->section('conteudo')?>
-
-
     <div class="row mt-2">
 		<div class="col-12 ">
 			<h4>Produtos > Editar</h4>
@@ -38,9 +35,6 @@
                 <div class="mt-3">
                     <label>Família do produto:</label>
                     <select name="combo_familia" class="form-control" >
-
-                        
-
                         <?php if($produto['id_familia']== 0):?>
                             <option value="0" selected>Nenhuma</option>
                         <?php else:?>
@@ -66,22 +60,7 @@
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição" ><?php echo $produto['descricao'] ?></textarea>
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 <!--  imagem-->
-                
+                 <!--  imagem-->               
                 <div class="mt-3 mb-3 card card-claro  p-4">
                     <div class="row">
                         <div class="col-sm-5 col-12">
@@ -93,19 +72,6 @@
                         </div>
                     </div>    
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <!--  preço-->
                 <div class="row mt-2 mb-2 " >

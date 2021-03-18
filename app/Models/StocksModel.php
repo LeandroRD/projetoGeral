@@ -2,9 +2,6 @@
 
 namespace App\Models;
 use CodeIgniter\Model;
-
-
-
 class StocksModel extends Model
 {
     protected $db;
@@ -395,7 +392,9 @@ class StocksModel extends Model
           WHERE id_produto = ? ",
           $params);
          }
-    }
+        }
+
+        
 
  
 

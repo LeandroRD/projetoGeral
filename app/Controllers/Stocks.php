@@ -189,7 +189,6 @@ class Stocks extends BaseController{
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
         $data['produtos']= $model->get_all_products();
-        
 
         echo view('stocks/produtos', $data);
      }
@@ -205,21 +204,14 @@ class Stocks extends BaseController{
         $sucesso = '';
         $erro = '';
 
-        
         //tratar a submissao do formulario
-      
-        IF($_SERVER['REQUEST_METHOD'] =='POST'){
-
-            
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){   
             //tenta fazer oupload da imagem do produto
             //em caso de sucesso, faz o rgistro na BD
             //apresentacao de mensagem com sucesso
-            
-
             //definicao do nome da imagem do produto
             // $novo_ficheito  variavel para associar o nome da imagem + um valor aleatorio em forma de microsegundos  
-            $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
-            
+            $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);           
             $model = new StocksModel();
             
             //verifica se ja existe produto com o mesmo nome
@@ -265,17 +257,6 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $erro = '';
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            // echo "<pre>";
-            // print_r($_POST);
-            // print_r($_FILES);
-            // echo "</pre>";
-            // die();
-
-            
-            
-        //    $erro = '';
-        //    $sucesso = '';
-
             
             //verifica se ja existe produto com o mesmo nome
             $request = \Config\Services::request();
@@ -285,15 +266,12 @@ class Stocks extends BaseController{
             }
 
             if($erro==''){
-
                 $existe_ficheiro_para_upload = true;
                 if( !file_exists($_FILES['file_imagem']['tmp_name'])  ||
                 !is_uploaded_file($_FILES['file_imagem']['tmp_name'])){
                     $existe_ficheiro_para_upload = false;
 
                 }
-
-
                 //verifica se é necessario carregar novo ficheiro
                 if($existe_ficheiro_para_upload ){
                 
@@ -346,7 +324,7 @@ class Stocks extends BaseController{
         
         //apresenta o formulario de edicao
         echo view('stocks/produtos_editar',$data);
-    }
+        }
     //========================================================
     public function produtos_eliminar($id_produto,$resposta = 'nao'){
         helper('funcoes');
@@ -362,9 +340,7 @@ class Stocks extends BaseController{
             $model->delete_product($id_produto);
             //redirecionamento para stock/produtos
             return redirect()->to(site_url('stocks/produtos'));
-        }
-        
+        }        
         echo view('stocks/produtos_eliminar',$data);
-
      }
 }
