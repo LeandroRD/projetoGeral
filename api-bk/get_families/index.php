@@ -1,6 +1,6 @@
 <?php
-    // incluir o init
-    include('../inc/init.php');
+   // incluir o init
+   include('../inc/init.php');
     
    $gestor = new cl_gestorBD();
    
