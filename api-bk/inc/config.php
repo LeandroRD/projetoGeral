@@ -11,3 +11,6 @@ define('DB_USERNAME',    'root');
 define('DB_PASSWORD',    '');
 define('DB_NAME',    'projetogeral');
 define('DB_CHARSET',    'utf8');
+
+// image storage
+define('IMG_PATH', 'http://localhost/projetogeral/public/assets/product_images/');
