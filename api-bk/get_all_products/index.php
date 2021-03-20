@@ -1,11 +1,15 @@
 <?php
    // incluir o init
    include('../inc/init.php');
+
+   //DEFINE status
+   $response['STATUS']='OK';
+   $response['MESSAGE'] ='SUCCESS';
     
    $gestor = new cl_gestorBD();
    
    //busca todos os produtos da get_all_produtcs
-   $results['Results'] = $gestor->EXE_QUERY("SELECT
+   $response['RESULTS'] = $gestor->EXE_QUERY("SELECT
       p.id_produto,
       p.id_familia,
       p.designacao AS nome_produto,
@@ -24,8 +28,8 @@
    LEFT JOIN stock_taxas t    ON  p.id_taxa = t.id_taxas");
 
    //token
-   $results['Token']=$Token;
+   $response['Token']=$Token;
 
    //output do endpoint
-   echo json_encode($results);
+   echo json_encode($response);
    

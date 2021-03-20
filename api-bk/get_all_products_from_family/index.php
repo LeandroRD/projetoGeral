@@ -1,29 +1,32 @@
 <?php
    // incluir o init
    include('../inc/init.php');
-   
-   //checar se id_produto foi enviado
-   if(!key_exists('id_produto',$data)){
+
+
+   //checar se id_familia veio
+   if(!key_exists('id_familia',$data)){
       $response['STATUS']='KO';
-      $response['MESSAGE']='Missing id_produto';
+      $response['MESSAGE']='Missing id_familia';
       $response['TOKEN']= $Token;
       echo json_encode($response);
       die();
   }
- 
+     //DEFINE status
+   $results['STATUS']='OK';
+   $results['MESSAGE'] ='SUCCESS';
+   
+   
+   
    $gestor = new cl_gestorBD();
 
-   $response['STATUS']='OK';
-   $response['MESSAGE']='SUCCESS';
-   
-   // o produtos da get_produtcs
-   $params = array(
-      ':id_produto' =>$data['id_produto']
+    // o produtos da get_produtcs
+    $params = array(
+      ':id_familia' =>$data['id_familia']
 
    );
    
-   //CONCAT para concatenar dentro da Query
-   $response['RESULTS'] = $gestor->EXE_QUERY("SELECT
+   //busca todos os produtos da get_all_produtcs de uma familia especifica
+   $results['RESULTS'] = $gestor->EXE_QUERY("SELECT
       p.id_produto,
       p.id_familia,
       p.designacao AS nome_produto,
@@ -41,17 +44,13 @@
    LEFT JOIN stock_familias f ON p.id_familia = f.id_familia
    LEFT JOIN stock_taxas t    ON  p.id_taxa = t.id_taxas
    
-   WHERE p.id_produto = :id_produto
+   WHERE p.id_familia = :id_familia
+   
    ",$params);
 
-
-   if(count($response['RESULTS'])==0){
-      $response['MESSAGE']='Produto inexistente';
-   }
-   
    //token
-   $response['TOKEN']=$Token;
+   $results['Token']=$Token;
 
    //output do endpoint
-   echo json_encode($response);
+   echo json_encode($results);
    

@@ -1,15 +1,18 @@
 <?php
    // incluir o init
    include('../inc/init.php');
+
+   $response['STATUS']='OK';
+   $response['MESSAGE'] ='SUCCESS';
     
    $gestor = new cl_gestorBD();
    
    //busca todos os produtos da familia
-   $results['Results'] = $gestor->EXE_QUERY("SELECT * FROM stock_familias");
+   $response['RESULTS'] = $gestor->EXE_QUERY("SELECT * FROM stock_familias");
 
    //token
-   $results['Token']=$Token;
+   $response['Token']=$Token;
 
    //output do endpoint
-   echo json_encode($results);
+   echo json_encode($response);
    

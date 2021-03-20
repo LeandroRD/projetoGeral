@@ -21,7 +21,14 @@
     if(!is_array($data)){
         $data = array();
     }
+    
+    //verifica se chega a chave Token para seguranca de acesso
+    if(array_key_exists('Token',$data)){
+        $Token = $data['Token'];
+    }else{
+        $Token = round(microtime(true)*1000);
 
+    }
 
     //--------------------------------------------------------------------------------
     //checar se app_key existe
@@ -39,17 +46,16 @@
         ",$params  
         );
         if(count($dTemp )==0){
-            $response['status']='App without permission to Access API!!';
+            $response['STATUS']='KO';
+            $response['MESSAGE']='Aplicação não tem acesso a API!!';
+            $response['Token']=$Token;
             echo json_encode($response);
             die();
         }
     }
     //--------------------------------------------------------------------------------
 
-    //verifica se chega a chave Token para seguranca de acesso
-    if(array_key_exists('Token',$data)){
-        $Token = $data['Token'];
-    }else{
-        $Token = round(microtime(true)*1000);
+    
 
-    }
+    
+     

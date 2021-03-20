@@ -4,6 +4,9 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 
+//VERSAO DA API
+define('API_VERSION', 'v1.0.0');
+
 
 // my sql
 define('DB_SERVER',    'localhost');
