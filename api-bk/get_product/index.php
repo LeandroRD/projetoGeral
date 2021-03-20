@@ -11,7 +11,7 @@
     
    $gestor = new cl_gestorBD();
    
-   //busca todos os produtos da get_produtcs
+   // o produtos da get_produtcs
    $params = array(
       ':id_produto' =>$data['id_produto']
 
