@@ -29,18 +29,10 @@
         die();
     }
 
-
-
-    
    $gestor = new cl_gestorBD();
 
    $response['STATUS']='OK';
    $response['MESSAGEM'] = 'SUCCESS';
-   
-   
-   
-   
-   
    
    //verificar se produto existe e se existe a quantidade disponivel
    $params = array(
@@ -68,6 +60,17 @@
     echo json_encode($response);
     die();
 }
+
+
+//notes
+$observacoes = '';
+if(key_exists('observacoes',$data)){
+  $observacoes = $data['observacoes'];
+}
+
+
+
+
 
 
 //remover do estoque
