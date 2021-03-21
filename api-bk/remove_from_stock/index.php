@@ -70,9 +70,19 @@ if(key_exists('observacoes',$data)){
 
 
 
+//buscar os dados do produto selecionado
+$params = array(
+  ':id_produto' =>$data['id_produto']
+);
+$results = $gestor->EXE_QUERY(
+  "SELECT *, stock_produtos.designacao AS produto_designacao, stock_produtos.id_taxa AS produto_id_taxa
+   FROM stock_produtos 
+   LEFT JOIN stock_taxas 
+   ON stock_produtos.id_taxa = stock_taxas.id_taxas 
+   WHERE stock_produtos.id_produto = :id_produto ",$params); 
 
-
-
+print_r($results);
+die();
 //remover do estoque
 
    
