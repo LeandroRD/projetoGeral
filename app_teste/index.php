@@ -1,37 +1,32 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APP TESE</title>
+</head>
+<body>
+    <h3>App teste</h3>
+    <hr>
 
-$curl = curl_init();
+    <?php
 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'http://localhost/projetogeral/api/get_families/',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>'{
-    "app_key":"leandro"
-    
- 
-    
-}',
-  CURLOPT_HTTPHEADER => array(
-    'Content-Type: application/json'
-  ),
-));
+    //<!-- http://localhost/projetogeral/api/get_families/ -->
+    //<!-- "app_key":"leandro" -->
 
-$response = curl_exec($curl);
+      require_once 'api.php';
+      $post_vars = array(
+        'app_key'=> 'leandro',
+        'id_produto'=>1
+        
+      );
+      $resultados = api('http://localhost/projetogeral/api/get_product/',$post_vars);
 
-curl_close($curl);
-// echo $response;
+      echo "<pre>";
+       print_r($resultados);
+      echo "</pre>";
 
-
-$resultados = array();
-
-$resultados = json_decode($response, true);
-
-echo "<pre>";
-  print_r($resultados);
-  echo "</pre>";
+      ?>
+</body>
+</html>
