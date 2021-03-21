@@ -18,13 +18,13 @@
       require_once 'api.php';
       $post_vars = array(
         'app_key'=> 'leandro',
-        'id_produto'=>1
+        'id_produto'=>100
         
       );
-      $resultados = api('http://localhost/projetogeral/api/get_product/',$post_vars);
+      $resultados = api('http://localhost/projetogeral/api/get_product_stock/',$post_vars);
 
       echo "<pre>";
-       print_r($resultados);
+      print_r($resultados);
       echo "</pre>";
 
       ?>
