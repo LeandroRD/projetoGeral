@@ -81,8 +81,22 @@ $results = $gestor->EXE_QUERY(
    ON stock_produtos.id_taxa = stock_taxas.id_taxas 
    WHERE stock_produtos.id_produto = :id_produto ",$params); 
 
-print_r($results);
+
+
+$produto = $results[0];
+
+//calculo do valor total
+$preco_total = $data['quantidade']*$produto['preco'];
+
+
+//calculo do total com a taxa
+if($produto['produto_id_taxa'] !=0){
+  $preco_total = $preco_total * (1 + ($produto['percentagem']/100));
+}
+
+echo $preco_total;
 die();
+
 //remover do estoque
 
    
