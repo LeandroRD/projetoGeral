@@ -12,29 +12,26 @@
   }
     
    $gestor = new cl_gestorBD();
-
    $response['STATUS']='OK';
    $response['MESSAGEM'] = 'SUCCESS';
    
    //busca a quantidade de produto no estoque
    $params = array(
       ':id_produto' =>$data['id_produto']
-
-   );
+      );
    
-   //CONCAT para concatenar dentro da Query
+   //====================================================
    $response['RESULTS'] = $gestor->EXE_QUERY("SELECT
       id_produto, designacao,
       quantidade 
-   FROM stock_produtos 
-   
-   WHERE id_produto = :id_produto
-   ",$params);
-
+      FROM stock_produtos 
+      WHERE id_produto = :id_produto
+      ",$params);
+   //====================================================
 
    if(count($response['RESULTS'])==0){
       $response['MESSAGE']='Produto inexistente';
-   }
+    }
    
    //token
    $response['Token']=$Token;

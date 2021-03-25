@@ -15,8 +15,6 @@
     // get request data vindo do postman e descodificado em array
     $data = json_decode(file_get_contents('php://input'),true);
 
-     
-
     // se existe array vindo do post
     if(!is_array($data)){
         $data = array();
@@ -51,6 +49,8 @@
             $response['Token']=$Token;
             echo json_encode($response);
             die();
+        }else{
+            $data['app_id'] = $dTemp[0]['id_app'];
         }
     }
     //--------------------------------------------------------------------------------

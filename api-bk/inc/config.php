@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 //VERSAO DA API
 define('API_VERSION', 'v1.0.0');
 
-
 // my sql
 define('DB_SERVER',    'localhost');
 define('DB_USERNAME',    'root');

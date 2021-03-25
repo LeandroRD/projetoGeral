@@ -29,7 +29,7 @@
         die();
     }
 
-   $gestor = new cl_gestorBD();
+  //  $gestor = new cl_gestorBD();
 
    $response['STATUS']='OK';
    $response['MESSAGEM'] = 'SUCCESS';
@@ -61,14 +61,11 @@
     die();
 }
 
-
 //notes
 $observacoes = '';
 if(key_exists('observacoes',$data)){
   $observacoes = $data['observacoes'];
 }
-
-
 
 //buscar os dados do produto selecionado
 $params = array(
@@ -82,7 +79,7 @@ $results = $gestor->EXE_QUERY(
    WHERE stock_produtos.id_produto = :id_produto ",$params); 
 
 
-
+//tras o primeiro
 $produto = $results[0];
 
 //calculo do valor total
@@ -94,34 +91,29 @@ if($produto['produto_id_taxa'] !=0){
   $preco_total = $preco_total * (1 + ($produto['percentagem']/100));
 }
 
-echo $preco_total;
-die();
+$params = array(
+  ':id_app' =>  $data['app_id'],
+  ':id_produto' =>$data['id_produto'],
+  ':quantidade'=>$data['quantidade'],
+  ':preco_total'=>$preco_total,
+  ':entrada_saida'=>'saida',
+  ':observacoes'=>$data['observacoes']
+  
+);
+//=================================================
+$gestor->EXE_NON_QUERY(
+  "INSERT INTO stock_movimentos 
+  VALUES(0,
+  :id_app,
+  :id_produto,
+  :quantidade,
+  :preco_total,
+  :entrada_saida,
+  NOW(),
+  :observacoes)",$params);
+//=================================================
 
-//remover do estoque
-
-   
-   
-   
-//    //busca a quantidade de produto no estoque
-//    $params = array(
-//       ':id_produto' =>$data['id_produto']
-
-//    );
-   
-//    //CONCAT para concatenar dentro da Query
-//    $response['RESULTS'] = $gestor->EXE_QUERY("SELECT
-//       id_produto, designacao,
-//       quantidade 
-//    FROM stock_produtos 
-   
-//    WHERE id_produto = :id_produto
-//    ",$params);
-
-
-//    if(count($response['RESULTS'])==0){
-//       $response['MESSAGE']='Produto inexistente';
-//    }
-   
+die('terminado');
    //token
    $response['Token']=$Token;
 

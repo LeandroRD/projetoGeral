@@ -4,11 +4,11 @@
 
    //DEFINE status
    $response['STATUS']='OK';
-   $response['MESSAGE'] ='SUCCESS';
-    
+   $response['MESSAGE'] ='SUCCESS'; 
    $gestor = new cl_gestorBD();
    
-   //busca todos os produtos da get_all_produtcs
+   //Query busca todos os produtos da get_all_produtcs
+   //==============================================================
    $response['RESULTS'] = $gestor->EXE_QUERY("SELECT
       p.id_produto,
       p.id_familia,
@@ -22,11 +22,10 @@
       f.designacao AS familia,
       t.designacao AS taxa, 
       t.percentagem
-   
-   FROM stock_produtos p
-   LEFT JOIN stock_familias f ON p.id_familia = f.id_familia
-   LEFT JOIN stock_taxas t    ON  p.id_taxa = t.id_taxas");
-
+      FROM stock_produtos p
+      LEFT JOIN stock_familias f ON p.id_familia = f.id_familia
+      LEFT JOIN stock_taxas t    ON  p.id_taxa = t.id_taxas");
+   //==============================================================
    //token
    $response['Token']=$Token;
 

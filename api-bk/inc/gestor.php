@@ -1,8 +1,6 @@
 <?php 
 class cl_gestorBD
-{    
-
-    
+{      
     //==================================================================
     public function EXE_QUERY($query, $parameters = null, $debug = true, $close_connection = true){
         //executes a query the the database (SELECT)
@@ -45,19 +43,18 @@ class cl_gestorBD
         //returns results
         return $results;
     }
-
     //==================================================================
     public function EXE_NON_QUERY($query, $parameters = null, $debug = true, $close_connection = true){
         //executes a query to the database (INSERT, UPDATE, DELETE)
 
         //connection
         $connection = new PDO(
-            'mysql:host='.$this->db_server.
-            ';dbname='.$this->db_name.
-            ';charset='.$this->db_charset,
-            $this->db_username,
-            $this->db_password,
-            array(PDO::ATTR_PERSISTENT => true));   
+            'mysql:host='.DB_SERVER.
+            ';dbname='.DB_NAME.
+            ';charset='.DB_CHARSET,
+            DB_USERNAME,
+            DB_PASSWORD,
+            array(PDO::ATTR_PERSISTENT => true));    
 
         if($debug){
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
