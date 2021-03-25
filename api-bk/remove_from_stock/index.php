@@ -90,17 +90,17 @@ $preco_total = $data['quantidade']*$produto['preco'];
 if($produto['produto_id_taxa'] !=0){
   $preco_total = $preco_total * (1 + ($produto['percentagem']/100));
 }
-
+//=================================================
+//inserir movimento stock_movimentos
 $params = array(
   ':id_app' =>  $data['app_id'],
   ':id_produto' =>$data['id_produto'],
   ':quantidade'=>$data['quantidade'],
   ':preco_total'=>$preco_total,
   ':entrada_saida'=>'saida',
-  ':observacoes'=>$data['observacoes']
-  
+  ':observacoes'=>$data['observacoes'] 
 );
-//=================================================
+
 $gestor->EXE_NON_QUERY(
   "INSERT INTO stock_movimentos 
   VALUES(0,
@@ -112,8 +112,19 @@ $gestor->EXE_NON_QUERY(
   NOW(),
   :observacoes)",$params);
 //=================================================
+  //update stock_produtos(atualizar o stock de produtos vendidos)
+  $params= array(
+    ':id_produto' =>$data['id_produto'],
+    ':quantidade'=>$data['quantidade'],
+  );
 
-die('terminado');
+  $gestor->EXE_NON_QUERY("UPDATE stock_produtos 
+     SET quantidade = quantidade - :quantidade,
+     atualizacao = NOW()
+     WHERE id_produto = :id_produto
+    ",$params);
+//=================================================
+
    //token
    $response['Token']=$Token;
 
