@@ -16,17 +16,29 @@
     //<!-- "app_key":"leandro" -->
 
       require_once 'api.php';
+      
+      //inserir produtos no estoque
       $post_vars = array(
         'app_key'=> 'leandro',
-        'id_produto'=>100
-        
+        'id_produto'=>100,
+        'quantidade'=>20
       );
-      $resultados = api('http://localhost/projetogeral/api/get_product_stock/',$post_vars);
 
-      echo "<pre>";
-      print_r($resultados);
-      echo "</pre>";
 
-      ?>
+
+
+      //Ir buscar dados de um produto
+      // $post_vars = array(
+      //   'app_key'=> 'leandro',
+      //   'id_produto'=>100
+        
+      // );
+      // $resultados = api('http://localhost/projetogeral/api/get_product_stock/',$post_vars);
+
+      // echo "<pre>";
+      // print_r($resultados);
+      // echo "</pre>";
+
+      // ?>
 </body>
 </html>

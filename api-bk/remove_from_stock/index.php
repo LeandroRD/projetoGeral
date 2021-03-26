@@ -29,10 +29,6 @@
         die();
     }
 
-
-
-   
-   
    //verificar se produto existe e se existe a quantidade disponivel
    $params = array(
     ':id_produto' =>$data['id_produto']
@@ -106,7 +102,8 @@ $params = array(
 
 $gestor->EXE_NON_QUERY(
   "INSERT INTO stock_movimentos 
-  VALUES(0,
+  VALUES(
+  0,
   :id_app,
   :id_produto,
   :quantidade,
