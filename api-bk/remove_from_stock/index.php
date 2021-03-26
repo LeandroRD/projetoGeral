@@ -29,10 +29,9 @@
         die();
     }
 
-  //  $gestor = new cl_gestorBD();
 
-   $response['STATUS']='OK';
-   $response['MESSAGEM'] = 'SUCCESS';
+
+   
    
    //verificar se produto existe e se existe a quantidade disponivel
    $params = array(
@@ -84,11 +83,15 @@ $produto = $results[0];
 
 //calculo do valor total
 $preco_total = $data['quantidade']*$produto['preco'];
+$preco_total_sem_taxas = $preco_total;
+$preco_total_com_taxas = $preco_total; 
 
 
 //calculo do total com a taxa
 if($produto['produto_id_taxa'] !=0){
   $preco_total = $preco_total * (1 + ($produto['percentagem']/100));
+  $preco_total_com_taxas = $preco_total;
+  
 }
 //=================================================
 //inserir movimento stock_movimentos
@@ -123,6 +126,31 @@ $gestor->EXE_NON_QUERY(
      atualizacao = NOW()
      WHERE id_produto = :id_produto
     ",$params);
+
+    //=================================================
+    // procurar  a quantidade atual de estoque
+    $params = array(
+      ':id_produto' =>$data['id_produto']
+    );
+    $dTemp = $gestor->EXE_QUERY("SELECT quantidade
+      FROM stock_produtos
+      WHERE id_produto = :id_produto
+      ",$params);
+    //=================================================
+
+  
+    $response['RESULTS']= array(
+      'id_produto' => $data['id_produto'],
+      'quantidade_vendida:'=>  $data['quantidade'],
+      'preco_final(sem taxas)' => $preco_total_sem_taxas,
+      'preco_final(com taxas)' => $preco_total_com_taxas,
+      'quantidade_disponivel'=>$dTemp[0]['quantidade'],
+      'data da venda'=> date('Y-m-d H:i:s')
+
+    );  
+    
+    $response['STATUS']='OK';
+    $response['MESSAGEM'] = 'SUCCESS';
 //=================================================
 
    //token
