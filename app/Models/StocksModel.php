@@ -392,11 +392,22 @@ class StocksModel extends Model
           WHERE id_produto = ? ",
           $params);
          }
-        }
-
         
+    //=====================================================
+        //MOVIMENTOS
+    //=====================================================
+    public function get_movimento(){
+        return $this->query(
+            "SELECT m.*,p.designacao 
+             FROM stock_movimentos m, stock_produtos p
+             WHERE p.id_produto = m.id_produto
+             ORDER BY m.data_movimento DESC
+            ")->getResult('array');
+        }
+    //=====================================================
+}
 
- 
+
 
 
  

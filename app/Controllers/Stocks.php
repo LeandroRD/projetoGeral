@@ -97,7 +97,12 @@ class Stocks extends BaseController{
      }
     //========================================================
     public function movimentos(){
-        echo view('stocks/movimentos');
+        //vai buscar todos os movimentos de stock_movimentos
+        $model = new StocksModel();
+        $data['movimentos']=$model->get_movimento();
+
+
+        echo view('stocks/movimentos',$data);
      }
     //========================================================
             //TAXAS
