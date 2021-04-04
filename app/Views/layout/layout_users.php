@@ -18,12 +18,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 text-center bg-dark text-light p-3">
+        <div class="col-md-12 col-xs-12 text-center bg-dark text-light p-3">
             <h3>Projeto Geral - Users</h3>
         </div>
     </div>
     <div class="row mb-5">
-        <div class="col-12 ">
+        <div class="col-md-12 col-xs-12 ">
             <?php $this-> renderSection('conteudo')?>
         </div>
     </div>

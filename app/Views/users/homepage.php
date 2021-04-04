@@ -13,11 +13,11 @@
     
     
     <div class="row">
-        <div class="col-4 text-center"><a href="<?php echo site_url('users/op1')?>" class="btn btn-primary">Operação 01</a></div>
-        <div class="col-4 text-center"><a href="<?php echo site_url('users/op2')?>" class="btn btn-primary">Operação 2</a></div>
+        <div class="col-md-4 col-xs-4 text-center mt-2"><a href="<?php echo site_url('users/op1')?>" class="btn btn-primary btn-200">Operação 01</a></div>
+        <div class="col-md-4 col-xs-4 text-center mt-2"><a href="<?php echo site_url('users/op2')?>" class="btn btn-primary btn-200">Operação 2</a></div>
         
         <?php if(isset($admin)): ?>
-        <div class="col-4 text-center"><a href="<?php echo site_url('users/admin_users')?>" class="btn btn-primary">Gestão de utilizadores</a></div>
+        <div class="col-md-4 col-xs-4 text-center mt-2"><a href="<?php echo site_url('users/admin_users')?>" class="btn btn-primary btn-200">Gestão de utilizadores</a></div>
         <?php endif;?>
     </div>
 

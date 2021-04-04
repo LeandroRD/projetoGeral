@@ -8,7 +8,7 @@
 <?php echo view('users/userbar') ?>
     
     <div class="row mt-3 mb-3">
-        <div class="col-4 offset-4 card bg-light p-3">
+        <div class="col-md-4 offset-md-4 col-xs-4 offset-xs-4 card bg-light p-3">
                 
             <form action="<?php echo site_url('users/login')?> "method="post">
                 <div class="form-group mt-2">

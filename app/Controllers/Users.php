@@ -26,7 +26,7 @@ class Users extends BaseController
 	 }
 	//====================================================
     public function login(){
-        //checar se  ja existe sessao vai para homepae
+        //checar se  ja existe sessao vai para homepage
         if ($this->checkSession()){
             $this->homePage();
             return;

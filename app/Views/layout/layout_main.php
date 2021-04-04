@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid text-center">
     <div class="row">
         <div class="col-12  text-center bg-dark text-light p-3">
             <h3>Projeto Geral</h3>
