@@ -8,7 +8,7 @@
 <?php echo view('users/userbar') ?>
     
     <div class="row mt-3 mb-3">
-        <div class="col-md-4 offset-md-4 col-xs-4 offset-xs-4 card bg-light p-3">
+        <div class="col-md-4 col-lg-4 col-sm-4 offset-lg-4 offset-sm-4 offset-md-4 col-xs-4 offset-xs-4 card bg-light p-3">
                 
             <form action="<?php echo site_url('users/login')?> "method="post">
                 <div class="form-group mt-2">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-6 text-end">
                         <!-- <div class="form-group mt-2 text-end"> -->
-                            <input type="submit"  value="Entrar" class="btn btn-primary mt-2 ">
+                            <input type="submit"  value="Entrar" class="btn btn-primary btn-150 mt-2 ">
                         <!-- </div> -->
                     </div>
                 </div>
