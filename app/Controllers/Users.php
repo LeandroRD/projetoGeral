@@ -127,7 +127,7 @@ class Users extends BaseController
             if(count($result)!=0){
                 //existe email associado
                 $users->sendPurl($email, $result[0]['id_user']);
-            echo"existe email associado";
+            echo" existe email associado";
         }else{
             echo "Nao existe o email associado";
         }

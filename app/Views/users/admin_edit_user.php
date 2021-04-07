@@ -50,8 +50,8 @@
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" <?php echo $check_user ?> > User</label></br>
                 </div>
                 <div class="text-center">
-                    <a href="<?php echo site_url('users/admin_users') ?>"class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Atualizar</button>
+                    <a href="<?php echo site_url('users/admin_users') ?>"class="btn btn-secondary btn-150 mt-2">Cancelar</a>
+                    <button class="btn btn-primary btn-150 mt-2">Atualizar</button>
                 </div>    
             </form>
         </div>

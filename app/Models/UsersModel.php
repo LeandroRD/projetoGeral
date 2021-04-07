@@ -87,8 +87,8 @@ class UsersModel extends Model
             $this->db->query($query,$params);
 
             // envio do email
-            echo "mensagem de email link para altera password";
-            echo'<a href="'.site_url('users/redefine_password/'.$purl).'">Redefinir Password</a>';         
+            echo "Mensagem de email link para alterar password ";
+            echo'<a href="'.site_url('users/redefine_password/'.$purl).'"> Redefinir Password</a>';         
         }
     //==========================================
     public function getPurl($purl){
