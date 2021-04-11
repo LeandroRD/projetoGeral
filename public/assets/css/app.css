@@ -19,6 +19,7 @@
     background-color: rgb(240, 232, 232);
 }
 
+
 .largura-240px{
     width: 240px;
 }
@@ -30,4 +31,10 @@
 .marg-neg{
     margin-left: -30px;
 }
+
+.marg-esq-20{
+    margin-left:20px;
+}
+
+
 
