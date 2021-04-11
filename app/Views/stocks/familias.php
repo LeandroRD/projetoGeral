@@ -3,20 +3,22 @@
 ?>
 <?php $this->section('conteudo')?>
 
-	<div class="row mt-2">
+	<div class="row mt-2 ml-3">
 		<div class="col-12 ">
-			<h4>Familias</h4>
-			<hr>
+			
+		
 			<!--
 				Apresentacao da table com as familias registradas / botao para acionar nova familia
 				total de familias
 				em cada row de familia, bota para editar e eliminar
 			--->
-			<div class="row mb-3">
+			<div class="row mb-2  ">
 				<div class="col-6 align-self-end"><h5>Famílias de produtos: </h5></div>
-				<div class="col-6 text-end"><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary">Adicionar familia...</a></div>
+				<div class="col-6 text-right "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary">Adicionar familia...</a></div>
+			
 			</div>
 			
+			<div class="table-responsive  marg-topo">
 			<table class="table table-striped" id="tabela_familias">
 				<thead class="table-dark">
 					<th>ID</th>
@@ -44,6 +46,7 @@
 					<?php endforeach;?>
 				</tbody>
 			</table>
+			</div>
 		</div>
 	</div>
 	<script>
