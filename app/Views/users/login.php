@@ -24,11 +24,20 @@
                         </small>
                         
                     </div>
-                    <div class="col-sm-12  col-6 text-center">
-                        <!-- <div class="form-group mt-2 text-end"> -->
-                            <input type="submit"  value="Entrar" class="btn btn-primary btn-150 mt-2 ">
-                        <!-- </div> -->
+                    <div class="row ">
+                        <div class="col-md-6  col-xs-6 ">
+                            <!-- <div class="form-group mt-2 text-end"> -->
+                                <!-- <input type="submit"  value="Entrar" class="btn btn-primary btn-200 mt-2 "> -->
+                                <a href="<?php echo site_url('main') ?>" > <span class="btn btn-secondary btn-200 mt-2 "><b>Voltar</b> </span>  </a>
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-md-6  col-xs-6  ">
+                            <!-- <div class="form-group mt-2 text-end"> -->
+                                <input type="submit"  value="Entrar" class="btn btn-primary btn-200 mt-2 ">
+                            <!-- </div> -->
+                        </div>
                     </div>
+                    
                 </div>
             </form>
             <?php if(isset($error)): ?>

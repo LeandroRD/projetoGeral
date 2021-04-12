@@ -53,6 +53,7 @@
 <div class="container-fluid text-center" style="background-color:#F44336;color:#fff;height:100px;">
   <h1 >Projeto Geral Stocks</h1>
  </div>
+ 
 
 
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
@@ -67,19 +68,23 @@
     </div>
     <div >
       <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav  ">
-          <li>
-            <a  href="<?php echo site_url('stocks/familias')?>" >Familias</a>
+        <ul class="nav navbar-nav text-center ">
+          <li >
+            <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
           </li>
           <li>
-            <a  href="<?php echo site_url('stocks/movimentos')?>" >Movimentos</a>
+            <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
           </li>
           <li>
-          <a href="<?php echo site_url('stocks/produtos')?>" >Produtos</a>
+            <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
           </li>
           <li>
-          <a  href="<?php echo site_url('stocks/taxas')?>" >Taxas</a>
+          <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
           </li>
+          <li>
+          <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
+          </li>
+         
         </ul>
       </div>
     </div>

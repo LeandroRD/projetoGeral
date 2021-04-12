@@ -28,12 +28,26 @@
     margin-top: 20px;
 }
 
+.marg-topo-15{
+    margin-top: 15px;
+}
+
 .marg-neg{
     margin-left: -30px;
 }
 
 .marg-esq-20{
     margin-left:20px;
+}
+
+.font1{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    color: aqua;
+}
+
+.font2{
+    color: burlywood;
 }
 
 

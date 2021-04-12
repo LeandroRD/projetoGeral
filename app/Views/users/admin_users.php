@@ -15,7 +15,7 @@
 
     <div>
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="tabela_users">
                 <thead class="table-dark">
                     <th>Ação</th>
                     <th>Username</th>
@@ -39,9 +39,9 @@
                             <?php else:?>
                                 <td>
                                     <!-- botoes ligados -->
-                                    <a href="<?php echo site_url('users/admin_edit_user/'.$user['id_user']) ?>" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+                                    <a href="<?php echo site_url('users/admin_edit_user/'.$user['id_user']) ?>" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil" ></i></a>
                                     <?php if($user['deleted']== 0):?>                               
-                                        <a href="<?php echo site_url('users/admin_delete_user/'.$user['id_user']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <a href="<?php echo site_url('users/admin_delete_user/'.$user['id_user']) ?>" class="btn btn-danger btn-sm"title="Eliminar"><i class="fa fa-trash"></i></a>
                                     <?php else:?>
                                         <a href="<?php echo site_url('users/admin_recover_user/'.$user['id_user']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-recycle"></i></a>
                                     <?php endif;?>
@@ -82,5 +82,50 @@
     </div>
     <div>Total: <strong><?php echo count($users) ?></strong></div>
  
+
+
+
+    <script>
+		$(document).ready( function () {
+	    $('#tabela_users').DataTable({"language": {
+	    "sEmptyTable": "Nenhum registro encontrado",
+	    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+	    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+	    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+	    "sInfoThousands": ".",
+	    "sLengthMenu": "_MENU_ resultados por página",
+	    "sLoadingRecords": "Carregando...",
+	    "sProcessing": "Processando...",
+	    "sZeroRecords": "Nenhum registro encontrado",
+	    "sSearch": "Pesquisar",
+	    "oPaginate": {
+	        "sNext": "Próximo",
+	        "sPrevious": "Anterior",
+	        "sFirst": "Primeiro",
+	        "sLast": "Último"
+	    },
+	    "oAria": {
+	        "sSortAscending": ": Ordenar colunas de forma ascendente",
+	        "sSortDescending": ": Ordenar colunas de forma descendente"
+	    },
+	    "select": {
+	        "rows": {
+	            "_": "Selecionado %d linhas",
+	            "0": "Nenhuma linha selecionada",
+	            "1": "Selecionado 1 linha"
+	        }
+	    },
+	    "buttons": {
+	        "copy": "Copiar para a área de transferência",
+	        "copyTitle": "Cópia bem sucedida",
+	        "copySuccess": {
+	            "1": "Uma linha copiada com sucesso",
+	            "_": "%d linhas copiadas com sucesso"
+	        }
+	    }
+	}
+			});
+	} );
+	</script>
 <?php $this->endSection()?>
     
