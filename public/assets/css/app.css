@@ -32,12 +32,20 @@
     margin-top: 15px;
 }
 
+.marg-topo-menos-15{
+    margin-top: -50px;
+}
+
 .marg-neg{
     margin-left: -30px;
 }
 
 .marg-esq-20{
     margin-left:20px;
+}
+
+.marg-esq-10{
+    margin-left:10px;
 }
 
 .font1{
