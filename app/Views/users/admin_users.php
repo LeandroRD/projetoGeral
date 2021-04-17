@@ -4,14 +4,17 @@
 ?>
 
 <?php $this->section('conteudo')?>
-    <div class="row">
+<div class="padding-dir-esq-10">
+    <div class="row marg-topo-menos-15">
+        
+        <div class="col-6 text-right mt-2">
+            <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
+        </div>
         <div class="col-6 text-start">
             <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Usuário...</a></div>
         </div>
-        <div class="col-6 text-end mt-2">
-            <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
-        </div>
     </div>
+    <br>
 
     <div>
         <div class="table-responsive">
@@ -81,7 +84,7 @@
         </div>
     </div>
     <div>Total: <strong><?php echo count($users) ?></strong></div>
- 
+    </div>
 
 
 

@@ -19,6 +19,10 @@
     background-color: rgb(240, 232, 232);
 }
 
+.card-claro2{
+    background-color: rgb(224, 212, 212);
+}
+
 
 .largura-240px{
     width: 240px;
@@ -28,13 +32,13 @@
     margin-top: 20px;
 }
 
-.marg-topo-15{
-    margin-top: 15px;
-}
+
 
 .marg-topo-menos-15{
-    margin-top: -50px;
+    margin-top: -15px;
 }
+
+
 
 .marg-neg{
     margin-left: -30px;
@@ -54,9 +58,48 @@
     color: aqua;
 }
 
+.font3{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    color: rgb(240, 154, 43);
+}
 .font2{
     color: burlywood;
 }
+
+.padding-dir-esq-10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.marg-fundo{
+    margin-bottom: 10px;
+}
+
+.marg-fundo20{
+    margin-bottom: 20px;
+}
+
+.cor-botao-secondary{
+    background-color: #6c757d;
+    color: white;
+}
+
+.padding-dir-esq-10{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.padding-dir-esq-0{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+
+
+
+
 
 
 

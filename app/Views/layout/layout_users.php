@@ -47,18 +47,7 @@
           <li >
             <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
           </li>
-          <li>
-            <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
-          </li>
-          <li>
-            <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
-          </li>
-          <li>
-          <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
-          </li>
-          <li>
-          <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
-          </li>
+         
          
         </ul>
       </div>
@@ -66,9 +55,11 @@
   </div>
 </nav>    
 
-<div id="section1" class="container">
-  <?php $this-> renderSection('conteudo')?>
-</div>
+<div class="row  mb-1 padding-dir-esq-10">
+                <div class="col-md-12 ">
+                    <?php $this-> renderSection('conteudo')?>
+                </div>
+            </div>
 
 <!-- LINK JAVASCRIPT -->
 <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>

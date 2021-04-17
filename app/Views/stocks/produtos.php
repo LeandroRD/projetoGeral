@@ -21,7 +21,7 @@
 						<th class="text-end">Preço/unidade</th>
 						<th class="text-center">Quantidade</th>
 						<th class="text-center">Taxa</th>
-						<th class="text-end">Ações</th>
+						<th class="text-center">Ações</th>
 					</thead>
 					<tbody>
 						<?php foreach($produtos as $produto):?>

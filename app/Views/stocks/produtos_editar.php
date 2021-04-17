@@ -7,19 +7,16 @@
 ?>
 
 <?php $this->section('conteudo')?>
-    <div class="row mt-2">
-		<div class="col-12 ">
-			<h4>Produtos > Editar</h4>
+    <div class="row mt-2 ">
+		<div class="col-12 text-center">
+			<h3>Produto - Editar</h3>
 			<hr>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-3 card card-claro">
             
             <!-- necessario inserir a propriedade enctype="multipart/form-data"
              para submeter arquivo JPG -->
             <form action="<?php echo site_url('stocks/produtos_editar/'.$id) ?>" method="post" enctype="multipart/form-data">
-                
-                
-
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
@@ -32,7 +29,7 @@
                 <?php endif; ?>
                 
                 <!-- familias -->
-                <div class="mt-3">
+                <div class=" col-md-6 col-md-offset-3 marg-fundo ">
                     <label>Família do produto:</label>
                     <select name="combo_familia" class="form-control" >
                         <?php if($produto['id_familia']== 0):?>
@@ -51,22 +48,24 @@
                 </div>
                 
                 <!--designacao-->
-                <div class="mt-3">
+                <div class="mt-3 col-md-6 col-md-offset-3 marg-fundo">
+                    <label>Designação:</label>
                     <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required value="<?php echo $produto['designacao'] ?>">
                 </div>
     
                 <!--  descricao-->
-                <div class="mt-3 ">
+                <div class="mt-3 col-md-6 col-md-offset-3 marg-fundo ">
+                    <label>Descrição:</label>
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição" ><?php echo $produto['descricao'] ?></textarea>
                 </div>
 
                  <!--  imagem-->               
-                <div class="mt-3 mb-3 card card-claro  p-4">
+                <div class="  mt-3 mb-3  col-md-12  p-4 ">
                     <div class="row">
-                        <div class="col-sm-5 col-12">
-                        <img src="<?php echo base_url('assets/product_images/'.$produto['imagem'])?>" class="img-thumbnail" alt="Imagem do produto..">
+                        <div class="col-sm-3 ">
+                            <img src="<?php echo base_url('assets/product_images/'.$produto['imagem'])?>" class="img-thumbnail" alt="Imagem do produto..">
                         </div>
-                        <div class="col-sm-7 col-12">
+                        <div class="col-md-6  col-sm-7 ">
                             <label class="mb-2">Imagem do produto:</label>
                             <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" >
                         </div>
@@ -74,7 +73,7 @@
                 </div>
 
                 <!--  preço-->
-                <div class="row mt-2 mb-2 " >
+                <div class="row mt-2 mb-2 col-md-6 col-md-offset-3  " >
                     <div class="col-2">
                         <label class="">Preço/Unidade (R$):</label>
                     </div>
@@ -84,7 +83,7 @@
                 </div>
 
                 <!--  taxa-->
-                <div class="row mt-2 mb-2 " >
+                <div class="row mt-2 mb-2  col-md-6 col-md-offset-3  " >
                     <div class="col-2">
                         <label>Taxa / Imposto:</label>
                     </div>
@@ -108,7 +107,7 @@
                 </div>
 
                 <!--  quantidade-->
-                <div class="row mt-2 mb-2" >
+                <div class="row mt-2 mb-2  col-md-6 col-md-offset-3 " >
                     <div class="col-2">
                         <label>Quantidade:</label>
                     </div>
@@ -118,12 +117,20 @@
                 </div>
 
                 <!--  detalhes-->
-                <div class="mt-2 mb-2">
-                    <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ><?php echo $produto['detalhes'] ?></textarea>
-                </div>
-                <div>
-                    <a href="<?php echo site_url('stocks/produtos') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Atualizar</button>
+            
+                <div class="row ">
+                    <div class="  col-md-6 col-md-offset-3 ">
+                        <div class="padding-dir-esq-10 marg-fundo">
+                            <label>Detalhes:</label>
+                            <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ><?php echo $produto['detalhes'] ?></textarea>
+                        </div>
+                        <div class="text-center marg-fundo">
+                            <div class="marg-fundo">
+                                <a href="<?php echo site_url('stocks/produtos') ?>" class="btn cor-botao-secondary btn-200 ">Cancelar</a>                       
+                            </div>
+                            <button class="btn btn-primary btn-200">Atualizar</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

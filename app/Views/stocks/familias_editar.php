@@ -4,11 +4,11 @@
 
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
-		<div class="col-12 ">
-			<h4>Familias > Editar</h4>
+		<div class="col-12 text-center ">
+			<h3>Família - Editar </h3>
 			<hr>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-md-6 col-md-offset-3">
         
             <form action="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia']) ?>" method="post">
                 <?php if(isset($error)): ?>
@@ -44,13 +44,19 @@
                         <?php endforeach;?>
                     </select>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 marg-fundo">
                     <label>Designação:</label>
                     <input class="form-control" type="text" name="text_designacao" required value="<?php echo $familia['designacao'] ?>">
                 </div>
-                <div class="mt-3">
-                    <a href="<?php echo site_url('stocks/familias') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Atualizar</button>
+                <div class="row text-center ">
+                    <div class="row  col-md-10 col-md-offset-1">
+                        <div class="marg-fundo col-md-6 ">
+                            <a href="<?php echo site_url('stocks/familias') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>                   
+                        </div>
+                        <div class="marg-fundo col-md-6 ">
+                            <button class="btn btn-primary btn-200">Atualizar</button>          
+                        </div> 
+                    </div>    
                 </div>
             </form>
         </div>

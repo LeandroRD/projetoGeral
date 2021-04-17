@@ -22,18 +22,18 @@
 				<table class="table table-striped" id="tabela_familias">
 					<thead class="table-dark">
 						<th>ID</th>
-						<th>Família</th>
-						<th>Parent</th>
-						<th class="text-end">Ações</th>
+						<th class="text-center">Família</th>
+						<th class="text-center" >Parent</th>
+						<th class="text-center">Ações</th>
 					</thead>
 					<tbody>
 						<?php foreach($familias as $familia):?>
 							<tr>
 								<td><?php echo $familia['id_familia'] ?></td>
-								<td><?php echo $familia['designacao'] ?></td>
-								<td><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
+								<td class="text-center"><?php echo $familia['designacao'] ?></td>
+								<td class="text-center"><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
 						
-								<td class="text-end">
+								<td class="text-center">
 									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia'])?>">
 									<i class="fa fa-pencil me-2"></i>Editar
 									</a>

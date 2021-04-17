@@ -5,10 +5,13 @@
 
 <?php $this->section('conteudo')?>
 
+<div class="text-right">
 <?php echo view('users/userbar') ?>
+</div>
+
     
     <div class="row mt-1 mb-3">
-        <div class="col-md-6 offset-md-3 col-lg-5 col-sm-4 offset-lg-4 offset-sm-4  card bg-light p-3">
+        <div class="col-md-4 col-md-offset-4">
                 
             <form action="<?php echo site_url('users/login')?> "method="post">
                 <div class="form-group mt-2 ">
