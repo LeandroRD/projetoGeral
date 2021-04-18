@@ -15,11 +15,11 @@
 ?>
 
     <div class="row mt-2">
-		<div class="col-12 ">
-			<h4>Produtos > Adicionar</h4>
+		<div class="col-12 text-center">
+			<h3>Produtos - Adicionar</h3>
 			<hr>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-md-6 col-md-offset-3 marg-fundo card card-claro">
             <!-- necessario inserir a propriedade enctype="multipart/form-data"
              para submeter arquivo JPG -->
             <form action="<?php echo site_url('stocks/produtos_adicionar') ?>" method="post" enctype="multipart/form-data">
@@ -36,7 +36,7 @@
                 <!-- familias -->
                 <div class="mt-3">
                     <label>Família do produto:</label>
-                    <select name="combo_familia" class="form-control" >
+                    <select name="combo_familia" class="form-control marg-fundo" >
                         <option value="0">Nenhuma</option>
                         <?php foreach($familias as $familia):?>
                             <option value="<?php echo $familia['id_familia'] ?>"><?php echo $familia['designacao']?></option>
@@ -45,22 +45,24 @@
                 </div>
                 <!--designacao-->
                 <div class="mt-3">
-                    <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required>
+                    <label>Designação do produto:</label>
+                    <input type="text" name="text_designacao" class="marg-fundo form-control" placeholder="Designação do produto" required>
                 </div>
     
                 <!--  descricao-->
                 <div class="mt-3 ">
-                    <textarea name="text_descricao"  class="form-control" placeholder="Descrição"></textarea>
+                    <label>Descrição do produto:</label>
+                    <textarea name="text_descricao"  class="form-control marg-fundo" placeholder="Descrição"></textarea>
                 </div>
 
                  <!--  imagem-->
-                <div class="mt-3 mb-3 card card-claro  p-4">
+                <div class="mt-3 mb-3 card card-claro  p-4 marg-fundo">
                      <label class="mb-2">Imagem do produto:</label>
                      <input type="file" class="form-control" name="file_imagem"accept=".jpg, .png" required>
                 </div>
 
                 <!--  preço-->
-                <div class="row mt-2 mb-2 " >
+                <div class=" mt-2 mb-2 marg-fundo" >
                     <div class="col-2">
                         <label class="">Preço/Unidade (R$):</label>
                     </div>
@@ -70,7 +72,7 @@
                 </div>
 
                 <!--  taxa-->
-                <div class="row mt-2 mb-2 " >
+                <div class=" mt-2 mb-2 marg-fundo " >
                     <div class="col-2">
                         <label>Taxa / Imposto:</label>
                     </div>
@@ -85,7 +87,7 @@
                 </div>
 
                 <!--  quantidade-->
-                <div class="row mt-2 mb-2" >
+                <div class=" mt-2 mb-2 marg-fundo" >
                     <div class="col-2">
                         <label>Quantidade:</label>
                     </div>
@@ -95,15 +97,30 @@
                 </div>
 
                 <!--  detalhes-->
-                <div class="mt-2 mb-2">
+                <div class="mt-2 mb-2 marg-fundo">
+                    <label>Detalhes:</label>
                     <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ></textarea>
 
                 </div>
-                <div>
-                    <a href="<?php echo site_url('stocks/produtos') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Salvar</button>
+                
+
+
+                    <div class="row text-center">
+                    <div class="row col-md-12 col-md-offset-1  ">
+                        <div class="col-md-5  marg-fundo">
+                            <a class=" btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/produtos') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
+                        </div>
+                        <div class="col-md-5  ">
+                        <button class="btn btn-primary btn-200">Salvar</button>
+                        </div>
+                    </div>        
                 </div>
-            </form>
+
+
+
+                    </form>  
+                </div>
+            
         </div>
-    </div>
+    
 <?php $this->endSection()?>

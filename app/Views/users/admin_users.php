@@ -11,7 +11,7 @@
             <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
         </div>
         <div class="col-6 text-start">
-            <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary">Novo Usuário...</a></div>
+            <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
         </div>
     </div>
     <br>
@@ -36,8 +36,8 @@
                             <?php if($s->id_user == $user['id_user']):?>
                                 <td>
                                      <!-- botoes apagados  -->
-                                    <span class="btn btn-secondary btn-sm"> <i class="fa fa-pencil"></i></span>
-                                    <span class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></spa>
+                                    <span class="btn cor-botao-secondary btn-sm"> <i class="fa fa-pencil"></i></span>
+                                    <span class="btn cor-botao-secondary btn-sm"><i class="fa fa-trash"></i></spa>
                                 </td>    
                             <?php else:?>
                                 <td>

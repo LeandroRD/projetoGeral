@@ -4,11 +4,11 @@
 
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
-		<div class="col-12 ">
-			<h4>Taxas > Adicionar</h4>
+		<div class="col-12 text-center ">
+			<h3>Taxas - Adicionar</h3>
 			<hr>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-md-6 col-md-offset-3">
             <form action="<?php echo site_url('stocks/taxas_adicionar') ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
@@ -28,7 +28,7 @@
                            name="text_designacao" 
                            required >
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 marg-fundo">
                     <label>Valor da taxa (%):</label>
                     <input class="form-control" 
                            type="number"
@@ -39,10 +39,15 @@
                            placeholder="0.00" 
                            required >
                 </div>
-                <div class="mt-3">
-                    <a href="<?php echo site_url('stocks/taxas') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Salvar</button>
-                </div>
+                
+                <div class="row col-md-12 text-center  ">
+                        <div class="col-md-5 col-md-offset-1 marg-fundo">
+                        <a href="<?php echo site_url('stocks/taxas') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
+                        </div>
+                        <div class="col-md-5  ">
+                        <button class="btn btn-primary btn-200">Salvar</button>
+                        </div>
+                    </div>  
             </form>
         </div>
     </div>

@@ -5,22 +5,21 @@
 <?php $this->section('conteudo')?>
     
     <div class="row mt-2">
-		<div class="col-12 ">
-			<h4>Taxas > Editar</h4>
-			<hr>
+		<div class="col-12 text-center ">
+			<h3>Taxa - Editar</h3>
         </div>
-        <div class="col-12 mt-3">
+        <div class="col-md-6 col-md-offset-3">
             <form action="<?php echo site_url('stocks/taxas_editar/'.$taxa['id_taxas']) ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
                     </div>
                 <?php endif; ?>
-                <div class="mt-3">
+                <div class="mt-3 marg-fundo">
                     <label>Nome:</label>
                     <input class="form-control" type="text" name="text_designacao" required value="<?php echo $taxa['designacao'] ?>">
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 marg-fundo">
                 <label>Valor da taxa (%):</label>
                 <input class="form-control" 
                            type="number"
@@ -32,10 +31,19 @@
                            value="<?php echo $taxa['percentagem'] ?>" 
                            required >
                 </div>
-                <div class="mt-3">
-                    <a href="<?php echo site_url('stocks/taxas') ?>" class="btn btn-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary btn-150">Atualizar</button>
+                
+                <div class="row text-center ">
+                    <div class="row col-md-12  ">
+                        <div class="col-md-5 col-md-offset-1 marg-fundo">
+                            <a href="<?php echo site_url('stocks/taxas') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
+                        </div>
+                        <div class="col-md-6 marg-fundo ">
+                            <button class="btn btn-primary btn-200 ">Atualizar</button>
+                        </div>
+                    </div>        
                 </div>
+
+
             </form>
         </div>
     </div>

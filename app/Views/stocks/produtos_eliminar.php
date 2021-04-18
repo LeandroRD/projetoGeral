@@ -22,7 +22,7 @@
                             <a class=" btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/produtos') ?>">Não</a>
                         </div>
                         <div class="col-md-5  ">
-                            <a class=" btn btn-primary btn-200 marg-leftmenos20px" href="<?php echo site_url('stocks/produtos_eliminar/'.$id_produto.'/sim')?> ">Sim</a>
+                            <a class=" btn btn-primary btn-200 " href="<?php echo site_url('stocks/produtos_eliminar/'.$id_produto.'/sim')?> ">Sim</a>
                         </div>
                     </div>        
                 </div>
