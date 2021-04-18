@@ -30,7 +30,7 @@
                 </div>
             <?php endif;?>
              <!-- formulario para editar usuario -->
-            <h4 class="text-center">Editar usuario: </h4>
+            <h3 class="text-center">Editar usuario: </h3>
             <form action="<?php site_url('users/admin_edit_users') ?>" method="post">
                 <input type="hidden" name="id_user" value="<?php echo $user['id_user']?>">
                 <div class="mb-2">
@@ -57,13 +57,18 @@
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_moderator"<?php echo $check_moderator ?> > Moderator</label></br>
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" <?php echo $check_user ?> > User</label></br>
                 </div>
-                <div class="text-center ">
-                    <div class="marg-fundo">
-                    <a href="<?php echo site_url('users/admin_users') ?>"class="btn cor-botao-secondary btn-200 mt-2 ">Cancelar</a>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-200 mt-2">Atualizar</button>
-                </div>    
+               
+                
+                <div class="row text-center marg-fundo-20 ">
+                    <div class="row  col-md-8 col-md-offset-2">
+                        <div class="marg-fundo col-md-6 ">
+                        <a href="<?php echo site_url('users/admin_users') ?>"class="btn cor-botao-secondary btn-200 mt-2" class="btn cor-botao-secondary btn-200">Cancelar</a>                   
+                        </div>
+                        <div class="marg-fundo col-md-6 ">
+                            <button class="btn btn-primary btn-200 mt-2">Atualizar</button>
+                        </div> 
+                    </div>    
+                </div>
             </form>
         </div>
     </div>

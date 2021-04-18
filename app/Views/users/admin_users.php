@@ -7,15 +7,12 @@
 <div class="padding-dir-esq-10">
     <div class="row marg-topo-menos-15">
         
-        <div class="col-6 text-right mt-2">
-            <a href="<?php echo site_url('users') ?>" class="btn btn-danger "><i class="fa fa-times"></i></a>
-        </div>
+        
         <div class="col-6 text-start">
-            <div class="mt-2 mb-2"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
+            <div class="mt-2 mb-2 marg-topo"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
         </div>
     </div>
     <br>
-
     <div>
         <div class="table-responsive">
             <table class="table table-striped" id="tabela_users">
@@ -85,8 +82,6 @@
     </div>
     <div>Total: <strong><?php echo count($users) ?></strong></div>
     </div>
-
-
 
     <script>
 		$(document).ready( function () {

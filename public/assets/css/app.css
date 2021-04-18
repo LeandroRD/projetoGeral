@@ -38,6 +38,10 @@
     margin-top: -15px;
 }
 
+.marg-topo-menos-50{
+    margin-top: -50px;
+}
+
 
 
 .marg-neg{
@@ -74,6 +78,10 @@
 
 .marg-fundo{
     margin-bottom: 10px;
+}
+
+.marg-fundo-20{
+    margin-bottom: 20px;
 }
 
 .marg-fundo20{

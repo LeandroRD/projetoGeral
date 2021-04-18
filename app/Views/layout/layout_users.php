@@ -23,7 +23,7 @@
     
 
 
-<body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
 <div class="container-fluid text-center" style="background-color:#F44336;color:#fff;height:100px;">
   <h1 >Projeto Geral Stocks</h1>
@@ -47,7 +47,18 @@
           <li >
             <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
           </li>
-         
+          <li>
+            <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
+          </li>
+          <li>
+            <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
+          </li>
+          <li>
+          <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
+          </li>
+          <li>
+          <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
+          </li>
          
         </ul>
       </div>
@@ -55,11 +66,9 @@
   </div>
 </nav>    
 
-<div class="row  mb-1 padding-dir-esq-10">
-                <div class="col-md-12 ">
-                    <?php $this-> renderSection('conteudo')?>
-                </div>
-            </div>
+<div id="section1" class="container-fluid marg-topo-menos-50">
+  <?php $this-> renderSection('conteudo')?>
+</div>
 
 <!-- LINK JAVASCRIPT -->
 <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>

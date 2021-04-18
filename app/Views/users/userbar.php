@@ -2,10 +2,10 @@
     $s = session();
 ?>
 
-<div class='text-end'>
+<div class='text-right'>
     <?php if($s->has('id_user')):?>
         <div>
-            <i class="fa fa-user me-2"></i>
+            <i class="fa fa-user "></i>
             <strong class="me-2"><?php echo $s->name?></strong>
             <a href="<?php echo site_url('users/logout') ?>"><i class="fa fa-sign-out" title="logout"></i></a>
         </div>

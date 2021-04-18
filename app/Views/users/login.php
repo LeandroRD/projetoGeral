@@ -5,9 +5,15 @@
 
 <?php $this->section('conteudo')?>
 
-<div class="text-right">
-<?php echo view('users/userbar') ?>
-</div>
+    <div class="text-right">
+        <?php echo view('users/userbar') ?>
+    </div>
+
+    <?php if(isset($error)): ?>
+        <div class="col-md-offset-4 col-md-4 alert alert-danger text-center mt-2"id="error-message">
+            <?php echo $error?>
+        </div>
+    <?php endif; ?>
 
     
     <div class="row mt-1 mb-3">
@@ -38,11 +44,7 @@
                     
                 </div>
             </form>
-            <?php if(isset($error)): ?>
-                <div class="alert alert-danger text-center mt-2"id="error-message">
-                    <?php echo $error?>
-                </div>
-            <?php endif; ?>
+            
         </div>
     </div>
 <?php $this->endSection()?>
