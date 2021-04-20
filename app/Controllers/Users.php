@@ -166,11 +166,6 @@ class Users extends BaseController
             $users = new UsersModel();
             $users->redefine_password($id_user, $nova_password);
         }
-
-        
-
-
-
      }
     //===============================================
     public function teste($value){
@@ -293,6 +288,11 @@ class Users extends BaseController
      }
     //===============================================
     public function admin_edit_user($id_user){
+        helper('funcoes');
+        $id_user = aesDecrypt($id_user);
+        if($id_user == -1){
+            return;
+        }
          //evitar se usuario forçar deletar a si mesmo pelo browser
          if($id_user == $this->session->id_user ){          
             return redirect()->to(site_url('users'));            
@@ -387,6 +387,11 @@ class Users extends BaseController
      } 
     //===============================================
     public function admin_delete_user($id_user,$response =''){
+        helper('funcoes');
+        $id_user = aesDecrypt($id_user);
+        if($id_user == -1){
+            return;
+        }
         //evitar se usuario forçar deletar a si mesmo pelo browser      
         if($id_user == $this->session->id_user ){          
             return redirect()->to(site_url('users'));            
@@ -422,6 +427,12 @@ class Users extends BaseController
      }
     //===============================================
     public function admin_recover_user($id_user, $response=''){
+
+        helper('funcoes');
+        $id_user = aesDecrypt($id_user);
+        if($id_user == -1){
+            return;
+        }
         //evitar se usuario forçar deletar a si mesmo pelo browser
         if($id_user == $this->session->id_user ){          
             return redirect()->to(site_url('users'));            

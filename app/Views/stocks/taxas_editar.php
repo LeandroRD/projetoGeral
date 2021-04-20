@@ -1,5 +1,9 @@
 <?php
-	$this->extend('Layout/layout_stocks')
+	$this->extend('Layout/layout_stocks');
+    // tratar o id do produto a editar
+    helper('funcoes');
+    $id_taxa = aesEncrypt($taxa['id_taxas']);
+
 ?>
 
 <?php $this->section('conteudo')?>
@@ -9,7 +13,8 @@
 			<h3>Taxa - Editar</h3>
         </div>
         <div class="col-md-6 col-md-offset-3">
-            <form action="<?php echo site_url('stocks/taxas_editar/'.$taxa['id_taxas']) ?>" method="post">
+            
+            <form action="<?php echo site_url('stocks/taxas_editar/'.$id_taxa) ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>

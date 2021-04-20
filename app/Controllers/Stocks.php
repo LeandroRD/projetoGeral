@@ -146,6 +146,11 @@ class Stocks extends BaseController{
     //========================================================
     public function taxas_editar($id_taxa){
         
+        helper('funcoes');
+        $id_taxa = aesDecrypt($id_taxa);
+        if($id_taxa == -1){
+            return;
+        }
         //editar taxa
         // carregar os dados das taxas para passar a View
         $model = new StocksModel();
@@ -176,6 +181,13 @@ class Stocks extends BaseController{
      }
     //========================================================
     public function taxas_eliminar($id_taxa,$resposta = 'nao'){
+        
+        helper('funcoes');
+        $id_taxa = aesDecrypt($id_taxa);
+        if($id_taxa == -1){
+            return;
+        }
+        
         $model = new StocksModel();
         $data['taxa']=$model->get_tax($id_taxa);
         if($resposta=='sim'){

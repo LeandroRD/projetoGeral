@@ -13,7 +13,7 @@
             <?php endif;?>
              <!-- formulario para novo usuario -->
 
-            <h4 class="text-center">Adicionar novo usuario: </h4>
+            <h3 class="text-center">Adicionar novo usuario: </h3>
             
             <form action="<?php echo site_url('users/admin_new_user') ?>" method="post">
                 <div class=" mb-2">
@@ -25,13 +25,9 @@
                         <input type="text" name="text_password"class="form-control" required placeholder="Password">
                     </div>
                     <div class="col-md-6">
-                    <button type="button" class="btn btn-primary btn-150 " id="btn-password">Gerar password</button>
+                        <button type="button" class="btn btn-primary btn-150 " id="btn-password">Gerar password</button>
                     </div>
                 </div>
-
-                
-                
-
                 <div class="row  marg-fundo">
                     <div class="col-md-6">
                         <input type="text" name="text_password_repetir" class="form-control" required placeholder="Repetir Password">      
@@ -40,7 +36,6 @@
                         <button type="button" class="btn cor-botao-secondary btn-150 " id="btn-limpar">Limpar</button>
                     </div>
                 </div>
-
                 <div class="marg-fundo">
                     <input type="text" class="form-control" name="text_name"required placeholder="Nome">
                 </div>
@@ -49,16 +44,22 @@
                 </div>                
                 <!-- profile -->
                 <div class="card card-claro marg-fundo">
-                <h5 class="text-start ms-3 "> Profile</h5>
-                <div class="mb-2 text-start">
-                    <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_admin" > Admin</label></br>
-                    <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_moderator" > Moderator</label></br>
-                    <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" checked > User</label></br>
-                </div>
+                    <h5 class="text-start ms-3 "> Profile</h5>
+                    <div class="mb-2 text-start">
+                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_admin" > Admin</label></br>
+                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_moderator" > Moderator</label></br>
+                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" checked > User</label></br>
+                    </div>
                 </div>               
-                <div class="text-center">
-                    <a href="<?php echo site_url('users/admin_users') ?>"class="btn cor-botao-secondary btn-150">Cancelar</a>
-                    <button class="btn btn-primary  btn-150">Adicionar</button>
+                <div class="row text-center marg-fundo-20 ">
+                    <div class="row  col-md-8 col-md-offset-2">
+                        <div class="marg-fundo col-md-6 ">
+                            <a href="<?php echo site_url('users/admin_users') ?>"class="btn cor-botao-secondary btn-200">Cancelar</a>
+                        </div>
+                        <div class="marg-fundo col-md-6 ">
+                        <button class="btn btn-primary  btn-200">Adicionar</button>
+                        </div> 
+                    </div>    
                 </div>    
             </form>
         </div>               

@@ -1,7 +1,6 @@
 <?php 
     $this->extend('Layout/layout_users');
-    $s = session();
-
+     
     // profile 
     $profile = explode(',',$user['profile']);
     $check_admin = '';
@@ -33,8 +32,7 @@
             <h3 class="text-center">Editar usuario: </h3>
             <form action="<?php site_url('users/admin_edit_users') ?>" method="post">
                 <input type="hidden" name="id_user" value="<?php echo $user['id_user']?>">
-                <div class="mb-2">
-                   
+                <div class="mb-2">   
                     <div class="mb-2 text-start ms-3 marg-fundo">
                         Username: <b><span class="font3"><?php echo $user['username']?></span> </b>
                     </div>
@@ -56,9 +54,7 @@
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_admin" <?php echo $check_admin ?>> Admin</label></br>
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_moderator"<?php echo $check_moderator ?> > Moderator</label></br>
                     <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" <?php echo $check_user ?> > User</label></br>
-                </div>
-               
-                
+                </div> 
                 <div class="row text-center marg-fundo-20 ">
                     <div class="row  col-md-8 col-md-offset-2">
                         <div class="marg-fundo col-md-6 ">

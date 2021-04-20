@@ -1,5 +1,8 @@
 <?php 
     $this->extend('Layout/layout_users');
+     // tratar o id do produto a editar
+     helper('funcoes');
+     $id_user = aesEncrypt($user['id_user']);
     
 ?>
 
@@ -16,7 +19,7 @@
                                 <a href="<?Php echo site_url('users/admin_users') ?>"class="btn btn-200 cor-botao-secondary">Não</a>
                             </div>
                             <div class="marg-fundo col-md-6 ">
-                                <a href="<?php echo site_url('users/admin_recover_user/'.$user['id_user'].'/yes')?>" class="btn btn-200 btn-primary">Sim</a>
+                                <a href="<?php echo site_url('users/admin_recover_user/'.$id_user.'/yes')?>" class="btn btn-200 btn-primary">Sim</a>
                             </div>
                         </div>       
                     </div>

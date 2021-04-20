@@ -1,6 +1,7 @@
 <?php 
     $this->extend('Layout/layout_users');
     $s = session();
+    helper('funcoes');
 ?>
 
 <?php $this->section('conteudo')?>
@@ -39,11 +40,11 @@
                             <?php else:?>
                                 <td>
                                     <!-- botoes ligados -->
-                                    <a href="<?php echo site_url('users/admin_edit_user/'.$user['id_user']) ?>" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil" ></i></a>
+                                    <a href="<?php echo site_url('users/admin_edit_user/'.aesEncrypt($user['id_user'])) ?>" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil" ></i></a>
                                     <?php if($user['deleted']== 0):?>                               
-                                        <a href="<?php echo site_url('users/admin_delete_user/'.$user['id_user']) ?>" class="btn btn-danger btn-sm"title="Eliminar"><i class="fa fa-trash"></i></a>
+                                        <a href="<?php echo site_url('users/admin_delete_user/'.aesEncrypt($user['id_user'])) ?>" class="btn btn-danger btn-sm"title="Eliminar"><i class="fa fa-trash"></i></a>
                                     <?php else:?>
-                                        <a href="<?php echo site_url('users/admin_recover_user/'.$user['id_user']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-recycle"></i></a>
+                                        <a href="<?php echo site_url('users/admin_recover_user/'.aesEncrypt($user['id_user'])) ?>" class="btn btn-danger btn-sm"title="Recuperar"><i class="fa fa-recycle"></i></a>
                                     <?php endif;?>
                                 </td>
                             <?php endif;?>
