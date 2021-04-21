@@ -1,5 +1,6 @@
 <?php
-	$this->extend('Layout/layout_stocks')
+	$this->extend('Layout/layout_stocks');
+	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
 
@@ -34,11 +35,11 @@
 								<td class="text-center"><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
 						
 								<td class="text-center">
-									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia'])?>">
+									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_editar/'.aesEncrypt($familia['id_familia']))?>">
 									<i class="fa fa-pencil me-2"></i>Editar
 									</a>
 									<!-- <span class="ms-2 me-2">|</span> -->
-									<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/familia_eliminar/'.$familia['id_familia'])?>">
+									<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/familia_eliminar/'.aesEncrypt($familia['id_familia']))?>">
 										<i class="fa fa-trash me-2"></i> Eliminar
 									</a>
 								</td>

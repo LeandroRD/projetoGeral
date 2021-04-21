@@ -1,5 +1,8 @@
 <?php
 	$this->extend('Layout/layout_stocks');
+    // tratar o id do produto a editar
+    helper('funcoes');
+    $id_familia = aesEncrypt($familia['id_familia']);
 ?>
 
 <?php $this->section('conteudo')?>
@@ -18,7 +21,7 @@
                             <a class=" btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/familias') ?>">Não</a>
                         </div>
                         <div class="col-md-5  ">
-                            <a class=" btn btn-primary btn-200 marg-leftmenos20px" href="<?php echo site_url('stocks/familia_eliminar/'.$familia['id_familia'].'/sim')?> ">Sim</a>
+                            <a class=" btn btn-primary btn-200 marg-leftmenos20px" href="<?php echo site_url('stocks/familia_eliminar/'.$id_familia.'/sim')?> ">Sim</a>
                         </div>
                     </div>        
                 </div>

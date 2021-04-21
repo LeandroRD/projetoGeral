@@ -1,5 +1,8 @@
 <?php
-	$this->extend('Layout/layout_stocks')
+	$this->extend('Layout/layout_stocks');
+    // tratar o id do produto a editar
+    helper('funcoes');
+    $id_familia = aesEncrypt($familia['id_familia']);
 ?>
 
 <?php $this->section('conteudo')?>
@@ -10,7 +13,7 @@
         </div>
         <div class="col-md-6 col-md-offset-3">
         
-            <form action="<?php echo site_url('stocks/familia_editar/'.$familia['id_familia']) ?>" method="post">
+            <form action="<?php echo site_url('stocks/familia_editar/'.$id_familia) ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>

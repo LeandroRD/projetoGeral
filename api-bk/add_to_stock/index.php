@@ -22,6 +22,7 @@
 
   $id_produto = $data['id_produto'];
   $quantidade = $data['quantidade'];
+  $observacoes = $data['observacoes'];
 
   //checar se quantidade é valida
   if($quantidade <1 || $quantidade >10000){
@@ -57,8 +58,10 @@
 $params = array(
   ':id_app'=>$data['app_id'],
   ':id_produto' => $id_produto,
-  ':quantidade' => $quantidade
+  ':quantidade' => $quantidade,
+  ':observacoes'=> $observacoes
 );
+
 
 $gestor->EXE_NON_QUERY(
   "INSERT INTO stock_movimentos 
@@ -67,10 +70,16 @@ $gestor->EXE_NON_QUERY(
   :id_app,
   :id_produto,
   :quantidade,
+  :observacoes,
   0,
   'entrada',
-  NOW(),
-  '')",$params);
+  NOW()
+  )",$params);
+
+
+
+
+
 //===========================================================
 //atualizar stock produtos
 $params = array(

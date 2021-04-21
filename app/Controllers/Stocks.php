@@ -41,6 +41,11 @@ class Stocks extends BaseController{
      }
     //========================================================
     public function familia_editar($id_familia){
+        helper('funcoes');
+        $id_familia = aesDecrypt($id_familia);
+        if($id_familia == -1){
+            return;
+        }
         //editar familia
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
@@ -76,6 +81,12 @@ class Stocks extends BaseController{
      }
     //========================================================
     public function familia_eliminar($id_familia,$resposta = 'nao'){
+        helper('funcoes');
+        $id_familia = aesDecrypt($id_familia);
+        if($id_familia == -1){
+            return;
+        }
+        
         $model = new StocksModel();
         $data['familia']=$model->get_family($id_familia);
        

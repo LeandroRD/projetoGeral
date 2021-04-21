@@ -18,7 +18,9 @@
     // se existe array vindo do post
     if(!is_array($data)){
         $data = array();
+       
     }
+   
     
     //verifica se chega a chave Token para seguranca de acesso
     if(array_key_exists('Token',$data)){
