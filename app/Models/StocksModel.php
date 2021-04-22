@@ -404,7 +404,33 @@ class StocksModel extends Model
              ORDER BY m.data_movimento DESC
             ")->getResult('array');
         }
+   
     //=====================================================
+    public function movimento_add(){
+    
+        //adiciona um novo movimento na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_quantidade'),
+            $request->getPost('text_obs')
+        );
+        $this->query("INSERT INTO stock_movimentos VALUES(0,'',?,?,?,'','',NOW() )",$params);
+     }
+     //=====================================================
+     public function movimento_add_produto(){
+         //adiciona a BD de produtos 
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_quantidade'),
+            $request->getPost('select_parent')           
+        );
+        $this->query("UPDATE stock_produtos SET
+                quantidade =quantidade+?,
+                atualizacao = NOW()
+                WHERE id_produto = ?
+            ",$params);
+     }
 }
 
 

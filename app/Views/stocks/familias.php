@@ -16,7 +16,6 @@
 			<div class="row mb-2  ">
 				<div class="col-6 align-self-end"><h1>Famílias de produtos: </h1></div>
 				<div class="col-6 "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary btn-200">Adicionar familia...</a></div>
-			
 			</div>
 			
 			<div class="table-responsive  marg-topo">

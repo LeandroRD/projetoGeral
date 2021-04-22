@@ -76,10 +76,6 @@ $gestor->EXE_NON_QUERY(
   NOW()
   )",$params);
 
-
-
-
-
 //===========================================================
 //atualizar stock produtos
 $params = array(

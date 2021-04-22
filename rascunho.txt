@@ -1,32 +1,54 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center bg-dark text-light p-3">
-            <h3>Projeto Geral - Stocks</h3>
-        </div>
-    </div>
+   public function produtos_adicionar(){
+        
+        $model = new StocksModel();
+        //carregar familias
+        $data['familias']=$model->get_all_families();
+        
+        //carregar as taxas
+        $data['taxas']=$model->get_all_taxes();
+        $sucesso = '';
+        $erro = '';
 
-    <div class="container ">
-        <div class="row ">
-            <nav class="col-2   ">
-                <div class=" mt-3 mb-3">
-                    <div class="mb-1 mt-1">
-                        <a  href="<?php echo site_url('stocks/familias')?>" >Familias</a>
-                    </div>
-                    <div class="mb-1 mt-1">
-                        <a  href="<?php echo site_url('stocks/movimentos')?>" >Movimentos</a>
-                    </div>
-                    <div class="mb-1 mt-1">
-                        <a  href="<?php echo site_url('stocks/produtos')?>" >Produtos</a>
-                    </div>
-                    <div class="mb-1 mt-1">
-                        <a  href="<?php echo site_url('stocks/taxas')?>" >Taxas</a>   
-                    </div>
-                </div>
+        //tratar a submissao do formulario
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){   
+            //tenta fazer oupload da imagem do produto
+            //em caso de sucesso, faz o rgistro na BD
+            //apresentacao de mensagem com sucesso
+            //definicao do nome da imagem do produto
+            // $novo_ficheito  variavel para associar o nome da imagem + um valor aleatorio em forma de microsegundos  
+            $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);           
+            $model = new StocksModel();
+            
+            //verifica se ja existe produto com o mesmo nome
+            if($model->product_check()){
+                //erro ja existe outro produto com o mesmo nome
+                $erro = 'Já existe outro produto com o mesmo nome!';
+            }
 
-            </nav>
-            <div class="col-10 ">
-                <?php $this-> renderSection('conteudo')?>
-            </div>
-        </div>
-    </div>
-</div>
+            if($erro==''){
+                //UPLOAD DA IMAGEM 
+                $target_file = '';
+                $target_file .= 'assets/product_images/'.'/';
+                $target_file .= $novo_ficheito;
+                //Codigo confimando o upload do arquivo
+                $file_success = move_uploaded_file($_FILES["file_imagem"]["tmp_name"], $target_file);
+                
+                //registro da imagem na BD
+                if($file_success){$model->product_add($novo_ficheito);
+                    $sucesso = 'Produto adicionado com sucesso!';                   
+                }else{
+                    $erro = 'Não foi possível adicionar o produto!';
+                }
+            }        
+        }
+        //passar para a $data a mensagem de erro ou nao
+        if($erro !=''){ 
+            $data['error']= $erro;
+        }
+        
+        if($sucesso !=''){ 
+            $data['success']= $sucesso;
+        }    
+        //apresenta o formulario de adiciona
+        echo view('stocks/produtos_adicionar',$data);  
+     }

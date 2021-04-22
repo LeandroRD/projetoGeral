@@ -7,6 +7,7 @@
 	<div class="row mt-2">
 		<div class="col-12 ">
 			<h1>Movimentos: </h1>
+			<div class="col-6 "><a href="<?php echo site_url('stocks/movimento_adicionar')?>"class="btn btn-primary btn-200">Adicionar Movimentos...</a></div>
 			<hr>
 			<div class="table-responsive  marg-topo">
 				<table class="table table-striped" id="tabela_movimentos">

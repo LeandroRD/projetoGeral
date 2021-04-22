@@ -113,8 +113,7 @@ class Stocks extends BaseController{
         //vai buscar todos os movimentos de stock_movimentos
         $model = new StocksModel();
         $data['movimentos']=$model->get_movimento();
-
-
+        
         echo view('stocks/movimentos',$data);
      }
     //========================================================
@@ -235,7 +234,8 @@ class Stocks extends BaseController{
         $erro = '';
 
         //tratar a submissao do formulario
-        IF($_SERVER['REQUEST_METHOD'] =='POST'){   
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){  
+             
             //tenta fazer oupload da imagem do produto
             //em caso de sucesso, faz o rgistro na BD
             //apresentacao de mensagem com sucesso
@@ -373,4 +373,34 @@ class Stocks extends BaseController{
         }        
         echo view('stocks/produtos_eliminar',$data);
      }
+    //======================================================== 
+    public function movimento_adicionar(){
+        
+        $model = new StocksModel();
+        $data['produtos']= $model->get_all_products();
+        $error = '';
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            
+            //guardar na base de dados e trata erro
+            if($error ==''){
+                
+                $model -> movimento_add();
+                $model ->movimento_add_produto();
+                $data['success']= "Familia adicionada com sucesso";
+                //para atualizar a lista de familias
+                $data['familias']= $model->get_all_families();
+            }else{
+                
+                $data['error'] = $error;
+            }  
+        }
+           
+        echo view('stocks/movimentos_adicionar',$data);
+     }
+     
 }

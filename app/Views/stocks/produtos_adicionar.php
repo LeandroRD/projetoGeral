@@ -6,13 +6,7 @@
 ?>
 
 <?php $this->section('conteudo')?>
-<?php
-// echo '<pre>';
-//     print_r($familias);
-//     echo"<br>";
-//     print_r($taxas);
-//     echo '</pre>';
-?>
+
 
     <div class="row mt-2">
 		<div class="col-12 text-center">
@@ -100,12 +94,9 @@
                 <div class="mt-2 mb-2 marg-fundo">
                     <label>Detalhes:</label>
                     <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ></textarea>
-
                 </div>
                 
-
-
-                    <div class="row text-center">
+                <div class="row text-center">
                     <div class="row col-md-12 col-md-offset-1  ">
                         <div class="col-md-5  marg-fundo">
                             <a class=" btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/produtos') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
@@ -115,12 +106,7 @@
                         </div>
                     </div>        
                 </div>
-
-
-
-                    </form>  
-                </div>
-            
-        </div>
-    
+            </form>  
+        </div>           
+    </div>   
 <?php $this->endSection()?>

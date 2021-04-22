@@ -16,15 +16,16 @@
     //<!-- "app_key":"leandro" -->
 
       require_once 'api.php';
+      // ==============dados a serem inseridos=================
       $post_vars = array(
-        
-        
         "app_key"=>"leandro",
         "id_produto"=>7,
         "quantidade"=>10,
-        "observacoes"=>"hoje"
+        "observacoes"=>"hoje vamos"
       );
-      $resultados = api('http://localhost/projetogeral/api/add_to_stock/',$post_vars);
+
+      //=========solicitacao do servico desejado===========
+      $resultados = api('http://localhost/projetogeral/api-bk/add_to_stock/',$post_vars);
 
       echo "<pre>";
        print_r($resultados);

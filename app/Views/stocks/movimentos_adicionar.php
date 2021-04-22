@@ -5,11 +5,11 @@
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
 		<div class="col-12 text-center ">
-			<h3>Familias - Adicionar</h3>
+			<h3>Movimentos - Adicionar</h3>
 			<hr>
         </div>
         <div class="col-md-6 col-md-offset-3 marg-fundo">
-            <form action="<?php echo site_url('stocks/familia_adicionar') ?>" method="post">
+            <form action="<?php echo site_url('stocks/movimento_adicionar') ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center">
                         <?php echo $error ?>
@@ -21,17 +21,21 @@
                     </div>
                 <?php endif; ?>
                 <div class=" marg-fundo" >
-                    <label>Familia a que pertence:</label>
+                    <label>Produtos</label>    
                     <select class="form-control" name="select_parent">
                         <option value="0">Nenhuma</option>
-                        <?php foreach($familias as $familia):?>
-                            <option value="<?php echo $familia['id_familia'] ?>"><?php echo $familia['designacao'];?></option>
+                        <?php foreach($produtos as $produto):?>
+                            <option value="<?php echo $produto['id_produto'] ?>"><?php echo $produto['nome_produto'];?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
                 <div class="mt-3 marg-fundo">
-                    <label>Designação:</label>
-                    <input class="form-control" type="text" name="text_designacao" required placeholder="família">
+                    <label>Quantidade:</label>
+                    <input class="form-control" type="int" name="text_quantidade" required placeholder="Quantidade">
+                </div>
+                <div class="mt-3 marg-fundo">
+                    <label>Observação:</label>
+                    <input class="form-control" type="int" name="text_obs" required placeholder="Observação">
                 </div>
                 
                 <div class="row text-center">
