@@ -407,16 +407,29 @@ class StocksModel extends Model
    
     //=====================================================
     public function movimento_add(){
-    
+
+        
+
         //adiciona um novo movimento na BD
         $request = \Config\Services::request();
+
+        // $quantidade = $request->getPost('text_quantidade');
+        
+        // if($quantidade <1 || $quantidade >10000){
+        // $error="errado valor";
+       
+        // }else{
+           
+
+
         $params = array(
             $request->getPost('select_parent'),
             $request->getPost('text_quantidade'),
             $request->getPost('text_obs')
         );
         $this->query("INSERT INTO stock_movimentos VALUES(0,'',?,?,?,'','',NOW() )",$params);
-     }
+        
+    }
      //=====================================================
      public function movimento_add_produto(){
          //adiciona a BD de produtos 
@@ -431,6 +444,20 @@ class StocksModel extends Model
                 WHERE id_produto = ?
             ",$params);
      }
+     //=====================================================
+     public function movimento_del_produto(){
+        //adiciona a BD de produtos 
+       $request = \Config\Services::request();
+       $params = array(
+           $request->getPost('text_quantidade'),
+           $request->getPost('select_parent')           
+       );
+       $this->query("UPDATE stock_produtos SET
+               quantidade =quantidade-?,
+               atualizacao = NOW()
+               WHERE id_produto = ?
+           ",$params);
+    }
 }
 
 

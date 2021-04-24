@@ -5,13 +5,13 @@
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
 		<div class="col-12 text-center ">
-			<h3>Movimentos - Adicionar</h3>
+			<h3>Movimentos - Baixar estoque de produto</h3>
 			<hr>
         </div>
         <div class="col-md-6 col-md-offset-3 marg-fundo">
-            <form action="<?php echo site_url('stocks/movimento_adicionar') ?>" method="post">
+            <form action="<?php echo site_url('stocks/movimento_baixar') ?>" method="post">
                 <?php if(isset($error)): ?>
-                    <div class="alert alert-danger p-3 text-center alerta-apagando">
+                    <div class="alert alert-danger p-3 text-center alerta-apagando ">
                         <?php echo $error ?>
                     </div>
                 <?php endif; ?>
@@ -23,7 +23,7 @@
                 <div class=" marg-fundo" >
                     <label>Produtos</label>    
                     <select class="form-control" name="select_parent">
-                        <option value="0">Nenhum</option>
+                        <option value="0">Nenhuma</option>
                         <?php foreach($produtos as $produto):?>
                             <option value="<?php echo $produto['id_produto'] ?>"><?php echo $produto['nome_produto'];?></option>
                         <?php endforeach;?>

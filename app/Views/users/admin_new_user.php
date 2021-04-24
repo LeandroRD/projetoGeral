@@ -7,7 +7,7 @@
     <div class="row mt-3 mb-3">
         <div class="col-md-6 col-md-offset-3">
             <?php if(isset($error)):?>
-                <div class="alert alert-danger text-center">
+                <div class="alert alert-danger text-center alerta-apagando">
                     <?php echo $error ?>
                 </div>
             <?php endif;?>

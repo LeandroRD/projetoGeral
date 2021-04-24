@@ -11,12 +11,12 @@
         <div class="col-md-6 col-md-offset-3">
             <form action="<?php echo site_url('stocks/taxas_adicionar') ?>" method="post">
                 <?php if(isset($error)): ?>
-                    <div class="alert alert-danger p-3 text-center">
+                    <div class="alert alert-danger p-3 text-center alerta-apagando">
                         <?php echo $error ?>
                     </div>
                 <?php endif; ?>
                 <?php if(isset($success)): ?>
-                    <div class="alert alert-success p-3 text-center">
+                    <div class="alert alert-success p-3 text-center alerta-apagando">
                         <?php echo $success ?>
                     </div>
                 <?php endif; ?>

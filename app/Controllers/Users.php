@@ -214,7 +214,7 @@ class Users extends BaseController
      }
     //===============================================
     public function admin_new_user(){
-        //checar se  ja existe sessao vai para homepae
+        //checar se  ja existe sessao vai para homepage
         if (!$this->checkSession()){
             $this->homePage();
             return;
@@ -283,7 +283,7 @@ class Users extends BaseController
             $data['error'] = $error;
 
         }
-
+        
         echo view('users/admin_new_user',$data);
      }
     //===============================================

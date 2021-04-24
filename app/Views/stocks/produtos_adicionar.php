@@ -13,17 +13,17 @@
 			<h3>Produtos - Adicionar</h3>
 			<hr>
         </div>
-        <div class="col-md-6 col-md-offset-3 marg-fundo card card-claro">
+        <div class=" col-md-6 col-md-offset-3 marg-fundo card card-claro">
             <!-- necessario inserir a propriedade enctype="multipart/form-data"
              para submeter arquivo JPG -->
             <form action="<?php echo site_url('stocks/produtos_adicionar') ?>" method="post" enctype="multipart/form-data">
                 <?php if(isset($error)): ?>
-                    <div class="alert alert-danger p-3 text-center">
+                    <div class="alerta-apagando alert alert-danger p-3 text-center">
                         <?php echo $error ?>
                     </div>
                 <?php endif; ?>
                 <?php if(isset($success)): ?>
-                    <div class="alert alert-success p-3 text-center">
+                    <div class="alerta-apagando alert alert-success p-3 text-center">
                         <?php echo $success ?>
                     </div>
                 <?php endif; ?>

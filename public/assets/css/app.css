@@ -103,6 +103,22 @@
     padding-right: 20px;
 }
 
+@keyframes vai-apagar{
+    50%{
+    opacity:1 ;
+    }
+    100%{
+    opacity:0 ;
+    }
+    }
+
+.alerta-apagando
+{
+    animation: vai-apagar 7s;
+    opacity: 0;
+   
+}
+
 
 
 

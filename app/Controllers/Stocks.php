@@ -379,21 +379,37 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $data['produtos']= $model->get_all_products();
         $error = '';
+        $quantidade = '';
+        $tipo_produto = '';
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
             
-            
+            //verificar a quantidade
+            $quantidade = $request->getPost('text_quantidade'); 
+            if($quantidade <1 || $quantidade >10000){
+                $error="Obrigatorio a  quantidade ser maior que 0 e menor que 10.000 !!";
+            }
+
+
+            //verificar se foi escolhido o produto
+            $tipo_produto = $request->getPost('select_parent'); 
+            if($tipo_produto == 0){
+                $error="Selecione um produto !!";
+            }
+
+
             //guardar na base de dados e trata erro
             if($error ==''){
                 
                 $model -> movimento_add();
                 $model ->movimento_add_produto();
-                $data['success']= "Familia adicionada com sucesso";
+                
+                $data['success']= "Produto adicionado com sucesso";
                 //para atualizar a lista de familias
-                $data['familias']= $model->get_all_families();
+                // $data['familias']= $model->get_all_families();
             }else{
                 
                 $data['error'] = $error;
@@ -401,6 +417,49 @@ class Stocks extends BaseController{
         }
            
         echo view('stocks/movimentos_adicionar',$data);
+     }
+    //======================================================== 
+    public function movimento_baixar(){
+        
+        $model = new StocksModel();
+        $data['produtos']= $model->get_all_products();
+        $error = '';
+        $quantidade = '';
+        $tipo_produto = '';
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+             //verificar a quantidade
+             $quantidade = $request->getPost('text_quantidade'); 
+             if($quantidade <1 || $quantidade >10000){
+                 $error="Obrigatorio a  quantidade ser maior que 0 e menor que 10.000 !!";
+             }
+ 
+ 
+             //verificar se foi escolhido o produto
+             $tipo_produto = $request->getPost('select_parent'); 
+             if($tipo_produto == 0){
+                 $error="Selecione um produto !!";
+             }
+            
+            
+            //guardar na base de dados e trata erro
+            if($error ==''){
+                
+                $model -> movimento_add();
+                $model ->movimento_del_produto();
+                $data['success']= "Produto baixado com sucesso";
+                //para atualizar a lista de familias
+                // $data['familias']= $model->get_all_families();
+            }else{
+                
+                $data['error'] = $error;
+            }  
+        }
+           
+        echo view('stocks/movimentos_baixar',$data);
      }
      
 }
