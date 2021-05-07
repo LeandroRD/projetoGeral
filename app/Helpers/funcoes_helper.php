@@ -26,8 +26,6 @@
         print_r($_SESSION);
         echo '</pre>';
         die();
-
-        
         // helper('funcoes');
         // VerSessao();
     }
@@ -49,10 +47,22 @@
             return -1;
            }  
         return $resultado;
-       
-       
-       
+    }
+    //==========================================================
+    function CriarCodigoAlfanumericoSemSinais($numChars){
+        //criar um codigo aleatorio alfanumerico Sem Sinais
+        $codigo='';
+        $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        for($i = 0; $i < $numChars; $i++){
+            $codigo .= substr($caracteres,rand(0,strlen($caracteres)) ,1 );
+        }
+        return $codigo;
 
     }
-
+    //=====================================
+        // exemplo de apresentacao de array 
+        // echo "<pre>";
+        //     print_r($params);
+        //     die();
+        // echo "</pre>";
     

@@ -5,7 +5,7 @@
 
 <?php $this->section('conteudo')?>
 
-    <div class="text-right">
+    <div class="text-right ">
         <?php echo view('users/userbar') ?>
     </div>
 

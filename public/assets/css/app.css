@@ -14,7 +14,9 @@
 .borda-teste{
     border: red 2px solid;
 }
-
+.borda-teste2{
+    border: red 5px solid;
+}
 .card-claro{
     background-color: rgb(240, 232, 232);
 }
@@ -117,6 +119,15 @@
     animation: vai-apagar 7s;
     opacity: 0;
    
+}
+
+.novo-signup a{
+    text-decoration: none;
+    color: rgb(76, 161, 241);
+}
+
+.novo-signup a:hover{
+    color: rgb(247, 145, 50);
 }
 
 

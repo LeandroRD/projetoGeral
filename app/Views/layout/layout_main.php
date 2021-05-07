@@ -24,7 +24,7 @@
     </div>
 
 
-    <div class="row mt-5">
+    <div class="row mt-1">
         <div class="col-12">
             <?php $this-> renderSection('conteudo')?>
         </div>

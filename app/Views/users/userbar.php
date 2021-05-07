@@ -2,7 +2,7 @@
     $s = session();
 ?>
 
-<div class='text-right'>
+<div class='text-right '>
     <?php if($s->has('id_user')):?>
         <div>
             <i class="fa fa-user "></i>
