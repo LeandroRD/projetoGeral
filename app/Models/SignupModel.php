@@ -98,7 +98,7 @@ class SignupModel extends Model
     //=======================================================
     public function Sign_add($id_cod_aleatorio){
 
-        //adiciona uma nova taxa  na BD
+        //adiciona um novo User  na BD
         $request = \Config\Services::request();
         $dados = $request->getPost();
         $params = array(
@@ -111,8 +111,8 @@ class SignupModel extends Model
         );
         
         //Query para inserir um novo user
-        $this->db->query("INSERT INTO users(email,name,username,passwrd, purl,active) 
-        VALUES(?,?,?,?,?,0)",$params);
+        $this->db->query("INSERT INTO users(email,name,username,passwrd, purl,active,profile) 
+        VALUES(?,?,?,?,?,0,'user')",$params);
      }
      //=======================================================
      public function validar_user($validar){

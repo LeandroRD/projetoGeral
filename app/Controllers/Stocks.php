@@ -461,7 +461,5 @@ class Stocks extends BaseController{
            
         echo view('stocks/movimentos_baixar',$data);
      }
-     public function teste_teste(){
-         echo"teste";
-     }
+    
 }

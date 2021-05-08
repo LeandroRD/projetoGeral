@@ -1,5 +1,24 @@
 <?php 
-    $this->extend('Layout/layout_users')
+    $this->extend('Layout/layout_users');
+
+    //dados vazios para sistema preencher de novo os caso o erro for true ou false 
+    $nome_completo = '';
+    $email = '';
+    $utilizador = '';
+    $senha1='';
+    $senha2='';
+
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        
+        //recolha dos dados
+        $nome_completo = $_POST['text_nome_completo'];
+        $email = $_POST['text_email'];
+        $utilizador = $_POST['text_utilizador'];
+        $senha1 = $_POST['text_senha_1'];
+        $senha2 = $_POST['text_senha_2'];
+
+       
+    }
 ?>
 
 <?php $this->section('conteudo')?>
@@ -27,7 +46,7 @@
                            class="form-control"
                            name="text_nome_completo"
                            placeholder="Nome Completo"
-                           value = ""
+                           value = "<?php echo $nome_completo?>"
                            required>
                 </div>   
                 <!-- endereco de email -->
@@ -36,7 +55,7 @@
                            class="form-control"
                            name="text_email"
                            placeholder="Email"
-                           value = ""
+                           value = "<?php echo $email?>"
                            required>
                 </div>
                 <!-- nome do utilizador -->
@@ -45,7 +64,7 @@
                            class="form-control"
                            name="text_utilizador"
                            placeholder="Utilizador"
-                           value = ""
+                           value = "<?php echo $utilizador?>"
                            required>
                 </div>
                 <!-- password-1 -->
