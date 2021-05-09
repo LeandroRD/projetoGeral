@@ -78,12 +78,11 @@ class SignupModel extends Model
         //Relatorio de problemas no envio de email é =2
         $mail->SMTPDebug = $configs['MAIL_DEBUG'];
         $mail->Host = $configs['MAIL_HOST'];
-        $mail->Port = $configs['MAIL_PORT'];;
+        $mail->Port = $configs['MAIL_PORT'];
         $mail->SMTPAuth = true;
-        $mail->Username = $configs['MAIL_USERNAME'];;                        
-        //$mail->Username = 'fsdfdsf';                        
-        $mail->Password = $configs['MAIL_PASSWORD'];;
-        $mail->setFrom ($configs['MAIL_FROM'], 'SPACET');
+        $mail->Username = $configs['MAIL_USERNAME'];                                               
+        $mail->Password = $configs['MAIL_PASSWORD'];
+        $mail->setFrom ($configs['MAIL_FROM'], 'PROJETO GERAL');
         $mail->addAddress($dados[0],$dados[0]);
         $mail->CharSet = "UTF-8";
         //assunto

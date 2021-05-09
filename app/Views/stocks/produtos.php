@@ -1,8 +1,12 @@
 <?php
 	$this->extend('Layout/layout_stocks');
+	
 	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
+	<div class="text-end ">
+        <?php echo view('users/userbar') ?>
+    </div>
 	<div class="row mt-1">
 		<div class="col-12 ">
 			<h1>Produtos</h1>

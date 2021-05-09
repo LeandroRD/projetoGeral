@@ -51,15 +51,40 @@ class Users extends BaseController
                 
                 if(is_array($result)){
                     //login valido
-                    $this->setSession($result);
-                    $this->homePage();
-                    return;
-            
+                    // $this->setSession($result);
+                    // $this->homePage();
+                    // return;
+                    $error =='';            
                 }else{
                     //login invalido
                     $error= 'Login inválido !!';   
                 }    
             }
+
+
+            if($error ==''){
+                $model = new UsersModel();
+                $result = $model->verifyActive($username,$password);
+                
+                if(is_array($result)){
+                    //conta  ativada 
+                    $this->setSession($result);
+                    $this->homePage();
+                    return;            
+                }else{
+                    //login invalido
+                    $error= 'Conta inativa !!';   
+                }    
+            }
+
+
+
+
+
+
+
+
+
         }
         
         if($error !=''){
@@ -89,7 +114,7 @@ class Users extends BaseController
         $data = array();
        //verifica se user é admin
        if($this->checkProfile('admin')){
-           $data['admin'] = true;
+           $data['admin'] = "true";
        }
         
         //apresentar homepage view
@@ -198,9 +223,11 @@ class Users extends BaseController
         //checar se  ja existe sessao vai para homepae
         if (!$this->checkSession()){
             $this->homePage();
+           
             return;
 
         }
+        
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
@@ -209,6 +236,9 @@ class Users extends BaseController
         $users = new UsersModel;
         $results = $users->getUsers();
         $data['users'] = $results;
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         
         echo view('users/admin_users',$data);
      }

@@ -21,64 +21,61 @@
     <!-- link novo -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     
-
-
-    <body data-spy="scroll" data-target=".navbar" data-offset="50">
-
-<div class="container-fluid text-center" style="background-color:#F44336;color:#fff;height:100px;">
-  <h1 >Projeto Geral Stocks</h1>
- </div>
- 
-
-
-<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>                        
-      </button>
-      
+  <body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <?php  $s = session(); ?>
+   
+    <div class="container-fluid text-center" style="background-color:#F44336;color:#fff;height:100px;">
+      <h1 >Projeto Geral Stocks</h1>
     </div>
-    <div >
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav text-center ">
-          <li >
-            <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
-          </li>
-          <li>
-            <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
-          </li>
-          <li>
-            <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
-          </li>
-          <li>
-          <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
-          </li>
-          <li>
-          <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
-          </li>
-         
-        </ul>
+    <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+          </button>
+        </div>
+        <div >
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav text-center ">
+              <li >
+                <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
+              </li>
+              <?php if($s->has('id_user')):?>
+                <li>
+                  <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
+                </li>
+                <li>
+                  <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
+                </li>
+                <li>
+                  <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
+                </li>
+                <li>
+                  <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
+                </li>
+                <?php if(isset($admin)): ?>
+                  <li>
+                    <a  href="<?php echo site_url('users/admin_users')?>" ><span class="font2"><b>Usuários</b></span></a> 
+                  </li>
+                <?php endif;?>
+              <?php endif;?>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>    
-
-<div id="section1" class="container-fluid marg-topo-menos-50">
-  <?php $this-> renderSection('conteudo')?>
-</div>
-
-<!-- LINK JAVASCRIPT -->
-<script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
-<script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
-<script src="<?php echo base_url('assets/js/app.js')?>"></script>
-<script src="<?php echo base_url('assets/js/datatables.min.js')?>"></script> 
-
-
+    </nav>            
+    <div id="section1" class="container-fluid marg-topo-menos-50">
+      <?php $this-> renderSection('conteudo')?>
+    </div>           
+    <!-- LINK JAVASCRIPT -->
+    <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/app.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/datatables.min.js')?>"></script> 
     <!-- link JS NOVO -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>

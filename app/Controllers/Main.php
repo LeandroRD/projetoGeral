@@ -20,15 +20,17 @@ class Main extends BaseController
 				case'validada':      
 						$results=$model->validar_user($v);
 					if(count($results)!=0){
+						//mensagem de codigo de validacao correta
 						$results2=$model->validar_purl($results[0]);
 						$mensagem = "Conta validada, faça o login";
 						$data['login_novo'] = $mensagem;
-						
-						echo view('users/login',$data);
-						
-						
-						
-				}
+						echo view('users/login_novo',$data);		
+					}else{
+						//mensagem de codigo de validacao incorreta
+						$mensagem = "Codigo não confere!";
+						$data['login_novo'] = $mensagem;
+						echo view('users/login_novo',$data);
+					}
 				break;
 				case'home'    :      echo view('Main');break;
 			}

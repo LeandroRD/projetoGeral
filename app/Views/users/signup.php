@@ -7,7 +7,7 @@
     $utilizador = '';
     $senha1='';
     $senha2='';
-
+    
     if($_SERVER['REQUEST_METHOD']=='POST'){
         
         //recolha dos dados
@@ -16,12 +16,16 @@
         $utilizador = $_POST['text_utilizador'];
         $senha1 = $_POST['text_senha_1'];
         $senha2 = $_POST['text_senha_2'];
-
+        
+       
        
     }
 ?>
 
-<?php $this->section('conteudo')?>
+<?php       
+    $this->section('conteudo');
+    
+?>
 
 <div class="container signup mt-3 mb-5">
     <div class="text-center marg-fundo-20 col-md-6 col-md-offset-3  ">
@@ -99,6 +103,7 @@
                 <div class="text-center mb-5">
                     <button class=" btn btn-primary btn-200 ">Criar Usuario</button>
                 </div>
+                
             </form>
         </div>
     </div>

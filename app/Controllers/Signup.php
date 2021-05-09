@@ -23,6 +23,8 @@ class Signup extends BaseController
         
         $model = new SignupModel();
         $data = array();
+        
+
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
             $request = \Config\Services::request();
@@ -34,6 +36,8 @@ class Signup extends BaseController
             $utilizador = $_POST['text_utilizador'];
             $senha1  = $_POST['text_senha_1'];
             $senha2  = $_POST['text_senha_2'];
+
+            
 
             //verifica se senhas sao iguais
             if($senha1 != $senha2){
@@ -93,9 +97,12 @@ class Signup extends BaseController
             //preparacao dos dados do email
             $temp = [
                 $email,
-                'SPACET - Ativação da Conta do Cliente TESTE NO PROJETO GERAL',
-                 '<p>Clique no link seguinte para validar a sua conta de cliente</p>'.
-                  '<a href="'.$link.'">'.$link.'</a>'
+                'PROJETO GERAL - Ativação da Conta do Cliente  ',
+                'Nome: <b>'.$nome_completo.'</b></br>'.
+                'Senha: <b>'.$senha1.'</b></br>'.
+                'UserName: <b>'.$utilizador.'</b></br>'.
+                '<p>Clique no link seguinte para validar a sua conta de cliente</p>'.
+                '<a href="'.$link.'">'.$link.'</a>'
             ];
 
         $mensagem_enviada = $email_a_enviar ->EnviarEmailCliente($temp);
@@ -145,7 +152,7 @@ class emails{
         $mail->Username = $configs['MAIL_USERNAME'];;                        
         //$mail->Username = 'fsdfdsf';                        
         $mail->Password = $configs['MAIL_PASSWORD'];;
-        $mail->setFrom ($configs['MAIL_FROM'], 'SPACET');
+        $mail->setFrom ($configs['MAIL_FROM'], 'PROJETO GERAL');
         $mail->addAddress($dados[0],$dados[0]);
         $mail->CharSet = "UTF-8";
         //assunto

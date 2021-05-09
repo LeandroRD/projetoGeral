@@ -38,7 +38,7 @@ use PHPMailer\PHPMailer\Exception;
             $mail->Username = $configs['MAIL_USERNAME'];;                        
             //$mail->Username = 'fsdfdsf';                        
             $mail->Password = $configs['MAIL_PASSWORD'];;
-            $mail->setFrom ($configs['MAIL_FROM'], 'SPACET');
+            $mail->setFrom ($configs['MAIL_FROM'], 'PROJETO GERAL');
             $mail->addAddress($dados[0],$dados[0]);
             $mail->CharSet = "UTF-8";
             //assunto
@@ -86,7 +86,7 @@ use PHPMailer\PHPMailer\Exception;
             $mail->Username = $configs['MAIL_USERNAME'];;                        
             //$mail->Username = 'fsdfdsf';                        
             $mail->Password = $configs['MAIL_PASSWORD'];;
-            $mail->setFrom ($configs['MAIL_FROM'], 'SPACET');
+            $mail->setFrom ($configs['MAIL_FROM'], 'PROJETO GERAL');
             $mail->addAddress($dados[0],$dados[0]);
             $mail->CharSet = "UTF-8";
             //assunto

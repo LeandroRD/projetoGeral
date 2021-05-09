@@ -3,6 +3,11 @@ use App\Models\StocksModel;
 use CodeIgniter\Controller;
 
 class Stocks extends BaseController{
+    protected $session;
+
+    public function __construct(){
+        $this->session = session();
+    }
     //========================================================
     public function index(){
         echo view('stocks/main');
@@ -106,6 +111,9 @@ class Stocks extends BaseController{
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/familias',$data);
      }
     //========================================================
@@ -113,6 +121,9 @@ class Stocks extends BaseController{
         //vai buscar todos os movimentos de stock_movimentos
         $model = new StocksModel();
         $data['movimentos']=$model->get_movimento();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         
         echo view('stocks/movimentos',$data);
      }
@@ -123,6 +134,10 @@ class Stocks extends BaseController{
         //carregar os dados das taxas para passar a View
         $model = new StocksModel();
         $data['taxas']= $model->get_all_taxes();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
         echo view('stocks/taxas',$data);
      }
     //========================================================
@@ -218,6 +233,9 @@ class Stocks extends BaseController{
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
         $data['produtos']= $model->get_all_products();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
 
         echo view('stocks/produtos', $data);
      }
@@ -249,7 +267,6 @@ class Stocks extends BaseController{
                 //erro ja existe outro produto com o mesmo nome
                 $erro = 'Já existe outro produto com o mesmo nome!';
             }
-
             if($erro==''){
                 //UPLOAD DA IMAGEM 
                 $target_file = '';
@@ -307,8 +324,7 @@ class Stocks extends BaseController{
                 
                 //atualiza os dados do produto com imagem nova
                 // definicao do nome da imagem do produto
-                $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);
-                
+                $novo_ficheito = round(microtime(true)*1000).'.'. pathinfo($_FILES["file_imagem"]["name"],PATHINFO_EXTENSION);                
                 //UPLOAD DA IMAGEM 
                 $target_file = '';
                 $target_file .= 'assets/product_images/'.'/';
@@ -323,9 +339,7 @@ class Stocks extends BaseController{
                 }else{
                     $erro = 'Não foi possível adicionar o produto!';
                 }
-
                 }else{
-
                     //atualiza os dados do produto sem imagem nova
                     $model->product_edit($id);
 
@@ -336,7 +350,6 @@ class Stocks extends BaseController{
                 }
             }        
         }
-
         //buscar os dados do produto e editar         
         $result = $model->get_product($id);
         
@@ -374,61 +387,47 @@ class Stocks extends BaseController{
         echo view('stocks/produtos_eliminar',$data);
      }
     //======================================================== 
-    public function movimento_adicionar(){
-        
+    public function movimento_adicionar(){        
         $model = new StocksModel();
         $data['produtos']= $model->get_all_products();
         $error = '';
         $quantidade = '';
         $tipo_produto = '';
-
         if($_SERVER['REQUEST_METHOD']=='POST'){
-
             //vamos buscar a submissao pelo formulario
-            $request = \Config\Services::request();
-            
+            $request = \Config\Services::request();            
             //verificar a quantidade
             $quantidade = $request->getPost('text_quantidade'); 
             if($quantidade <1 || $quantidade >10000){
                 $error="Obrigatorio a  quantidade ser maior que 0 e menor que 10.000 !!";
             }
-
-
             //verificar se foi escolhido o produto
             $tipo_produto = $request->getPost('select_parent'); 
             if($tipo_produto == 0){
                 $error="Selecione um produto !!";
             }
-
-
             //guardar na base de dados e trata erro
-            if($error ==''){
-                
+            if($error ==''){               
                 $model -> movimento_add();
                 $model ->movimento_add_produto();
                 
                 $data['success']= "Produto adicionado com sucesso";
                 //para atualizar a lista de familias
                 // $data['familias']= $model->get_all_families();
-            }else{
-                
+            }else{               
                 $data['error'] = $error;
             }  
-        }
-           
+        }          
         echo view('stocks/movimentos_adicionar',$data);
      }
     //======================================================== 
-    public function movimento_baixar(){
-        
+    public function movimento_baixar(){        
         $model = new StocksModel();
         $data['produtos']= $model->get_all_products();
         $error = '';
         $quantidade = '';
         $tipo_produto = '';
-
         if($_SERVER['REQUEST_METHOD']=='POST'){
-
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
              //verificar a quantidade
@@ -436,30 +435,33 @@ class Stocks extends BaseController{
              if($quantidade <1 || $quantidade >10000){
                  $error="Obrigatorio a  quantidade ser maior que 0 e menor que 10.000 !!";
              }
- 
- 
              //verificar se foi escolhido o produto
              $tipo_produto = $request->getPost('select_parent'); 
              if($tipo_produto == 0){
                  $error="Selecione um produto !!";
              }
-            
-            
             //guardar na base de dados e trata erro
-            if($error ==''){
-                
+            if($error ==''){   
                 $model -> movimento_add();
                 $model ->movimento_del_produto();
                 $data['success']= "Produto baixado com sucesso";
                 //para atualizar a lista de familias
                 // $data['familias']= $model->get_all_families();
-            }else{
-                
+            }else{        
                 $data['error'] = $error;
             }  
-        }
-           
+        }   
         echo view('stocks/movimentos_baixar',$data);
+     }
+    //========================================================
+     private function checkProfile($profile){
+        //verifique se o usuário tem permissão para acessar o recurso
+        //codigo consegue buscar pedacos de palavras
+        if(preg_match("/$profile/", $this->session->profile)){
+            return true;
+        }else{
+            return false;
+        }
      }
     
 }
