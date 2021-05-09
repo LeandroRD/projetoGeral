@@ -440,6 +440,16 @@ class Stocks extends BaseController{
              if($tipo_produto == 0){
                  $error="Selecione um produto !!";
              }
+             //Verificacao de saldo sulficiente
+             if($error ==''){    
+             $id_produto = $request->getPost('select_parent'); 
+             $quantidades=$model->get_product($id_produto);
+             $saldo =$quantidades['quantidade']; 
+             if($saldo - $quantidade < 0){
+                 $error="Não há saldo suficiente de estoque !!"; 
+             }
+            }
+
             //guardar na base de dados e trata erro
             if($error ==''){   
                 $model -> movimento_add();

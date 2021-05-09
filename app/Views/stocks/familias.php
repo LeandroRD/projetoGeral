@@ -1,5 +1,5 @@
 <?php
-	$this->extend('Layout/layout_stocks');
+	$this->extend('Layout/layout_users');
 	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
@@ -7,8 +7,8 @@
         <?php echo view('users/userbar') ?>
     </div>
 
-	<div class="row mt-2 ml-3">
-		<div class="col-12 ">
+	<div class="marg-dir-esq-20px">
+		<div class="row marg-topo-menos-15">
 			
 		
 			<!--
@@ -16,9 +16,9 @@
 				total de familias
 				em cada row de familia, bota para editar e eliminar
 			--->
-			<div class="row mb-2  ">
+			<div class="col-6 text-start  ">
 				<div class="col-6 align-self-end"><h1>Famílias de produtos: </h1></div>
-				<div class="col-6 "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary btn-200">Adicionar familia...</a></div>
+				<div class="mt-2 mb-2 marg-topo "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary btn-200">Adicionar familia...</a></div>
 			</div>
 			
 			<div class="table-responsive  marg-topo">

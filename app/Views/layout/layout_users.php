@@ -66,7 +66,7 @@
         </div>
       </div>
     </nav>            
-    <div id="section1" class="container-fluid marg-topo-menos-50">
+    <div id="section1" class="container-fluid marg-topo-menos-50 paddingteste">
       <?php $this-> renderSection('conteudo')?>
     </div>           
     <!-- LINK JAVASCRIPT -->

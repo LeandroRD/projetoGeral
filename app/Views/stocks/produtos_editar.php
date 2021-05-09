@@ -1,5 +1,5 @@
 <?php
-	$this->extend('Layout/layout_stocks');
+	$this->extend('Layout/layout_users');
     
     // tratar o id do produto a editar
     helper('funcoes');

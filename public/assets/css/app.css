@@ -96,8 +96,8 @@
 }
 
 .padding-dir-esq-10{
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .padding-dir-esq-0{
@@ -128,6 +128,11 @@
 
 .novo-signup a:hover{
     color: rgb(247, 145, 50);
+}
+
+.marg-dir-esq-20px{
+    margin-left: -20px;
+    margin-right: -20px;
 }
 
 

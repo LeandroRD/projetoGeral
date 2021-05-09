@@ -5,17 +5,19 @@
 ?>
 
 <?php $this->section('conteudo')?>
-<div class="padding-dir-esq-10">
+<div class="text-end ">
+        <?php echo view('users/userbar') ?>
+</div>
+<div class="marg-dir-esq-20px">
     <div class="row marg-topo-menos-15">
-        
-        
         <div class="col-6 text-start">
+        <div class="col-6 align-self-end"><h1>Relação de Usuários: </h1></div>
             <div class="mt-2 mb-2 marg-topo"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
         </div>
     </div>
     <br>
     <div>
-        <div class="table-responsive">
+        <div class="table-responsive ">
             <table class="table table-striped" id="tabela_users">
                 <thead class="table-dark">
                     <th>Ação</th>
@@ -82,9 +84,9 @@
         </div>
     </div>
     <div>Total: <strong><?php echo count($users) ?></strong></div>
-    </div>
-
-    <script>
+</div>
+<?php $this->endSection()?>
+<script>
 		$(document).ready( function () {
 	    $('#tabela_users').DataTable({"language": {
 	    "sEmptyTable": "Nenhum registro encontrado",
@@ -126,5 +128,4 @@
 			});
 	} );
 	</script>
-<?php $this->endSection()?>
     
