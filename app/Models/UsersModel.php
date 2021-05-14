@@ -13,7 +13,6 @@ class UsersModel extends Model
      }
     //==========================================
     public function verifyLogin($username, $password){
-
             $params = array(
                 $username,
                 md5(sha1($password))
@@ -30,6 +29,23 @@ class UsersModel extends Model
             }            
          }
     //==========================================
+    public function verifyDel($username, $password){
+        //verifica se conta esta ativa
+        $params = array(
+            $username,
+            md5(sha1($password))
+        );
+        $query = "SELECT * FROM users WHERE username = ? AND passwrd = ? AND deleted = 0";
+        $results = $this->db->query($query,$params)->getResult('array');
+       
+        if(count($results)==0){
+            return false;
+        }else{
+            //atualizar campo last_login da BD
+            return $results[0];
+        }               
+     }
+     //==========================================
     public function verifyActive($username, $password){
         //verifica se conta esta ativa
         $params = array(
@@ -38,7 +54,6 @@ class UsersModel extends Model
         );
         $query = "SELECT * FROM users WHERE username = ? AND passwrd = ? AND active = 1";
         $results = $this->db->query($query,$params)->getResult('array');
-
         if(count($results)==0){
             return false;
         }else{
@@ -64,7 +79,6 @@ class UsersModel extends Model
            
             if(count($results)!= 0){
                 //existe email  igual na BD
-
                 // mudar a senha dos usuários
                 $newPassword = $this->randomPassword();
                 $params = array(
@@ -76,7 +90,6 @@ class UsersModel extends Model
                 echo('(Mensagem de email)');
                 echo 'A sua nova password é : '. $newPassword;
                 return true;
-
             }else{
                 //nao existe email igual
                 echo "nao existe este email registrado";
@@ -91,9 +104,8 @@ class UsersModel extends Model
             );
             $query = "SELECT id_user FROM users WHERE email =?";
             return $this->db->query($query,$params)->getResult('array');
-
         }
-        //==========================================
+    //==========================================
     //Gerar um codigo purl de 6 caracteres e guardar na BD
     public function sendPurl($email, $id_user){
             $purl = $this->randomPassword(6);
@@ -103,7 +115,6 @@ class UsersModel extends Model
             );
             $query = "UPDATE users SET purl =? WHERE id_user =?";
             $this->db->query($query,$params);
-
             // envio do email
             echo "Mensagem de email link para alterar password ";
             echo'<a href="'.site_url('users/redefine_password/'.$purl).'"> Redefinir Password</a>';         
@@ -266,11 +277,6 @@ class UsersModel extends Model
                 $id_user
             );
             $this->db->query('UPDATE users SET deleted = 0 WHERE id_user = ?',$params);
-
-
         }
-
-        
-
-        
+      
 }

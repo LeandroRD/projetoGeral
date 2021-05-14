@@ -45,6 +45,42 @@ class Stocks extends BaseController{
         echo view('stocks/familias_adicionar',$data);
      }
     //========================================================
+    public function familia_adicionar_servicos(){
+        //adicionar nova familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families_servicos();
+        $error = '';
+
+        
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            //confirmar se ja existe a familia com o mesmo nome
+            $resultado = $model->check_family_servicos($request->getPost('text_designacao'));
+            if($resultado){
+                $error = 'Já existe uma família com a mesma desigção!!';
+            }
+            
+            //guardar na base de dados e trata erro
+            if($error ==''){
+                $model -> family_add_servicos();
+                $data['success']= "Familia adicionada com sucesso";
+                //para atualizar a lista de familias
+                $data['familias']= $model->get_all_families_servicos();
+            }else{
+                $data['error'] = $error;
+            }  
+        }  
+        
+        
+         
+        echo view('stocks/familias_adicionar_servicos',$data);
+     }
+    
+    //========================================================
     public function familia_editar($id_familia){
         helper('funcoes');
         $id_familia = aesDecrypt($id_familia);
@@ -56,11 +92,7 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
         $data['familia']=$model->get_family($id_familia);
-
-   
-
         $error = '';
-
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
             //vamos buscar a submissao pelo formulario
@@ -115,6 +147,16 @@ class Stocks extends BaseController{
             $data['admin'] = "true";
         }
         echo view('stocks/familias',$data);
+     }
+    //========================================================
+    public function familias_servicos(){
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families_servicos();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/familias_servicos',$data);
      }
     //========================================================
     public function movimentos(){
@@ -267,6 +309,7 @@ class Stocks extends BaseController{
                 //erro ja existe outro produto com o mesmo nome
                 $erro = 'Já existe outro produto com o mesmo nome!';
             }
+           
             if($erro==''){
                 //UPLOAD DA IMAGEM 
                 $target_file = '';
@@ -294,6 +337,41 @@ class Stocks extends BaseController{
         //apresenta o formulario de adiciona
         echo view('stocks/produtos_adicionar',$data);  
      }
+    //========================================================
+    public function fornecedores_adicionar(){
+        
+        $model = new StocksModel();
+        //carregar fornecedores
+        $data['familias']=$model->get_all_families_servicos();
+        $sucesso = '';
+        $erro = '';
+
+        //tratar a submissao do formulario
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){  
+            $model = new StocksModel();
+            //verifica se ja existe fornecedor com o mesmo nome
+            if($model->fornecedor_check()){
+                //erro ja existe outro produto com o mesmo nome
+                $erro = 'Já existe outro fornecedor com o mesmo nome!';  
+            }
+           
+            if($erro==''){
+            $model = new StocksModel();
+            $model -> fornecedor_add();
+                    $sucesso = 'Fornecedor adicionado com sucesso!';                   
+                }    
+        }
+        //passar para a $data a mensagem de erro ou nao
+        if($erro !=''){ 
+            $data['error']= $erro;
+        }
+        
+        if($sucesso !=''){ 
+            $data['success']= $sucesso;
+        }    
+        //apresenta o formulario de adiciona
+        echo view('stocks/fornecedores_adicionar',$data);
+    }
     //========================================================
     public function produtos_editar($id){
         helper('funcoes');
@@ -472,6 +550,16 @@ class Stocks extends BaseController{
         }else{
             return false;
         }
+     }
+      //========================================================
+    public function fornecedores(){
+         //carregar os fornecedores existentes
+        $model = new StocksModel();
+        $data['fornecedores']= $model->get_all_fornecedores();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/fornecedores',$data);
      }
     
 }

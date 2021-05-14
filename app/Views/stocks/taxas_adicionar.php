@@ -31,7 +31,7 @@
                 <div class="mt-3 marg-fundo">
                     <label>Valor da taxa (%):</label>
                     <input class="form-control" 
-                           type="number"
+                           type="text"
                            name="text_valor"
                            step="0.01"
                            min = "0"

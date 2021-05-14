@@ -30,7 +30,6 @@ class Users extends BaseController
         if ($this->checkSession()){
             $this->homePage();
             return;
-
         } 
         $error='';
         $data= array();
@@ -50,18 +49,26 @@ class Users extends BaseController
                 $result = $model->verifyLogin($username,$password);
                 
                 if(is_array($result)){
-                    //login valido
-                    // $this->setSession($result);
-                    // $this->homePage();
-                    // return;
                     $error =='';            
                 }else{
                     //login invalido
-                    $error= 'Login inválido !!';   
+                    $error= 'Usuário ou senha inválida !!';   
                 }    
             }
-
-
+            //verificar se esta deletado
+            if($error ==''){
+                $model = new UsersModel();
+                $result = $model->verifyDel($username,$password);
+                
+                if(is_array($result)){
+                    //conta  nao deletada 
+                    $error =='';          
+                }else{
+                    //conta deletada     
+                    $error= 'Conta não localizada !!';   
+                }    
+            }
+            //verificar se user esta ativado
             if($error ==''){
                 $model = new UsersModel();
                 $result = $model->verifyActive($username,$password);
@@ -72,19 +79,10 @@ class Users extends BaseController
                     $this->homePage();
                     return;            
                 }else{
-                    //login invalido
+                    //conta inativa
                     $error= 'Conta inativa !!';   
                 }    
             }
-
-
-
-
-
-
-
-
-
         }
         
         if($error !=''){
@@ -139,12 +137,7 @@ class Users extends BaseController
      }
     //===============================================
     public function reset_password(){
-       
-
-        // $users = new UsersModel();
-        // $users->resetPassword($email);
-
-        //metodo 2==========================================
+    //metodo 2==========================================
         $request = \Config\Services::request();
         $email = $request->getPost('text_email');
         $users = new UsersModel();
@@ -159,8 +152,6 @@ class Users extends BaseController
      }
     //===============================================
     public function redefine_password($purl){
-        
-
         $users = new UsersModel();
         $results = $users->getPurl($purl);
         if(count($results)==0){
@@ -211,23 +202,20 @@ class Users extends BaseController
         }
      }
     //===============================================
-    public function op1(){
-        echo "OP1";
-     }
-    //===============================================
-    public function op2(){
-        echo "OP2";
-     }
+    // public function op1(){
+    //     echo "OP1";
+    //  }
+    // //===============================================
+    // public function op2(){
+    //     echo "OP2";
+    //  }
     //===============================================
     public function admin_users(){
         //checar se  ja existe sessao vai para homepae
         if (!$this->checkSession()){
             $this->homePage();
-           
             return;
-
         }
-        
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
@@ -239,7 +227,6 @@ class Users extends BaseController
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
         }
-        
         echo view('users/admin_users',$data);
      }
     //===============================================
@@ -248,7 +235,6 @@ class Users extends BaseController
         if (!$this->checkSession()){
             $this->homePage();
             return;
-
         }
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
@@ -257,25 +243,20 @@ class Users extends BaseController
         //adicionar um novo usuario na BD
         $error='';
         $data= array();
-        
-
         // verificar se houve uma submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
             //ir buscar os dados do post
             $request = \Config\Services::request();
             $dados = $request->getPost();
-
             //verifica se vieram os dados corretos
             if($dados['text_name']==''||
                $dados['text_password']==''||
                $dados['text_password_repetir']==''||
                $dados['text_name']==''||
-               $dados['text_email']=='')
-            
+               $dados['text_email']=='')    
             {
                 $error = 'preencha todos os campos de texto!!';
             }
-
             //verifica se as passwords coincidem
             if($error ==''){
                 if ($dados['text_password'] !=  $dados['text_password_repetir']){
@@ -291,8 +272,7 @@ class Users extends BaseController
                 }
             }
             
-            $model = new UsersModel();
-            
+            $model = new UsersModel();           
             //verificar se ja existe um user com o mesmo username ou email
             if($error ==''){
                 $result = $model->checkExistingUser();
@@ -300,12 +280,10 @@ class Users extends BaseController
                     $error= "Já Existe um utilizador com esses dados";
                 }
             }
-
             if($error==''){
                 $model->addNewUser();
                 return redirect()->to(site_url('users/admin_users'));       
-            }
-            
+            }            
         }
 
         //verificar se ha erro
@@ -353,7 +331,6 @@ class Users extends BaseController
             //verifica se vieram os dados  preenchidos
             if($dados['text_name']==''||
                $dados['text_email']=='')
-            
             {
                 $error = 'preencha todos os campos de texto!!';
             }

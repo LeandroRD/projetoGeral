@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto Geral - Users</title>
     
+    <!-- retirado o Jquery antigo necessario verificar -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+
     <!-- link-JSQUERY -->
-    <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js')?>"></script>
+    
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/font-awesome.min.css')?>">
     <!-- CSS APP-->
@@ -40,11 +45,14 @@
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav text-center ">
               <li >
-                <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Voltar</b> </span>  </a>
+                <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Início</b> </span>  </a>
               </li>
               <?php if($s->has('id_user')):?>
                 <li>
-                  <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias</b></span></a>
+                  <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias/produtos</b></span></a>
+                </li>
+                <li>
+                  <a  href="<?php echo site_url('stocks/familias_servicos')?>" ><span class="font2"><b>Familias/serviços</b></span></a>
                 </li>
                 <li>
                   <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
@@ -54,6 +62,9 @@
                 </li>
                 <li>
                   <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
+                </li>
+                <li>
+                  <a  href="<?php echo site_url('stocks/fornecedores')?>" ><span class="font2"><b>Fornecedores</b></span></a>
                 </li>
                 <?php if(isset($admin)): ?>
                   <li>
@@ -66,7 +77,7 @@
         </div>
       </div>
     </nav>            
-    <div id="section1" class="container-fluid marg-topo-menos-50 paddingteste">
+    <div id="section1" class="container-fluid marg-topo-menos-50 "style="height: 1000px;">
       <?php $this-> renderSection('conteudo')?>
     </div>           
     <!-- LINK JAVASCRIPT -->
@@ -77,5 +88,8 @@
     <!-- link JS NOVO -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+      $("#cnpj").mask("99.999.999/9999-99");
+    </script>
   </body>
 </html>

@@ -34,6 +34,7 @@ class StocksModel extends Model
         //b=tras designacao se tiver parent igual
         //Seleciona na tabela stock_familias 'a' associando a esquerda 'b' 
         //trazendo todos id_parent que forem iguais a id_familia
+        //AS parent é uma variavel criada aqui que estara retornando
         //=======================================================
 
         return $this->query('
@@ -44,6 +45,18 @@ class StocksModel extends Model
 
         
         }
+    //=======================================================
+    public function get_all_families_servicos(){
+      
+        return $this->query('
+        SELECT a.*, b.designacao_servicos AS parent_servicos
+        FROM stock_familias_servicos a LEFT JOIN stock_familias_servicos b
+        ON a.id_parent_servicos = b.id_familia_servicos
+        ')->getResult('array');
+
+        
+        }
+
     //=======================================================
     public function check_family($designacao){
         $params = array(
@@ -57,6 +70,21 @@ class StocksModel extends Model
             return false;
         }
      }
+     //=====================================================
+     public function check_family_servicos($designacao){
+        $params = array(
+            $designacao
+        );
+        $results = $this-> query("SELECT * FROM stock_familias_servicos WHERE designacao_servicos = ?",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+     
+     
      //=====================================================
      public function get_family($id_family){
          //retorna a familia
@@ -79,9 +107,20 @@ class StocksModel extends Model
             $request->getPost('text_designacao')
         );
         $this->query("INSERT INTO stock_familias VALUES(0,?,?,'' )",$params);
-
-
      }
+    //=====================================================
+    public function family_add_servicos(){
+
+        //adiciona uma nova familia de produtos na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_designacao')
+        );
+        $this->query("INSERT INTO stock_familias_servicos VALUES(0,?,? )",$params);
+     }
+
+
     //=====================================================
     public function check_other_family($designacao,$id_family){
         $params = array(
@@ -270,6 +309,23 @@ class StocksModel extends Model
         }
      }
     //=====================================================
+    public function fornecedor_check(){
+        //verifica se ja existe um fornecedor com o mesmo nome
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_razao_social')
+        );
+        $results = $this-> query("SELECT razao_social FROM fornecedores WHERE razao_social = ? 
+                    ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+
+    //=====================================================
     public function product_add($nome_ficheiro){
         
         //adiciona uma novo produto  na BD
@@ -293,6 +349,60 @@ class StocksModel extends Model
             ",$params
         );   
      }
+    //=====================================================
+    public function fornecedor_add(){
+        
+        //adiciona uma novo produto  na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_razao_social'),
+            $request->getPost('select_parent'),
+            $request->getPost('text_cnpj'),
+            $request->getPost('text_ie'),
+            $request->getPost('text_endereco'),
+            $request->getPost('text_numero'),
+            $request->getPost('text_complemento'),
+            $request->getPost('text_bairro'),
+            $request->getPost('text_municipio'),
+            $request->getPost('text_uf'),
+            $request->getPost('text_cep'),
+            $request->getPost('text_email'),
+            $request->getPost('text_contato'),
+            $request->getPost('text_telefone'),
+            $request->getPost('text_celular'),
+            $request->getPost('text_obs'),
+  
+        );
+       
+
+      
+        
+    
+        $this->query("INSERT INTO fornecedores 
+        VALUES(
+        0,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?
+        )
+        ",$params
+        );   
+     }
+
+    
     //=====================================================
     public function get_product($id){
         // retorna o espedifico produto
@@ -457,6 +567,12 @@ class StocksModel extends Model
                atualizacao = NOW()
                WHERE id_produto = ?
            ",$params);
+    }
+//=====================================================
+    public function get_all_fornecedores(){
+        //retorna todas as taxas
+        return $this->query("SELECT * FROM fornecedores")->getResult('array');
+        
     }
 }
 
