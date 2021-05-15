@@ -326,6 +326,38 @@ class StocksModel extends Model
      }
 
     //=====================================================
+    public function fornecedor_servicos(){
+        //verifica se ja existe um fornecedor com o mesmo nome
+        $request = \Config\Services::request();
+        
+        $servicos=    $request->getPost('select_parent');
+        
+       
+        if($servicos==0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+
+    //=====================================================
+    public function produtos_servicos(){
+        //verifica se ja existe um fornecedor com o mesmo nome
+        $request = \Config\Services::request();
+        
+        $produto=$request->getPost('combo_familia');
+        
+       
+        if($produto==0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+    
+    
+     
+    //=====================================================
     public function product_add($nome_ficheiro){
         
         //adiciona uma novo produto  na BD
@@ -373,11 +405,6 @@ class StocksModel extends Model
             $request->getPost('text_obs'),
   
         );
-       
-
-      
-        
-    
         $this->query("INSERT INTO fornecedores 
         VALUES(
         0,
@@ -401,8 +428,6 @@ class StocksModel extends Model
         ",$params
         );   
      }
-
-    
     //=====================================================
     public function get_product($id){
         // retorna o espedifico produto
@@ -463,9 +488,7 @@ class StocksModel extends Model
                 WHERE id_produto = ?
             ",$params);
 
-        }
-        
-        
+        }   
         if($imagem != ''){
             $params = array(
                 $request->getPost('combo_familia'),
@@ -518,20 +541,8 @@ class StocksModel extends Model
     //=====================================================
     public function movimento_add(){
 
-        
-
         //adiciona um novo movimento na BD
         $request = \Config\Services::request();
-
-        // $quantidade = $request->getPost('text_quantidade');
-        
-        // if($quantidade <1 || $quantidade >10000){
-        // $error="errado valor";
-       
-        // }else{
-           
-
-
         $params = array(
             $request->getPost('select_parent'),
             $request->getPost('text_quantidade'),

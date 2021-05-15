@@ -6,9 +6,8 @@
     <div class="row mt-2">
 		<div class="col-12 text-center ">
 			<h3>Taxas - Adicionar</h3>
-			<hr>
         </div>
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3 card card-claro">
             <form action="<?php echo site_url('stocks/taxas_adicionar') ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center alerta-apagando">
@@ -39,15 +38,17 @@
                            placeholder="0.00" 
                            required >
                 </div>
-                
-                <div class="row col-md-12 text-center  ">
+                <!-- botoes -->
+                <br>
+                <div class="row col-md-10 text-center col-md-offset-1  ">
                         <div class="col-md-5 col-md-offset-1 marg-fundo">
                         <a href="<?php echo site_url('stocks/taxas') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
                         </div>
                         <div class="col-md-5  ">
                         <button class="btn btn-primary btn-200">Salvar</button>
                         </div>
-                    </div>  
+                    </div>
+                    <br>  
             </form>
         </div>
     </div>

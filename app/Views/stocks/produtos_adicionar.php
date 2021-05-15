@@ -1,13 +1,23 @@
 <?php
 	$this->extend('Layout/layout_users');
-    
-    
+     //limpar campos ao entrar a primeira vez 
+     $designacao_produto = '';
+     $descricao = '';
+     $preco = '';
+     $quantidade = '';
+     $detalhes = '';
 
+     if($_SERVER['REQUEST_METHOD']=='POST'){
+        
+        //recolher  dados apos submeter
+        $designacao_produto = $_POST['text_designacao'];
+        $descricao = $_POST['text_descricao'];
+        $preco = $_POST['text_preco'];
+        $quantidade = $_POST['text_quantidade'];
+        $detalhes = $_POST['text_detalhes'];
+     }
 ?>
-
 <?php $this->section('conteudo')?>
-
-
     <div class="row mt-2">
 		<div class="col-12 text-center">
 			<h3>Produtos - Adicionar</h3>
@@ -40,13 +50,13 @@
                 <!--designacao-->
                 <div class="mt-3">
                     <label>Designação do produto:</label>
-                    <input type="text" name="text_designacao" class="marg-fundo form-control" placeholder="Designação do produto" required>
+                    <input type="text" value = "<?php echo $designacao_produto?>" name="text_designacao" class="marg-fundo form-control" placeholder="Designação do produto" required>
                 </div>
     
                 <!--  descricao-->
                 <div class="mt-3 ">
                     <label>Descrição do produto:</label>
-                    <textarea name="text_descricao"  class="form-control marg-fundo" placeholder="Descrição"></textarea>
+                    <textarea name="text_descricao"  class="form-control marg-fundo" placeholder="Descrição"><?php echo $descricao?></textarea>
                 </div>
 
                  <!--  imagem-->
@@ -61,7 +71,7 @@
                         <label class="">Preço/Unidade (R$):</label>
                     </div>
                     <div class="col-3">
-                        <input name="text_preco" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number" required >                
+                        <input name="text_preco" value = "<?php echo $preco?>" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number" required >                
                     </div>  
                 </div>
 
@@ -86,18 +96,19 @@
                         <label>Quantidade:</label>
                     </div>
                     <div class="col-4">
-                        <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number" value="0" required >                
+                        <input value = "<?php echo $quantidade?>"  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number" value="0" required >                
                     </div>  
                 </div>
 
                 <!--  detalhes-->
                 <div class="mt-2 mb-2 marg-fundo">
                     <label>Detalhes:</label>
-                    <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ></textarea>
+                    <textarea name="text_detalhes"  class="form-control" placeholder="Detalhes" ><?php echo $detalhes?></textarea>
                 </div>
-                
+                <!-- botoes -->
+                <br>
                 <div class="row text-center">
-                    <div class="row col-md-12 col-md-offset-1  ">
+                    <div class="row col-md-10 col-md-offset-2  ">
                         <div class="col-md-5  marg-fundo">
                             <a class=" btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/produtos') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
                         </div>
@@ -106,6 +117,7 @@
                         </div>
                     </div>        
                 </div>
+                <br>
             </form>  
         </div>           
     </div>   

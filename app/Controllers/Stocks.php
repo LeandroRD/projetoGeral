@@ -309,6 +309,10 @@ class Stocks extends BaseController{
                 //erro ja existe outro produto com o mesmo nome
                 $erro = 'Já existe outro produto com o mesmo nome!';
             }
+            if($model->produtos_servicos()){
+                //erro mensagem de preencher o campo família de servicos
+                $erro = 'preencha o campo família de produtos';  
+            }
            
             if($erro==''){
                 //UPLOAD DA IMAGEM 
@@ -354,6 +358,12 @@ class Stocks extends BaseController{
                 //erro ja existe outro produto com o mesmo nome
                 $erro = 'Já existe outro fornecedor com o mesmo nome!';  
             }
+
+            if($model->fornecedor_servicos()){
+                //erro mensagem de preencher o campo família de servicos
+                $erro = 'preencha o campo família de servicos';  
+            }
+            
            
             if($erro==''){
             $model = new StocksModel();

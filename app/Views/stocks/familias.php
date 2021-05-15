@@ -7,8 +7,8 @@
         <?php echo view('users/userbar') ?>
     </div>
 
-	<div class="marg-dir-esq-20px">
-		<div class="row marg-topo-menos-15">
+	<div class="marg-dir-esq-20px ">
+		<div class="row marg-topo-menos-15  ">
 			
 		
 			<!--
@@ -21,8 +21,8 @@
 				<div class="mt-2 mb-2 marg-topo "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary btn-200">Adicionar familia...</a></div>
 			</div>
 			
-			<div class="table-responsive  marg-topo">
-				<table class="table table-striped" id="tabela_familias">
+			<div class="table-responsive  marg-topo ">
+				<table class="table table-striped " id="tabela_familias">
 					<thead class="table-dark">
 						<th>ID</th>
 						<th class="text-center">Família</th>

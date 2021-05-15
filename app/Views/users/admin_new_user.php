@@ -1,5 +1,16 @@
 <?php 
     $this->extend('Layout/layout_users');
+    $username='';
+    $nome='';
+    $email='';
+    
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        
+        //recolha dos dados
+        $nome = $_POST['text_name'];
+        $email = $_POST['text_email'];
+        $username = $_POST['text_username'];   
+    }
     $s = session();    
 ?>
 
@@ -17,7 +28,7 @@
             
             <form action="<?php echo site_url('users/admin_new_user') ?>" method="post">
                 <div class=" mb-2">
-                    <input type="text" name="text_username "class="form-control" required placeholder="Username">
+                    <input type="text" name="text_username"class="form-control" required placeholder="Username"value = "<?php echo $username?>">
                 </div>
                 <br>
                 <div class="row marg-fundo">
@@ -37,10 +48,10 @@
                     </div>
                 </div>
                 <div class="marg-fundo">
-                    <input type="text" class="form-control" name="text_name"required placeholder="Nome">
+                    <input type="text" class="form-control" name="text_name" required placeholder="Nome"value = "<?php echo $nome?>">
                 </div>
                 <div class="marg-fundo">
-                    <input type="email" name="text_email" class="form-control" reuired placeholder="Email">   
+                    <input type="email" value = "<?php echo $email?>" name="text_email" class="form-control" reuired placeholder="Email">   
                 </div>                
                 <!-- profile -->
                 <div class="card card-claro marg-fundo">

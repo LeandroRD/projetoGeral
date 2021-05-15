@@ -6,18 +6,19 @@
 
 <?php $this->section('conteudo')?>
     <div class="text-end ">
-            <?php echo view('users/userbar') ?>
+        <?php echo view('users/userbar') ?>
     </div>
     <div class="marg-dir-esq-20px">
         <div class="row marg-topo-menos-15">
-            <div class="col-6 text-start">
-            <div class="col-6 align-self-end"><h1>Relação de Usuários: </h1></div>
-                <div class="mt-2 mb-2 marg-topo"><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
-            </div>
+            <div class="col-6 text-start">    
         </div>
-        <br>
+        
         <div>
-            <div class="table-responsive ">
+            <h1>Usuários</h1>
+            <div class="col-6 align-self-end"></div>
+            <div class="mt-2 mb-2 "><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
+        </div>
+            <div class="table-responsive marg-topo">
                 <table class="table table-striped" id="tabela_users">
                     <thead class="table-dark">
                         <th>Ação</th>
