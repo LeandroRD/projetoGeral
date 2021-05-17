@@ -19,6 +19,7 @@
 				--->
 					<div class=" mb-3">
 						<div  class="col-6 align-self-end "></div>
+						<!-- botao adicionar -->
 						<div class="col-6 marg-esq-20 mb-5"><a href="<?php echo site_url('stocks/taxas_adicionar')?>"class="btn btn-primary btn-200">Adicionar taxa...</a></div>
 					</div>
 					<br>

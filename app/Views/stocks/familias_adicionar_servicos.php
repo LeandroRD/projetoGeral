@@ -9,6 +9,7 @@
         </div>
         <div class="col-md-6 col-md-offset-3 marg-fundo card card-claro">
             <form action="<?php echo site_url('stocks/familia_adicionar_servicos') ?>" method="post">
+                <!-- caixa de mensagens -->
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger alerta-apagando p-3 text-center">
                         <?php echo $error ?>

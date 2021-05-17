@@ -12,7 +12,7 @@
 		<div class="col-12 text-center ">
 			<h3>Taxa - Editar</h3>
         </div>
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3 card card-claro">
             
             <form action="<?php echo site_url('stocks/taxas_editar/'.$id_taxa) ?>" method="post">
                 <?php if(isset($error)): ?>
@@ -38,11 +38,11 @@
                 </div>
                 
                 <div class="row text-center ">
-                    <div class="row col-md-12  ">
+                    <div class="row col-md-10  col-md-offset-1 ">
                         <div class="col-md-5 col-md-offset-1 marg-fundo">
                             <a href="<?php echo site_url('stocks/taxas') ?>" class="btn cor-botao-secondary btn-200">Cancelar</a>
                         </div>
-                        <div class="col-md-6 marg-fundo ">
+                        <div class="col-md-5 marg-fundo ">
                             <button class="btn btn-primary btn-200 ">Atualizar</button>
                         </div>
                     </div>        

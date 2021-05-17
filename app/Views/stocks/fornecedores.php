@@ -10,7 +10,7 @@
 		<div class="col-12 ">
 			<h1>Fornecedores</h1>	
 			<div class="row ">
-				<!-- <div class="col-6 align-self-end"><h5>Produtos: </h5></div> -->
+				<!-- botao adicionar -->
 				<div class="col-6  marg-esq-20"><a href="<?php echo site_url('stocks/fornecedores_adicionar')?>"class="btn btn-primary">Adicionar Fornecedor...</a></div>
 			</div>
 			<br>

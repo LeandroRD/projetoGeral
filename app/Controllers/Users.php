@@ -43,7 +43,7 @@ class Users extends BaseController
                 $error= 'Erro no preenchimento dos campos';
             }
         
-            //checar a BD 
+            //checar senha na BD 
             if($error ==''){
                 $model = new UsersModel();
                 $result = $model->verifyLogin($username,$password);
@@ -224,6 +224,7 @@ class Users extends BaseController
         $users = new UsersModel;
         $results = $users->getUsers();
         $data['users'] = $results;
+        
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
         }
@@ -236,12 +237,15 @@ class Users extends BaseController
             $this->homePage();
             return;
         }
+       
+        
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
         }
         //adicionar um novo usuario na BD
         $error='';
+        $sucesso = '';
         $data= array();
         // verificar se houve uma submissao
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -282,7 +286,7 @@ class Users extends BaseController
             }
             if($error==''){
                 $model->addNewUser();
-                return redirect()->to(site_url('users/admin_users'));       
+                $sucesso = 'Fornecedor adicionado com sucesso!';        
             }            
         }
 
@@ -291,6 +295,12 @@ class Users extends BaseController
             $data['error'] = $error;
 
         }
+        if($sucesso !=''){ 
+            $data['success']= $sucesso;
+        }  
+        
+        //enviar liberacao de acesso para poder utilizar no users 
+        $data['admin'] = "true";
         
         echo view('users/admin_new_user',$data);
      }
@@ -390,6 +400,11 @@ class Users extends BaseController
         if ($error != ''){
             $data['error'] = $error;
         } 
+        //verificar tipo de usuario
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+
         echo view('users/admin_edit_user',$data);   
      } 
     //===============================================
@@ -429,6 +444,13 @@ class Users extends BaseController
         //apresentar quadro para questionar se pretende eliminar user
         
         $data['user'] = $model->getUser($id_user)[0];
+
+
+        //verificar tipo de usuario
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
         echo view('users/admin_delete_user',$data);
        
      }

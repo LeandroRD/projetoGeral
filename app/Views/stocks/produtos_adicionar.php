@@ -16,6 +16,14 @@
         $quantidade = $_POST['text_quantidade'];
         $detalhes = $_POST['text_detalhes'];
      }
+     //limpar campos apos adicionar novo fornecedor
+     if(isset($success)){
+        $designacao_produto = '';
+        $descricao = '';
+        $preco = '';
+        $quantidade = '';
+        $detalhes = '';
+     }
 ?>
 <?php $this->section('conteudo')?>
     <div class="row mt-2">

@@ -11,9 +11,11 @@
 		<div class="col-12 ">
 			<h1>Movimentos: </h1>
 			<div class="col-6 marg-fundo ">
+				<!-- botao adicionar -->
 				<a href="<?php echo site_url('stocks/movimento_adicionar')?>"class="btn btn-primary btn-200 ">Adicionar Movimentos...</a>
 			</div>
 			<div class="col-6 ">
+				<!-- botao baixar  -->
 				<a href="<?php echo site_url('stocks/movimento_baixar')?>"class="btn btn-primary btn-200">Baixar Movimentos...</a>
 			</div>
 			<hr>

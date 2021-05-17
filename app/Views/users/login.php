@@ -40,9 +40,7 @@
                     </div>
                     <div class="row  "> 
                         <div class="col-md-6  col-xs-6  ">
-                            <!-- <div class="form-group mt-2 text-end"> -->
-                                <input type="submit"  value="Entrar" class="btn btn-primary btn-200 mt-2 marg-esq-20 ">
-                            <!-- </div> -->
+                            <input type="submit"  value="Entrar" class="btn btn-primary btn-200 mt-2 marg-esq-20 ">
                         </div>
                     </div>  
                 </div>

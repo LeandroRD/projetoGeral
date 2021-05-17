@@ -1,7 +1,6 @@
 <?php
 	$this->extend('Layout/layout_users')
 ?>
-
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
 		<div class="col-12 text-center ">
@@ -32,7 +31,6 @@
                     <label>Designação:</label>
                     <input class="form-control" type="text" name="text_designacao" required placeholder="família">
                 </div>
-                
                 <!-- botoes -->
                 <div class="row text-center">
                     <div class="row col-md-10 col-md-offset-2  ">

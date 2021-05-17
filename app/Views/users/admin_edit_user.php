@@ -22,7 +22,7 @@
 <?php $this->section('conteudo')?>
     <!-- erro -->
     <div class="row mt-3 mb-3 text-center">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3 card card-claro">
             <?php if(isset($error)):?>
                 <div class="alerta-apagando alert alert-danger">
                     <?php echo $error ?>

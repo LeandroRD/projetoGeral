@@ -98,6 +98,21 @@ class StocksModel extends Model
         
      }
     //=====================================================
+    public function get_family_servicos($id_family){
+        //retorna a familia
+        $params = array($id_family);
+       $results = $this->query('SELECT * FROM stock_familias_servicos WHERE id_familia_servicos =?',$params)->getResult('array');
+      
+       if(count($results)==1){
+           return $results[0];
+       }else{
+           return array();
+       }
+       
+    }
+
+
+    //=====================================================
     public function family_add(){
 
         //adiciona uma nova familia de produtos na BD
@@ -137,6 +152,21 @@ class StocksModel extends Model
         }
      }
     //=====================================================
+    public function check_other_family_servicos($designacao,$id_family){
+        $params = array(
+            $designacao,
+            $id_family
+        );
+        $results = $this-> query("SELECT * FROM stock_familias_servicos WHERE designacao_servicos = ? 
+                   AND id_familia_servicos <> ? ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+    //=====================================================
     public function family_edit($id_family){
         //atualizar os dados da family
         $request = \Config\Services::request();
@@ -151,6 +181,39 @@ class StocksModel extends Model
           WHERE id_familia = ? ",
           $params);
      }
+    //=====================================================
+    public function family_edit_servicos($id_family){
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_designacao'),
+            $id_family
+        );
+        $this->query("UPDATE stock_familias_servicos
+         SET id_parent_servicos = ?,
+         designacao_servicos =?
+          WHERE id_familia_servicos = ? ",
+          $params);
+     }
+
+
+    //=====================================================
+    public function family_servicos_edit($id_family){
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_designacao'),
+            $id_family
+        );
+        $this->query("UPDATE stock_familias_servicos
+         SET id_parent_servicos = ?,
+         designacao_servicos =?
+          WHERE id_familia_servicos = ? ",
+          $params);
+     }
+    
     //=====================================================
     public function delete_family($id_family){
         //eliminar a familia e alterar o id_parents

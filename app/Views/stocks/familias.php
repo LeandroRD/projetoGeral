@@ -18,6 +18,7 @@
 			--->
 			<div class="col-6 text-start  ">
 				<div class="col-6 align-self-end"><h1>Famílias de produtos: </h1></div>
+				<!-- botao adicionar -->
 				<div class="mt-2 mb-2 marg-topo "><a href="<?php echo site_url('stocks/familia_adicionar')?>"class="btn btn-primary btn-200">Adicionar familia...</a></div>
 			</div>
 			
@@ -35,12 +36,11 @@
 								<td><?php echo $familia['id_familia'] ?></td>
 								<td class="text-center"><?php echo $familia['designacao'] ?></td>
 								<td class="text-center"><?php echo $familia['parent'] !=''? $familia['parent']:'-' ?></td>
-						
+								<!-- botoes editar deletar -->
 								<td class="text-center">
 									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_editar/'.aesEncrypt($familia['id_familia']))?>">
 									<i class="fa fa-pencil me-2"></i>Editar
 									</a>
-									<!-- <span class="ms-2 me-2">|</span> -->
 									<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/familia_eliminar/'.aesEncrypt($familia['id_familia']))?>">
 										<i class="fa fa-trash me-2"></i> Eliminar
 									</a>

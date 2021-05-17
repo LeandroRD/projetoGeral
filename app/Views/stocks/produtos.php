@@ -12,7 +12,7 @@
 			<h1>Produtos</h1>
 				
 			<div class="row ">
-				<!-- <div class="col-6 align-self-end"><h5>Produtos: </h5></div> -->
+				<!-- botao adicionar -->
 				<div class="col-6  marg-esq-20"><a href="<?php echo site_url('stocks/produtos_adicionar')?>"class="btn btn-primary">Adicionar Produto...</a></div>
 			</div>
 			<br>
@@ -39,7 +39,6 @@
 									<a class="btn btn-primary btn-sm btn-100 m-1 align-middle"href="<?php echo site_url('stocks/produtos_editar/'.aesEncrypt($produto['id_produto']) )?>">
 										<i class="fa fa-pencil me-2"></i>Editar
 									</a>
-									<!-- <span class="ms-2 me-2">|</span> -->
 									<a class="btn btn-danger btn-sm btn-100 m-1" href="<?php echo site_url('stocks/produtos_eliminar/'.aesEncrypt($produto['id_produto']))?>">
 										<i class="fa fa-trash me-2"></i> Eliminar
 									</a>

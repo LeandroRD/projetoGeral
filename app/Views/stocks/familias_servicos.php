@@ -6,18 +6,16 @@
 	<div class="text-end ">
         <?php echo view('users/userbar') ?>
     </div>
-
 	<div class="marg-dir-esq-20px">
 		<div class="row marg-topo-menos-15">
-			
-		
 			<!--
 				Apresentacao da table com as familias registradas / botao para acionar nova familia
 				total de familias
-				em cada row de familia, bota para editar e eliminar
+				em cada row de familia, botao para editar e eliminar
 			--->
 			<div class="col-6 text-start  ">
 				<div class="col-6 align-self-end"><h1>Famílias de serviços: </h1></div>
+				<!-- botao adicionar -->
 				<div class="mt-2 mb-2 marg-topo "><a href="<?php echo site_url('stocks/familia_adicionar_servicos')?>"class="btn btn-primary btn-200">Adicionar familia de serviços...</a></div>
 			</div>
 			
@@ -35,12 +33,11 @@
 								<td><?php echo $familia['id_familia_servicos'] ?></td>
 								<td class="text-center"><?php echo $familia['designacao_servicos'] ?></td>
 								<td class="text-center"><?php echo $familia['parent_servicos'] !=''? $familia['parent_servicos']:'-' ?></td>
-						
+								<!-- botoes editar/eliminar -->
 								<td class="text-center">
-									<a class="btn btn-primary btn-sm btn-100"href="">
-									<i class="fa fa-pencil me-2"></i>Editar
+									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/familia_servicos_editar/'.aesEncrypt($familia['id_familia_servicos']))?>">
+										<i class="fa fa-pencil me-2"></i>Editar
 									</a>
-									<!-- <span class="ms-2 me-2">|</span> -->
 									<a class="btn btn-danger btn-sm btn-100" href="">
 										<i class="fa fa-trash me-2"></i> Eliminar
 									</a>

@@ -41,7 +41,11 @@ class Stocks extends BaseController{
             }else{
                 $data['error'] = $error;
             }  
-        }   
+        }
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
         echo view('stocks/familias_adicionar',$data);
      }
     //========================================================
@@ -75,7 +79,9 @@ class Stocks extends BaseController{
             }  
         }  
         
-        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
          
         echo view('stocks/familias_adicionar_servicos',$data);
      }
@@ -112,10 +118,105 @@ class Stocks extends BaseController{
             }else{
                 $data['error'] = $error;
             }  
-        }   
+        } 
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
         echo view('stocks/familias_editar',$data);
 
      }
+    //========================================================
+    public function familia_editar_servicos($id_familia){
+        helper('funcoes');
+        $id_familia = aesDecrypt($id_familia);
+        if($id_familia == -1){
+            return;
+        }
+        //editar familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families_servicos();
+        $data['familia']=$model->get_family_servicos($id_familia);
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+           
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            // confirmar se ja existe a familia com o mesmo nome
+            $resultado = $model->check_other_family_servicos($request->getPost('text_designacao'),$id_familia);
+            if($resultado){
+                $error = 'Já existe outra família com a mesma desigção!!';
+            }
+            
+            // atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> family_edit_servicos($id_familia);
+                $data['success']= "Familia atualizada com sucesso !!";
+                //redirecionamento para stock/familias
+                
+                
+                return redirect()->to(site_url('stocks/familias_servicos'));;
+                
+                
+                
+                echo view('stocks/familias_servicos',$data);
+                // return redirect()->to(site_url('stocks/familias_servicos'));
+            }else{
+                $data['error'] = $error;
+            }  
+        }   
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/familias_servicos_editar',$data);
+     }
+    //========================================================
+    public function familia_editar_servicos_confirmar($id_familia){
+        
+        $data = array();
+        $data['familia']=$id_familia;
+
+        echo view('stocks/familia_editar_servicos_confirmar',$data);
+     }
+    
+    //========================================================
+    public function familia_servicos_editar($id_familia){
+        helper('funcoes');
+        $id_familia = aesDecrypt($id_familia);
+        if($id_familia == -1){
+            return;
+        }
+        
+        //editar familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['familias']= $model->get_all_families_servicos();
+        $data['familia']=$model->get_family_servicos($id_familia);
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            if($error ==''){
+                $model -> family_edit_servicos($id_familia);
+                $data['success']= "Familia atualizada com sucesso !!";
+                //redirecionamento para stock/familias
+                return redirect()->to(site_url('stocks/familias'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/familias_servicos_editar',$data);
+
+     }
+    
     //========================================================
     public function familia_eliminar($id_familia,$resposta = 'nao'){
         helper('funcoes');
@@ -134,6 +235,9 @@ class Stocks extends BaseController{
             return redirect()->to(site_url('stocks/familias'));
         }
        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         
         echo view('stocks/familias_eliminar',$data);
 
@@ -207,7 +311,9 @@ class Stocks extends BaseController{
                 $data['error'] = $error;
             }  
         }   
-        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/taxas_adicionar',$data);
      }
     //========================================================
@@ -243,7 +349,12 @@ class Stocks extends BaseController{
             }else{
                 $data['error'] = $error;
             }  
-        }   
+        }
+        
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/taxas_editar',$data);
      }
     //========================================================
@@ -262,6 +373,11 @@ class Stocks extends BaseController{
             $model->delete_tax($id_taxa);
             //redirecionamento para stock/familias
             return redirect()->to(site_url('stocks/taxas'));
+        }
+
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
         }
         
         echo view('stocks/taxas_eliminar',$data);
@@ -337,7 +453,11 @@ class Stocks extends BaseController{
         
         if($sucesso !=''){ 
             $data['success']= $sucesso;
-        }    
+        }
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         //apresenta o formulario de adiciona
         echo view('stocks/produtos_adicionar',$data);  
      }
@@ -378,7 +498,11 @@ class Stocks extends BaseController{
         
         if($sucesso !=''){ 
             $data['success']= $sucesso;
-        }    
+        }
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         //apresenta o formulario de adiciona
         echo view('stocks/fornecedores_adicionar',$data);
     }
@@ -453,6 +577,11 @@ class Stocks extends BaseController{
         //carregar as taxas
         $data['taxas']=$model->get_all_taxes();
         
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
         //apresenta o formulario de edicao
         echo view('stocks/produtos_editar',$data);
         }
@@ -471,7 +600,12 @@ class Stocks extends BaseController{
             $model->delete_product($id_produto);
             //redirecionamento para stock/produtos
             return redirect()->to(site_url('stocks/produtos'));
-        }        
+        }
+        
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/produtos_eliminar',$data);
      }
     //======================================================== 
@@ -505,7 +639,11 @@ class Stocks extends BaseController{
             }else{               
                 $data['error'] = $error;
             }  
-        }          
+        }
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/movimentos_adicionar',$data);
      }
     //======================================================== 
@@ -548,7 +686,11 @@ class Stocks extends BaseController{
             }else{        
                 $data['error'] = $error;
             }  
-        }   
+        }
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
         echo view('stocks/movimentos_baixar',$data);
      }
     //========================================================

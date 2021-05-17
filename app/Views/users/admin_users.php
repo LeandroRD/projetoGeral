@@ -15,6 +15,7 @@
         
         <div>
             <h1>Usuários</h1>
+            <!-- botao adicionar novo usuario -->
             <div class="col-6 align-self-end"></div>
             <div class="mt-2 mb-2 "><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
         </div>
