@@ -89,7 +89,27 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
-      $("#cnpj").mask("99.999.999/9999-99");
+      // $("#cnpj").mask("99.999.999/9999-99");
+      $("#telefone").mask("(99) 9999-9999");
+
+    //Telefone
+	$("#celular").mask("(99) 99999-9999");
+
+	//CEP
+	$("#cep").mask("99999-999");
+
+	//CPF
+	$("#cpf").mask("999.999.999-99");
+
+	//CNPJ
+	$("#cnpj").mask("99.999.999/9999-99");
+
+	//Data
+	$("#data").mask("99/99/9999");
     </script>
+
+    <!-- link do modal               -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script> -->
   </body>
 </html>

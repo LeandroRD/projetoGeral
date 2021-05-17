@@ -140,6 +140,23 @@
 }
 
 
+.marg-topo-150{
+    margin-top: 150px;
+}
+
+.borda-mensagem{
+    border: rgb(211, 139, 139) 3px solid;
+}
+
+.borda-mensagem2{
+    border: rgb(156, 123, 123) 3px solid;
+}
+.encher-mensagem{
+    background-color: rgb(241, 115, 115);
+}
+
+
+
 
 
 

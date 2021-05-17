@@ -155,15 +155,8 @@ class Stocks extends BaseController{
             if($error ==''){
                 $model -> family_edit_servicos($id_familia);
                 $data['success']= "Familia atualizada com sucesso !!";
-                //redirecionamento para stock/familias
-                
-                
+                //redirecionamento para stock/familias_servicos
                 return redirect()->to(site_url('stocks/familias_servicos'));;
-                
-                
-                
-                echo view('stocks/familias_servicos',$data);
-                // return redirect()->to(site_url('stocks/familias_servicos'));
             }else{
                 $data['error'] = $error;
             }  
@@ -182,6 +175,17 @@ class Stocks extends BaseController{
 
         echo view('stocks/familia_editar_servicos_confirmar',$data);
      }
+    
+    //========================================================
+    public function familia_editar_confirmar($id_familia){
+        
+        $data = array();
+        $data['familia']=$id_familia;
+
+        echo view('stocks/familia_editar_confirmar',$data);
+     }
+    
+    
     
     //========================================================
     public function familia_servicos_editar($id_familia){

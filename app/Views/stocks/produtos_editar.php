@@ -1,11 +1,9 @@
 <?php
-	$this->extend('Layout/layout_users');
-    
+	$this->extend('Layout/layout_users');  
     // tratar o id do produto a editar
     helper('funcoes');
     $id = aesEncrypt($produto['id_produto']);
 ?>
-
 <?php $this->section('conteudo')?>
     <div class="row mt-2 ">
 		<div class="col-12 text-center">
@@ -13,7 +11,6 @@
 			<hr>
         </div>
         <div class="col-12 mt-3 card card-claro">
-            
             <!-- necessario inserir a propriedade enctype="multipart/form-data"
              para submeter arquivo JPG -->
             <form action="<?php echo site_url('stocks/produtos_editar/'.$id) ?>" method="post" enctype="multipart/form-data">
@@ -27,7 +24,6 @@
                         <?php echo $success ?>
                     </div>
                 <?php endif; ?>
-                
                 <!-- familias -->
                 <div class=" col-md-6 col-md-offset-3 marg-fundo ">
                     <label>Família do produto:</label>
@@ -45,20 +41,17 @@
                                 <?php endif;?>
                             <?php endforeach;?>
                     </select>
-                </div>
-                
+                </div>               
                 <!--designacao-->
                 <div class="mt-3 col-md-6 col-md-offset-3 marg-fundo">
                     <label>Designação:</label>
                     <input type="text" name="text_designacao" class="form-control" placeholder="Designação do produto" required value="<?php echo $produto['designacao'] ?>">
-                </div>
-    
+                </div>   
                 <!--  descricao-->
                 <div class="mt-3 col-md-6 col-md-offset-3 marg-fundo ">
                     <label>Descrição:</label>
                     <textarea name="text_descricao"  class="form-control" placeholder="Descrição" ><?php echo $produto['descricao'] ?></textarea>
                 </div>
-
                  <!--  imagem-->               
                 <div class="  mt-3 mb-3  col-md-12  p-4 ">
                     <div class="row">
@@ -71,7 +64,6 @@
                         </div>
                     </div>    
                 </div>
-
                 <!--  preço-->
                 <div class="row mt-2 mb-2 col-md-6 col-md-offset-3  " >
                     <div class="col-2">
@@ -81,7 +73,6 @@
                         <input name="text_preco" min="0" max="100000" step="0.05" class="form-control largura-240px" type="number" value="<?php echo $produto['preco'] ?>" required >                
                     </div>  
                 </div>
-
                 <!--  taxa-->
                 <div class="row mt-2 mb-2  col-md-6 col-md-offset-3  " >
                     <div class="col-2">
@@ -105,7 +96,6 @@
                         </select>                       
                     </div>  
                 </div>
-
                 <!--  quantidade-->
                 <div class="row mt-2 mb-2  col-md-6 col-md-offset-3 " >
                     <div class="col-2">
@@ -115,20 +105,47 @@
                         <input  name="text_quantidade" min="0" max="100000"  class="largura-240px form-control " type="number"  required value=<?php echo $produto['quantidade'] ?> >               
                     </div>  
                 </div>
-
                 <!--  detalhes-->
-            
                 <div class="row ">
                     <div class="  col-md-6 col-md-offset-3 ">
                         <div class="padding-dir-esq-10 marg-fundo">
                             <label>Detalhes:</label>
-                            <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" ><?php echo $produto['detalhes'] ?></textarea>
+                            <textarea name="text_detalhes" class="form-control" placeholder="Detalhes" required><?php echo $produto['detalhes']  ?></textarea>
                         </div>
                         <div class="text-center marg-fundo">
+                            <!-- Modal -------------------->
                             <div class="marg-fundo">
-                                <a href="<?php echo site_url('stocks/produtos') ?>" class="btn cor-botao-secondary btn-200 ">Cancelar</a>                       
-                            </div>
-                            <button class="btn btn-primary btn-200">Atualizar</button>
+                               <div class="marg-fundo  col-md-6 col-md-offset-3 ">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-lg btn-200 " data-toggle="modal" data-target="#myModal">
+                                        Confirmar
+                                    </button>
+                                    <div class="modal fade marg-topo-150  " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <!-- //=========================================================== -->
+                                                <div class="modal-header borda-mensagem encher-mensagem">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel"></h4>
+                                                </div>
+                                                <!-- //=========================================================== -->
+                                                <div class="modal-body  ">
+                                                <h3> Tem certeza das alterações ?</h3>
+                                                <button class="btn btn-primary btn-200">Atualizar</button>
+                                                <button type="button" class="btn cor-botao-secondary btn-200" data-dismiss="modal">Não</button>
+                                              </div>  
+                                              <!-- //=========================================================== -->
+                                              <div class="modal-footer ">
+                                              </div>
+                                            <!-- //=========================================================== -->
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                               <div >
+                                    <a href="<?php echo site_url('stocks/produtos') ?>" class="btn btn-lg cor-botao-secondary btn-200 ">Cancelar</a>                       
+                               </div>   
+                            </div>  
                         </div>
                     </div>
                 </div>
