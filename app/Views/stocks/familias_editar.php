@@ -8,11 +8,9 @@
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
 		<div class="col-12 text-center ">
-			<h3>Família de Produtos - Editar </h3>
-			
+			<h3>Família de Produtos - Editar </h3>		
         </div>
         <div class="col-md-6 col-md-offset-3 card card-claro">
-        
             <form action="<?php echo site_url('stocks/familia_editar_confirmar/'.$id_familia) ?>" method="post">
                 <?php if(isset($error)): ?>
                     <div class="alert alert-danger p-3 text-center alerta-apagando">

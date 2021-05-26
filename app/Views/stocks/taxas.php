@@ -24,8 +24,8 @@
 					</div>
 					<br>
 					<div class="table-responsive  marg-topo">
-						<table class="table table-striped marg-topo" id="tabela_taxas">
-							<thead class="table-dark">
+						<table class="table table-striped2 marg-topo" id="tabela_taxas">
+							<thead class="cabeca-tabela">
 								<th>ID</th>
 								<th>Taxa</th>
 								<th class="text-center">Percentual</th>

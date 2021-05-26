@@ -128,6 +128,69 @@ class Stocks extends BaseController{
 
      }
     //========================================================
+    public function fornecedor_editar($id_fornecedor){
+        helper('funcoes');
+        $id_fornecedor = aesDecrypt($id_fornecedor);
+        
+    
+        // $id_familia = aesDecrypt($id_familia);
+        if($id_fornecedor == -1){
+            return;
+        }
+        //editar familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['fornecedores']= $model->get_all_fornecedores();
+        $data['fornecedor']=$model->get_fornecedor($id_fornecedor);
+        $data['familia_servicos']= $model->get_all_families_servicos();
+        $error = '';
+        
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            //confirmar se ja existe outro fornecedor com o mesmo nome
+            $resultado = $model->check_other_razao_social($request->getPost('text_razao_social'),$id_fornecedor);
+            if($resultado){
+                $error = 'Já existe outro fornecedor com a mesma razão social!!';
+            }
+
+             //confirmar se ja existe outro fornecedor com o cnpj
+             if($error==''){
+                $resultado = $model->check_other_cnpj($request->getPost('text_cnpj'),$id_fornecedor);
+             if($resultado){
+                 $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
+             }
+             }
+             
+
+            
+           
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                
+                
+                $model -> fornecedor_editar($id_fornecedor);
+                $data['success']= "Familia atualizada com sucesso !!";
+                // echo $error;
+                // die();
+                //redirecionamento para stock/familias
+                return redirect()->to(site_url('stocks/fornecedores'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/fornecedores_editar',$data);
+
+     }
+    
+    //========================================================
     public function familia_editar_servicos($id_familia){
         helper('funcoes');
         $id_familia = aesDecrypt($id_familia);
@@ -227,8 +290,7 @@ class Stocks extends BaseController{
         $id_familia = aesDecrypt($id_familia);
         if($id_familia == -1){
             return;
-        }
-        
+        } 
         $model = new StocksModel();
         $data['familia']=$model->get_family($id_familia);
        
@@ -242,10 +304,30 @@ class Stocks extends BaseController{
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
         }
-        
         echo view('stocks/familias_eliminar',$data);
-
      }
+    //========================================================
+    public function fornecedor_eliminar($id_fornecedor,$resposta = 'nao'){
+        helper('funcoes');
+        $id_fornecedor = aesDecrypt($id_fornecedor);
+        if($id_fornecedor == -1){
+            return;
+        } 
+        $model = new StocksModel();
+        $data['fornecedor']=$model->get_fornecedor($id_fornecedor);
+       
+        if($resposta=='sim'){
+            //Eliminacao da familia
+            $model->delete_fornecedor($id_fornecedor);
+            //redirecionamento para stock/familias
+            return redirect()->to(site_url('stocks/fornecedores'));
+        }
+       
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/fornecedor_eliminar',$data);
+    }
     //========================================================
     public function familias(){
         //carregar os dados da familias para passar a View
@@ -479,9 +561,17 @@ class Stocks extends BaseController{
             $model = new StocksModel();
             //verifica se ja existe fornecedor com o mesmo nome
             if($model->fornecedor_check()){
-                //erro ja existe outro produto com o mesmo nome
+                //erro ja existe outro fornecedor com o mesmo nome
                 $erro = 'Já existe outro fornecedor com o mesmo nome!';  
             }
+
+            //verifica se ja existe fornecedor com o mesmo nome
+            if($model->cnpj_check()){
+                //erro ja existe outro fornecedor com o mesmo nome
+                $erro = 'Já existe outro fornecedor com o mesmo cnpj!';  
+            }
+
+            
 
             if($model->fornecedor_servicos()){
                 //erro mensagem de preencher o campo família de servicos

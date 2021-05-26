@@ -20,9 +20,9 @@
 			</div>
 			
 			<div class="table-responsive  marg-topo">
-				<table class="table table-striped" id="tabela_familias">
-					<thead class="table-dark">
-						<th>ID</th>
+				<table class="table table-striped2" id="tabela_familias">
+					<thead class="cabeca-tabela">
+						<th class="text-center">ID</th>
 						<th class="text-center">Família</th>
 						<th class="text-center" >Parent</th>
 						<th class="text-center">Ações</th>
@@ -30,7 +30,7 @@
 					<tbody>
 						<?php foreach($familias as $familia):?>
 							<tr>
-								<td><?php echo $familia['id_familia_servicos'] ?></td>
+								<td class="text-center"><?php echo $familia['id_familia_servicos'] ?></td>
 								<td class="text-center"><?php echo $familia['designacao_servicos'] ?></td>
 								<td class="text-center"><?php echo $familia['parent_servicos'] !=''? $familia['parent_servicos']:'-' ?></td>
 								<!-- botoes editar/eliminar -->

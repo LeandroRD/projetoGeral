@@ -98,6 +98,17 @@ class StocksModel extends Model
         
      }
     //=====================================================
+    public function get_fornecedor($id_fornecedor){
+        //retorna a familia
+        $params = array($id_fornecedor);
+        $results = $this->query('SELECT * FROM fornecedores WHERE id_for =?',$params)->getResult('array');
+            if(count($results)==1){
+                return $results[0];
+            }else{
+                return array();
+       }  
+    }
+    //=====================================================
     public function get_family_servicos($id_family){
         //retorna a familia
         $params = array($id_family);
@@ -152,6 +163,40 @@ class StocksModel extends Model
         }
      }
     //=====================================================
+    public function check_other_razao_social($razao_social,$id_razaoSocial){
+        $params = array(
+            $razao_social,
+            $id_razaoSocial   
+        );
+        $results = $this-> query("SELECT * FROM fornecedores WHERE razao_social = ? 
+                   AND id_for <> ?
+                  ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+    //=====================================================
+    public function check_other_cnpj($cnpj,$id_fornecedor){
+        $params = array(
+            $cnpj,
+            $id_fornecedor   
+        );
+        
+        $results = $this-> query("SELECT * FROM fornecedores 
+                   WHERE cnpj = ?
+                   AND id_for <> ? 
+                  ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+    //=====================================================
     public function check_other_family_servicos($designacao,$id_family){
         $params = array(
             $designacao,
@@ -181,6 +226,56 @@ class StocksModel extends Model
           WHERE id_familia = ? ",
           $params);
      }
+    //=====================================================
+    public function fornecedor_editar($id_fornecedor){
+        
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+           
+            $request->getPost('text_razao_social'),
+            $request->getPost('combo_familia'),
+            $request->getPost('text_cnpj'),
+            $request->getPost('text_ie'),
+            $request->getPost('text_endereco'),
+            $request->getPost('text_numero'),
+            $request->getPost('text_complemento'),
+            $request->getPost('text_bairro'),
+            $request->getPost('text_municipio'),
+            $request->getPost('text_uf'),
+            $request->getPost('text_cep'),
+            $request->getPost('text_email'),
+            $request->getPost('text_contato'),
+            $request->getPost('text_telefone'),
+            $request->getPost('text_celular'),
+            $request->getPost('text_obs'),
+            $id_fornecedor
+        );
+        
+        
+        
+        $this->query("UPDATE fornecedores SET 
+         razao_social = ?,
+         servico =?,
+         cnpj=?,
+         I_E=?,
+         endereco=?,
+         numero=?,
+         complemento=?,
+         bairro=?,
+         municipio=?,
+         UF=?,
+         CEP=?,
+         email=?,
+         contato=?,
+         telefone=?,
+         celular=?,
+         obs=?
+          WHERE id_for = ? ",
+          $params);
+     }
+    
+    
     //=====================================================
     public function family_edit_servicos($id_family){
         //atualizar os dados da family
@@ -228,6 +323,22 @@ class StocksModel extends Model
         //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
         $this->query("UPDATE stock_familias SET id_parent = 0 
                     WHERE id_parent = ? ",$params);
+
+     }
+    //=====================================================
+    public function delete_fornecedor($id_fornecedor){
+        //eliminar o fornecedor
+        $params = array($id_fornecedor);
+
+        //deletendo a familia
+        $this->query("DELETE FROM  fornecedores
+          WHERE id_for = ? ",
+          $params);
+
+        //   atualizando todas as familias onde id_parent é id_familia
+        //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
+        $this->query("UPDATE fornecedores SET servico = 0 
+                    WHERE servico = ? ",$params);
 
      }
     //=====================================================
@@ -387,6 +498,25 @@ class StocksModel extends Model
             return false;
         }
      }
+
+    //=====================================================
+    public function cnpj_check(){
+        //verifica se ja existe um fornecedor com o mesmo cnpj
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_cnpj')
+        );
+        
+        $results = $this-> query("SELECT cnpj FROM fornecedores WHERE cnpj = ? 
+                    ",$params
+        )->getResult('array');
+        if(count($results)!=0){
+            return true;
+        }else{
+            return false;
+        }
+     }
+
 
     //=====================================================
     public function fornecedor_servicos(){
@@ -645,10 +775,22 @@ class StocksModel extends Model
 //=====================================================
     public function get_all_fornecedores(){
         //retorna todas as taxas
-        return $this->query("SELECT * FROM fornecedores")->getResult('array');
-        
+        return $this->query("SELECT 
+        f.id_for, 
+        f.razao_social,
+        f.servico,
+        f.municipio,
+        f.UF,
+        s.designacao_servicos AS nome_servico
+        FROM fornecedores f
+        LEFT JOIN 
+            stock_familias_servicos s 
+        ON 
+            f.servico = s.id_familia_servicos
+        ")->getResult('array');
     }
 }
+//=====================================================
 
 
 

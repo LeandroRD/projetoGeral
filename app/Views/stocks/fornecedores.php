@@ -15,8 +15,9 @@
 			</div>
 			<br>
 			<div class="table-responsive  marg-topo">
-				<table class="table table-striped marg-topo" id="tabela_fornecedor">
-					<thead class="table-dark">
+				<table class="table  table-striped2  marg-topo" id="tabela_fornecedor">
+					<thead class="cabeca-tabela" >
+						<th>ID</th>
 						<th>Razão Social</th>
 						<th>Serviços</th>
 						<th class="text-center">Município</th>
@@ -25,17 +26,18 @@
 					</thead>
 					<tbody>
 						<?php foreach($fornecedores as $fornecedor):?>
-							<tr>
+							<tr >
+								<td ><?php echo $fornecedor['id_for'] ?></td>
 								<td><?php echo $fornecedor['razao_social'] ?></td>
-								<td><?php echo $fornecedor['servico'] ?></td>
+								<td><?php echo $fornecedor['nome_servico'] ?></td>
 								<td class="text-center"><?php echo $fornecedor['municipio']  ?> </td>
 								<td class="text-center"><?php echo $fornecedor['UF']  ?> </td>
 								<td class="text-center">
-									<a class="btn btn-primary btn-sm btn-100"href="">
+								<!-- botoes editar/deletar -->
+									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/fornecedor_editar/'.aesEncrypt($fornecedor['id_for']))?>">
 										<i class="fa fa-pencil me-2"></i>Editar
 									</a>
-									<!-- <span class="ms-2 me-2">|</span> -->
-									<a class="btn btn-danger btn-sm btn-100" href="">
+									<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/fornecedor_eliminar/'.aesEncrypt($fornecedor['id_for']))?>">
 										<i class="fa fa-trash me-2"></i> Eliminar
 									</a>
 								</td>

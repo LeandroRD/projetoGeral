@@ -72,9 +72,10 @@
                         </div>  
                     </div>
                     <div class="col-md-6 col-md-offset-3 text-center">
-                        <a href="<?php echo site_url('stocks/produtos') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Cancelar</a>                              
+                        <a href="<?php echo site_url('stocks/movimentos') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Cancelar</a>                              
                     </div>   
-                </div>  
+                </div>
+                <br>  
             </form>
         </div>
     </div>

@@ -20,8 +20,8 @@
             <div class="mt-2 mb-2 "><a href="<?php echo site_url('users/admin_new_user') ?>" class="btn btn-primary btn-200">Novo Usuário...</a></div>
         </div>
             <div class="table-responsive marg-topo">
-                <table class="table table-striped" id="tabela_users">
-                    <thead class="table-dark">
+                <table class="table table-striped2" id="tabela_users">
+                    <thead class="cabeca-tabela">
                         <th>Ação</th>
                         <th>Username</th>
                         <th>Nome</th>

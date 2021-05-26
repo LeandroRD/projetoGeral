@@ -20,8 +20,8 @@
 			</div>
 			<hr>
 			<div class="table-responsive  marg-topo">
-				<table class="table table-striped" id="tabela_movimentos">
-					<thead class="table-dark">
+				<table class="table table-striped2" id="tabela_movimentos">
+					<thead class="cabeca-tabela">
 						<th>ID Produto</th>
 						<th>Designação</th>
 						<th>Quantidade</th>

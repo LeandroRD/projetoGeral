@@ -3,6 +3,8 @@
     // tratar o id do produto a editar
     helper('funcoes');
     $id = aesEncrypt($produto['id_produto']);
+
+  
 ?>
 <?php $this->section('conteudo')?>
     <div class="row mt-2 ">

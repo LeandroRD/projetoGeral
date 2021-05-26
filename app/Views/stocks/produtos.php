@@ -2,6 +2,7 @@
 	$this->extend('Layout/layout_users');
 	
 	helper('funcoes');
+	
 ?>
 <?php $this->section('conteudo')?>
 	<div class="text-end ">
@@ -17,8 +18,8 @@
 			</div>
 			<br>
 			<div class="table-responsive  marg-topo">
-				<table class="table table-striped marg-topo  " id="tabela_produtos">
-					<thead class="table-dark">
+				<table class="table table-striped2 marg-topo  " id="tabela_produtos">
+					<thead class="cabeca-tabela">
 						<!-- <th>ID</th> -->
 						<th>Produto</th>
 						<th>Familia</th>
@@ -35,7 +36,7 @@
 								<td class="text-end align-middle "><?php echo $produto['preco'] ?></td>
 								<td class="text-center align-middle"><?php echo $produto['quantidade'] ?></td>
 								<td class="text-center align-middle"><?php echo $produto['taxa'].'('.$produto['percentagem']. ' %) ' ?></td>
-								<td class="text-end">
+								<td class="text-center">
 									<a class="btn btn-primary btn-sm btn-100 m-1 align-middle"href="<?php echo site_url('stocks/produtos_editar/'.aesEncrypt($produto['id_produto']) )?>">
 										<i class="fa fa-pencil me-2"></i>Editar
 									</a>
