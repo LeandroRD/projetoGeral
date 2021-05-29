@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-md-6 col-xs-5 ">
                         <!--  munícipio-->
-                        <label>Muwnicípio:</label>
+                        <label>Município:</label>
                         <input type="text" name="text_municipio"value = "<?php echo $municipio?>"  class="form-control marg-fundo" >
                     </div>
                         <div class="col-md-2 col-xs-3 ">

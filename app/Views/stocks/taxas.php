@@ -41,7 +41,6 @@
 											<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/taxas_editar/'.aesEncrypt($taxa['id_taxas']))?>">
 												<i class="fa fa-pencil me-2"></i>Editar
 											</a>
-											<!-- <span class="ms-2 me-2">|</span> -->
 											<a class="btn btn-danger btn-sm btn-100" href="<?php echo site_url('stocks/taxas_eliminar/'.aesEncrypt($taxa['id_taxas']))?>">
 												<i class="fa fa-trash me-2"></i> Eliminar
 											</a>

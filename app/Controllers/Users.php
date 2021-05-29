@@ -285,7 +285,7 @@ class Users extends BaseController
                 }
             }
             if($error==''){
-                $model->addNewUser();
+                $model->addNewUser_fornecedor();
                 $sucesso = 'Fornecedor adicionado com sucesso!';        
             }            
         }

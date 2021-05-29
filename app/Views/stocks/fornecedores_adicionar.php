@@ -99,7 +99,7 @@
                     <div class="col-md-2 col-xs-3  ">
                         <!--  numero-->
                         <label>Nr:</label>
-                        <input type="text" name="text_numero"value = "<?php echo $nr?>"  class="form-control marg-fundo" >
+                        <input type="text" name="text_numero"value = "<?php echo $nr?>"  class="form-control marg-fundo"  >
                     </div>
                     <div class="col-md-3 col-xs-5 ">
                         <!--  complemento-->
@@ -115,12 +115,12 @@
                 <div class="row">
                     <div class="col-md-4 col-xs-4 ">
                         <!--  Cep-->
-                        <label>Cep:</label>
-                        <input type="text" id="cep"name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo" >
+                        <label>Cep.:</label>
+                        <input type="text" id="cep"name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo " autocomplete="off">
                     </div>
                     <div class="col-md-6 col-xs-5 ">
                         <!--  munícipio-->
-                        <label>Muwnicípio:</label>
+                        <label>Município:</label>
                         <input type="text" name="text_municipio"value = "<?php echo $municipio?>"  class="form-control marg-fundo" >
                     </div>
                         <div class="col-md-2 col-xs-3 ">
@@ -168,6 +168,34 @@
                     <label>Observações:</label>
                     <input type="text" name="text_obs" value = "<?php echo $obs?>"  class="form-control marg-fundo" >
                 </div>
+                
+                <div class="card card-user padding-dir-esq-10px">
+                     <!-- nome -->
+                     <div class="marg-fundo">
+                        <label>UserName:</label>
+                        <input type="text" class="form-control" name="text_name" required placeholder="Nome">
+                    </div>
+                    <!-- senha -->
+                    <div class="row marg-fundo">
+                        <div class="col-md-6">
+                            <input type="text" name="text_password"class="form-control" required placeholder="Password">
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary btn-150 " id="btn-password">Gerar password</button>
+                        </div>
+                    </div>
+                    <div class="row  marg-fundo">
+                        <div class="col-md-6">
+                            <input type="text" name="text_password_repetir" class="form-control" required placeholder="Repetir Password">      
+                        </div>
+                        <div class="col-md-6 mb-2 ">
+                            <button type="button" class="btn cor-botao-secondary btn-150 " id="btn-limpar">Limpar</button>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+               
+                
                 <!-- botoes -->
                 <br>
                 <div class="row text-center">

@@ -42,9 +42,8 @@ class StocksModel extends Model
         FROM stock_familias a LEFT JOIN stock_familias b
         ON a.id_parent = b.id_familia
         ')->getResult('array');
-
-        
         }
+
     //=======================================================
     public function get_all_families_servicos(){
       
@@ -111,7 +110,7 @@ class StocksModel extends Model
     //=====================================================
     public function get_family_servicos($id_family){
         //retorna a familia
-        $params = array($id_family);
+       $params = array($id_family);
        $results = $this->query('SELECT * FROM stock_familias_servicos WHERE id_familia_servicos =?',$params)->getResult('array');
       
        if(count($results)==1){
@@ -133,6 +132,17 @@ class StocksModel extends Model
             $request->getPost('text_designacao')
         );
         $this->query("INSERT INTO stock_familias VALUES(0,?,?,'' )",$params);
+     }
+    //=====================================================
+    public function cotacao_add(){
+
+        //adiciona uma nova familia de produtos na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('select_parent'),
+            $request->getPost('text_escopo')
+        );
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'' )",$params);
      }
     //=====================================================
     public function family_add_servicos(){
@@ -326,6 +336,24 @@ class StocksModel extends Model
 
      }
     //=====================================================
+    public function delete_family_servicos($id_family_servicos){
+        //eliminar a familia e alterar o id_parents
+        $params = array($id_family_servicos);
+
+        //deletendo a familia
+        $this->query("DELETE FROM  stock_familias_servicos
+          WHERE id_familia_servicos = ? ",
+          $params);
+
+        //   atualizando todas as familias onde id_parent é id_familia
+        //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
+        $this->query("UPDATE stock_familias_servicos SET id_parent_servicos = 0 
+                    WHERE id_parent_servicos = ? ",$params);
+
+     }
+
+
+    //=====================================================
     public function delete_fornecedor($id_fornecedor){
         //eliminar o fornecedor
         $params = array($id_fornecedor);
@@ -498,6 +526,21 @@ class StocksModel extends Model
             return false;
         }
      }
+
+    //=====================================================
+    public function fornecedor_check_tras_id(){
+        //verifica se ja existe um fornecedor com o mesmo nome
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_razao_social')
+        );
+        return $this-> query("SELECT id_for FROM fornecedores WHERE razao_social = ? 
+                    ",$params
+        )->getResult('array')[0];
+        
+     }
+
+
 
     //=====================================================
     public function cnpj_check(){
@@ -741,8 +784,7 @@ class StocksModel extends Model
             $request->getPost('text_quantidade'),
             $request->getPost('text_obs')
         );
-        $this->query("INSERT INTO stock_movimentos VALUES(0,'',?,?,?,'','',NOW() )",$params);
-        
+        $this->query("INSERT INTO stock_movimentos VALUES(0,'',?,?,?,'','',NOW() )",$params);   
     }
      //=====================================================
      public function movimento_add_produto(){
@@ -774,7 +816,7 @@ class StocksModel extends Model
     }
 //=====================================================
     public function get_all_fornecedores(){
-        //retorna todas as taxas
+        //busca todos as familias de  servicos atraves do id_familia_servicos
         return $this->query("SELECT 
         f.id_for, 
         f.razao_social,
@@ -789,9 +831,54 @@ class StocksModel extends Model
             f.servico = s.id_familia_servicos
         ")->getResult('array');
     }
+//=======================================================
+    public function get_all_cotacoes(){
+        //busca todos as cotacoes
+         return $this->query("SELECT 
+         c.id_cot, 
+         c.escopo,
+         c.detalhes,
+         f.razao_social AS razaoSocial
+         FROM cotacao_servicos c
+         LEFT JOIN 
+             fornecedores f 
+         ON 
+             c.id_for = f.id_for
+         ")->getResult('array');
+    }
+
+//=====================================================
+    public function get_all_cotacoes_fornecedor($id_fornecedor){
+        $params = array(
+            $id_fornecedor       
+         );
+        //busca todos as familias de  servicos atraves do id_familia_servicos
+         return $this->query("SELECT 
+         c.id_cot, 
+         c.escopo,
+         c.detalhes,
+         f.razao_social AS razaoSocial
+         FROM cotacao_servicos c
+         LEFT JOIN 
+             fornecedores f 
+         ON 
+             c.id_for = f.id_for
+         Where f.id_for = ? 
+         ",$params)->getResult('array');
+    }
+//=====================================================
+    public function get_id_fornecedor($id_fornecedor){
+        $params = array(
+           $id_fornecedor       
+        );
+            return $this->query(
+                "SELECT id_fornecedor 
+                 FROM users 
+                 WHERE username = ?
+                ",$params)->getResult('array')[0];
+            }          
 }
 //=====================================================
-
 
 
 

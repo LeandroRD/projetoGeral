@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 use App\Models\StocksModel;
+use App\Models\UsersModel;
 use CodeIgniter\Controller;
 
 class Stocks extends BaseController{
@@ -48,6 +49,43 @@ class Stocks extends BaseController{
         
         echo view('stocks/familias_adicionar',$data);
      }
+    //========================================================
+    public function cotacao_adicionar(){
+        //adicionar nova familia
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['fornecedores']= $model->get_all_fornecedores();
+        $error = '';
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            
+            // //confirmar se ja existe a familia com o mesmo nome
+            // $resultado = $model->check_family($request->getPost('text_designacao'));
+            // if($resultado){
+            //     $error = 'Já existe uma família com a mesma desigção!!';
+            // }
+            //guardar na base de dados e trata erro
+            if($error ==''){
+                $model -> cotacao_add();
+                $data['success']= "Familia adicionada com sucesso";
+                //para atualizar a lista de familias
+                $data['fornecedores']= $model->get_all_fornecedores();
+            }else{
+                $data['error'] = $error;
+            }  
+        }
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/cotacoes_adicionar',$data);
+     }
+
+
+
     //========================================================
     public function familia_adicionar_servicos(){
         //adicionar nova familia
@@ -307,6 +345,29 @@ class Stocks extends BaseController{
         echo view('stocks/familias_eliminar',$data);
      }
     //========================================================
+    public function familia_eliminar_servicos($id_familia_servicos,$resposta = 'nao'){
+        helper('funcoes');
+        $id_familia_servicos = aesDecrypt($id_familia_servicos);
+        if($id_familia_servicos == -1){
+            return;
+        } 
+        $model = new StocksModel();
+        $data['familia_servicos']=$model->get_family_servicos($id_familia_servicos);
+       
+        if($resposta=='sim'){
+            //Eliminacao da familia
+            $model->delete_family_servicos($id_familia_servicos);
+            //redirecionamento para stock/familias
+            return redirect()->to(site_url('stocks/familias_servicos'));
+        }
+       
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/familias_eliminar_servicos',$data);
+     }
+
+    //========================================================
     public function fornecedor_eliminar($id_fornecedor,$resposta = 'nao'){
         helper('funcoes');
         $id_fornecedor = aesDecrypt($id_fornecedor);
@@ -337,6 +398,30 @@ class Stocks extends BaseController{
             $data['admin'] = "true";
         }
         echo view('stocks/familias',$data);
+     }
+    //========================================================
+    public function cotacoes(){
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacoes',$data);
+     }
+    
+    //========================================================
+    public function cotacoes_fornecedor(){
+        $model = new StocksModel();
+        $s = session();
+        $user = $s->name;
+        //buscar o id de fornecedor
+        $id_fornecedor = $model->get_id_fornecedor($user);
+        $data['cotacoes']= $model->get_all_cotacoes_fornecedor($id_fornecedor);
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacoes_fornecedor',$data);
      }
     //========================================================
     public function familias_servicos(){
@@ -551,6 +636,7 @@ class Stocks extends BaseController{
     public function fornecedores_adicionar(){
         
         $model = new StocksModel();
+        
         //carregar fornecedores
         $data['familias']=$model->get_all_families_servicos();
         $sucesso = '';
@@ -571,19 +657,21 @@ class Stocks extends BaseController{
                 $erro = 'Já existe outro fornecedor com o mesmo cnpj!';  
             }
 
-            
-
             if($model->fornecedor_servicos()){
                 //erro mensagem de preencher o campo família de servicos
                 $erro = 'preencha o campo família de servicos';  
             }
-            
-           
+             
             if($erro==''){
             $model = new StocksModel();
             $model -> fornecedor_add();
+
+            // busca id_fornecedor
+            $id_fornecedor = $model->fornecedor_check_tras_id();
+            $model2 = new UsersModel();
+            $model2->addNewUser_fornecedor($id_fornecedor);   
                     $sucesso = 'Fornecedor adicionado com sucesso!';                   
-                }    
+            }    
         }
         //passar para a $data a mensagem de erro ou nao
         if($erro !=''){ 

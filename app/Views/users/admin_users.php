@@ -23,6 +23,7 @@
                 <table class="table table-striped2" id="tabela_users">
                     <thead class="cabeca-tabela">
                         <th>Ação</th>
+                        <th>ID</th>
                         <th>Username</th>
                         <th>Nome</th>
                         <th>Email</th>
@@ -52,7 +53,7 @@
                                         <?php endif;?>
                                     </td>
                                 <?php endif;?>
-                                        
+                                <td><?php echo $user['id_user'] ?></td>       
                                 <td><?php echo $user['username'] ?></td>
                                 <td><?php echo $user['name'] ?></td>
                                 <td><?php echo $user['email'] ?></td>

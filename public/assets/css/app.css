@@ -21,6 +21,10 @@
     background-color: rgb(240, 232, 232);
 }
 
+.card-user{
+    background-color: rgb(201, 187, 187);
+}
+
 .card-claro2{
     background-color: rgb(224, 212, 212);
 }
@@ -73,7 +77,7 @@
     color: burlywood;
 }
 
-.padding-dir-esq-10{
+.padding-dir-esq-10px{
     padding-left: 10px;
     padding-right: 10px;
 }

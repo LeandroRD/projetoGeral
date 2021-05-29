@@ -49,6 +49,12 @@
               </li>
               <?php if($s->has('id_user')):?>
                 <li>
+                  <a  href="<?php echo site_url('stocks/cotacoes')?>" ><span class="font2"><b>Cotações</b></span></a>
+                </li>
+                <li>
+                  <a  href="<?php echo site_url('stocks/cotacoes_fornecedor')?>" ><span class="font2"><b>Cotações/Fornecedor</b></span></a>
+                </li>
+                <li>
                   <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias/produtos</b></span></a>
                 </li>
                 <li>

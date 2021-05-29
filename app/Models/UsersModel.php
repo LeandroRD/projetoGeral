@@ -210,10 +210,28 @@ class UsersModel extends Model
                 $dados['text_email'],
                 $profile
             );
+            
             //Query para inserir um novo user
             $this->db->query("INSERT INTO users(username, passwrd, name, email, profile) 
                               VALUES(?,?,?,?,?)",$params);
         }
+    //==========================================
+    public function addNewUser_fornecedor($id_fornecedor){
+        $request = \Config\Services::request();
+        $dados = $request->getPost();
+        $params=array(
+            $dados['text_name'],
+            md5(sha1($dados['text_password'])),
+            $dados['text_name'],
+            $dados['text_email'], 
+            $id_fornecedor 
+        );
+        //Query para inserir um novo user
+        $this->db->query("INSERT INTO users(username, passwrd, name, email,id_fornecedor) 
+                          VALUES(?,?,?,?,?)",$params);
+    }
+
+
     //==========================================
     public function randomPassword($numChars = 8){
             //gera uma senha aleatória
