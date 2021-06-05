@@ -108,6 +108,18 @@ class StocksModel extends Model
        }  
     }
     //=====================================================
+    public function get_cotacao($id_fornecedor){
+        //retorna a cotacao
+        $params = array($id_fornecedor);
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_cot =?',$params)->getResult('array');
+            if(count($results)==1){
+                return $results[0];
+            }else{
+                return array();
+       }  
+    }
+
+    //=====================================================
     public function get_family_servicos($id_family){
         //retorna a familia
        $params = array($id_family);
@@ -142,7 +154,7 @@ class StocksModel extends Model
             $request->getPost('select_parent'),
             $request->getPost('text_escopo')
         );
-        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'' )",$params);
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0 )",$params);
      }
     //=====================================================
     public function family_add_servicos(){
@@ -284,8 +296,51 @@ class StocksModel extends Model
           WHERE id_for = ? ",
           $params);
      }
-    
-    
+
+    //=====================================================
+    public function cotacao_editar($id_cotacao){
+       
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_escopo'),
+            $request->getPost('combo_fornecedor'),
+            $id_cotacao
+        );
+        $this->query("UPDATE cotacao_servicos SET 
+         escopo = ?,
+         id_for =?
+          WHERE id_cot = ? ",
+          $params);
+     }
+    //=====================================================
+    public function cotacao_editar_fornecedor($id_cotacao){
+       
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_detalhes'),
+            $id_cotacao
+        );
+        $this->query("UPDATE cotacao_servicos SET 
+         detalhes = ?
+          WHERE id_cot = ? ",
+          $params);
+     }
+    //=====================================================
+    public function cotacao_editar_fornecedor_aprovada($id_cotacao){
+       
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_acompanhamento'),
+            $id_cotacao
+        );
+        $this->query("UPDATE cotacao_servicos SET 
+         acompanhamento = ?
+          WHERE id_cot = ? ",
+          $params);
+     }
     //=====================================================
     public function family_edit_servicos($id_family){
         //atualizar os dados da family
@@ -446,6 +501,16 @@ class StocksModel extends Model
           $params);
         }
     //=====================================================
+    public function cot_aprovado($id_aprovado){
+        $params = array(
+            $id_aprovado
+        );
+        $this->query("UPDATE cotacao_servicos
+         SET cot_aprovado = 1
+          WHERE id_cot = ? ",
+          $params);
+    }
+    //=====================================================
     public function delete_tax($id_taxa){
         //eliminar a taxa e alterar o id nos produtos
         $params = array(
@@ -461,7 +526,18 @@ class StocksModel extends Model
                     WHERE id_taxa = ? ",$params);
         }
     //=====================================================
-                    //PRODUTOS
+    public function delete_cotacao($id_cotacao){
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_cotacao
+        );
+        //deletendo a taxa 
+        $this->query("DELETE FROM  cotacao_servicos
+          WHERE id_cot = ? ",
+          $params);
+        }
+    //=====================================================
+    //PRODUTOS
     //=====================================================
     public function get_all_products(){
             // retorna todos os produtos
@@ -512,21 +588,16 @@ class StocksModel extends Model
      }
     //=====================================================
     public function fornecedor_check(){
-        //verifica se ja existe um fornecedor com o mesmo nome
-        $request = \Config\Services::request();
-        $params = array(
-            $request->getPost('text_razao_social')
-        );
-        $results = $this-> query("SELECT razao_social FROM fornecedores WHERE razao_social = ? 
-                    ",$params
-        )->getResult('array');
-        if(count($results)!=0){
-            return true;
-        }else{
-            return false;
-        }
+         // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+         $request = \Config\Services::request();
+         $dados = $request->getPost(); 
+         
+         $params = array(
+             $dados['text_name'],
+             $dados['text_email']   
+         );
+         return $this->db->query("SELECT id_user FROM users WHERE name = ? OR email = ?",$params)->getResult('array');
      }
-
     //=====================================================
     public function fornecedor_check_tras_id(){
         //verifica se ja existe um fornecedor com o mesmo nome
@@ -536,12 +607,8 @@ class StocksModel extends Model
         );
         return $this-> query("SELECT id_for FROM fornecedores WHERE razao_social = ? 
                     ",$params
-        )->getResult('array')[0];
-        
+        )->getResult('array')[0];  
      }
-
-
-
     //=====================================================
     public function cnpj_check(){
         //verifica se ja existe um fornecedor com o mesmo cnpj
@@ -559,40 +626,28 @@ class StocksModel extends Model
             return false;
         }
      }
-
-
     //=====================================================
     public function fornecedor_servicos(){
         //verifica se ja existe um fornecedor com o mesmo nome
         $request = \Config\Services::request();
-        
         $servicos=    $request->getPost('select_parent');
-        
-       
         if($servicos==0){
             return true;
         }else{
             return false;
         }
      }
-
     //=====================================================
     public function produtos_servicos(){
         //verifica se ja existe um fornecedor com o mesmo nome
-        $request = \Config\Services::request();
-        
+        $request = \Config\Services::request(); 
         $produto=$request->getPost('combo_familia');
-        
-       
         if($produto==0){
             return true;
         }else{
             return false;
         }
      }
-    
-    
-     
     //=====================================================
     public function product_add($nome_ficheiro){
         
@@ -844,8 +899,26 @@ class StocksModel extends Model
              fornecedores f 
          ON 
              c.id_for = f.id_for
+         Where c.cot_aprovado = 0 
          ")->getResult('array');
     }
+
+//=====================================================
+public function get_all_cotacoes_aprovadas(){
+    //busca todos as cotacoes
+     return $this->query("SELECT 
+     c.id_cot, 
+     c.escopo,
+     c.detalhes,
+     f.razao_social AS razaoSocial
+     FROM cotacao_servicos c
+     LEFT JOIN 
+         fornecedores f 
+     ON 
+         c.id_for = f.id_for
+     Where c.cot_aprovado = 1 
+     ")->getResult('array');
+}
 
 //=====================================================
     public function get_all_cotacoes_fornecedor($id_fornecedor){
@@ -863,18 +936,39 @@ class StocksModel extends Model
              fornecedores f 
          ON 
              c.id_for = f.id_for
-         Where f.id_for = ? 
+         WHERE f.id_for = ? 
+         AND c.cot_aprovado = 0 
          ",$params)->getResult('array');
     }
 //=====================================================
-    public function get_id_fornecedor($id_fornecedor){
+public function get_all_cotacoes_fornecedor_aprovadas($id_fornecedor){
+    $params = array(
+        $id_fornecedor       
+     );
+    //busca todos as familias de  servicos atraves do id_familia_servicos
+     return $this->query("SELECT 
+     c.id_cot, 
+     c.escopo,
+     c.acompanhamento,
+     f.razao_social AS razaoSocial
+     FROM cotacao_servicos c
+     LEFT JOIN 
+         fornecedores f 
+     ON 
+         c.id_for = f.id_for
+     WHERE f.id_for = ? 
+     AND c.cot_aprovado = 1 
+     ",$params)->getResult('array');
+}
+//=====================================================
+public function get_id_fornecedor($id_fornecedor){
         $params = array(
            $id_fornecedor       
         );
             return $this->query(
                 "SELECT id_fornecedor 
                  FROM users 
-                 WHERE username = ?
+                 WHERE name = ?
                 ",$params)->getResult('array')[0];
             }          
 }

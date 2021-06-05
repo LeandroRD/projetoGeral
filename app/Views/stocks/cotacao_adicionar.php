@@ -2,6 +2,7 @@
 	$this->extend('Layout/layout_users')
 ?>
 <?php $this->section('conteudo')?>
+
     <div class="row mt-2">
 		<div class="col-12 text-center ">
 			<h3>Cotações - Adicionar</h3>

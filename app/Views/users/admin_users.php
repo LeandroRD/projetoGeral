@@ -28,7 +28,7 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Último Login</th>
-                        <th class="text-center">Profile</th>
+                        <th class="text-center">Perfil</th>
                         <th class="text-center" >Ativo</th>
                         <th class="text-center">Eliminado</th>
                     </thead>
@@ -60,11 +60,12 @@
                                 <td><?php echo $user['last_login'] ?></td>
                                         
                                 <!-- admin ou outro tipo de user -->
-                                <?php if(preg_match("/admin/", $user['profile'])): ?>
-                                
+                                <?php if( $user['profile']=='admin'): ?>
                                     <td class="text-center"><i class="fa fa-user" title="Admin"></i></td>        
+                                <?php elseif( $user['profile']=='Fornecedor'):?>
+                                    <td class="text-center"><i class="fa fa-industry" title="Fornecedor"></i></td>
                                 <?php else:?>
-                                    <td class="text-center"><i class="fa fa-user-o"title="Not Admin"></i></td>
+                                    <td class="text-center"><i class="fa fa-user-o"title="User"></i></td>
                                 <?php endif;?>
                                 
                                 <!-- Ativo ou inativo -->

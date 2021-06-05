@@ -48,35 +48,46 @@
                 <a href="<?php echo site_url('main') ?>" > <span class="font1"><b>Início</b> </span>  </a>
               </li>
               <?php if($s->has('id_user')):?>
-                <li>
-                  <a  href="<?php echo site_url('stocks/cotacoes')?>" ><span class="font2"><b>Cotações</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/cotacoes_fornecedor')?>" ><span class="font2"><b>Cotações/Fornecedor</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias/produtos</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/familias_servicos')?>" ><span class="font2"><b>Familias/serviços</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
-                </li>
-                <li>
-                  <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
-                </li>
-                <li>
-                  <a  href="<?php echo site_url('stocks/fornecedores')?>" ><span class="font2"><b>Fornecedores</b></span></a>
-                </li>
+
+                <?php if(!isset($admin)): ?>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/cotacoes_fornecedor')?>" ><span class="font2"><b>Cotações/Fornecedor</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/cotacoes_fornecedor_aprovadas')?>" ><span class="font2"><b>Cotações_Aprovadas/Fornecedor</b></span></a>
+                  </li>
+                <?php endif;?>
+                <!-- //========================================================== -->
                 <?php if(isset($admin)): ?>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/cotacoes')?>" ><span class="font2"><b>Cotações</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/acompanhamento_servicos')?>" ><span class="font2"><b>Acompanhamento/Servicos</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/familias')?>" ><span class="font2"><b>Familias/produtos</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/familias_servicos')?>" ><span class="font2"><b>Familias/serviços</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/movimentos')?>" ><span class="font2"><b>Movimentos</b></span></a>
+                  </li>
+                  <li>
+                    <a href="<?php echo site_url('stocks/produtos')?>" ><span class="font2"><b>Produtos</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/taxas')?>" ><span class="font2"><b>Taxas</b></span></a>
+                  </li>
+                  <li>
+                    <a  href="<?php echo site_url('stocks/fornecedores')?>" ><span class="font2"><b>Fornecedores</b></span></a>
+                  </li>
                   <li>
                     <a  href="<?php echo site_url('users/admin_users')?>" ><span class="font2"><b>Usuários</b></span></a> 
                   </li>
                 <?php endif;?>
+                <!-- //========================================================== -->
               <?php endif;?>
             </ul>
           </div>

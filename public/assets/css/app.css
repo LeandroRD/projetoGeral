@@ -99,6 +99,11 @@
     color: white;
 }
 
+.cor-botao-verde{
+    background-color: #2aa735;
+    color: white;
+}
+
 .padding-dir-esq-10{
     padding-left: 0px;
     padding-right: 0px;

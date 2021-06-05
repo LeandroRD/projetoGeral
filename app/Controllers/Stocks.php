@@ -46,7 +46,6 @@ class Stocks extends BaseController{
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
         }
-        
         echo view('stocks/familias_adicionar',$data);
      }
     //========================================================
@@ -56,17 +55,9 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $data['fornecedores']= $model->get_all_fornecedores();
         $error = '';
-
         if($_SERVER['REQUEST_METHOD']=='POST'){
-
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
-            
-            // //confirmar se ja existe a familia com o mesmo nome
-            // $resultado = $model->check_family($request->getPost('text_designacao'));
-            // if($resultado){
-            //     $error = 'Já existe uma família com a mesma desigção!!';
-            // }
             //guardar na base de dados e trata erro
             if($error ==''){
                 $model -> cotacao_add();
@@ -79,13 +70,9 @@ class Stocks extends BaseController{
         }
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
-        }
-        
-        echo view('stocks/cotacoes_adicionar',$data);
+        }       
+        echo view('stocks/cotacao_adicionar',$data);
      }
-
-
-
     //========================================================
     public function familia_adicionar_servicos(){
         //adicionar nova familia
@@ -93,13 +80,10 @@ class Stocks extends BaseController{
         $model = new StocksModel();
         $data['familias']= $model->get_all_families_servicos();
         $error = '';
-
-        
         if($_SERVER['REQUEST_METHOD']=='POST'){
 
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
-            
             //confirmar se ja existe a familia com o mesmo nome
             $resultado = $model->check_family_servicos($request->getPost('text_designacao'));
             if($resultado){
@@ -131,14 +115,12 @@ class Stocks extends BaseController{
         if($id_familia == -1){
             return;
         }
-        //editar familia
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families();
         $data['familia']=$model->get_family($id_familia);
         $error = '';
         if($_SERVER['REQUEST_METHOD']=='POST'){
-
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
             
@@ -156,27 +138,21 @@ class Stocks extends BaseController{
             }else{
                 $data['error'] = $error;
             }  
-        } 
-        
+        }    
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
-        }
-        
+        }    
         echo view('stocks/familias_editar',$data);
-
      }
     //========================================================
     public function fornecedor_editar($id_fornecedor){
         helper('funcoes');
         $id_fornecedor = aesDecrypt($id_fornecedor);
         
-    
-        // $id_familia = aesDecrypt($id_familia);
         if($id_fornecedor == -1){
             return;
         }
-        //editar familia
-        // carregar os dados das familias para passar a View
+        // carregar os dados dos fornecedores para passar a View
         $model = new StocksModel();
         $data['fornecedores']= $model->get_all_fornecedores();
         $data['fornecedor']=$model->get_fornecedor($id_fornecedor);
@@ -193,65 +169,145 @@ class Stocks extends BaseController{
             if($resultado){
                 $error = 'Já existe outro fornecedor com a mesma razão social!!';
             }
-
-             //confirmar se ja existe outro fornecedor com o cnpj
-             if($error==''){
-                $resultado = $model->check_other_cnpj($request->getPost('text_cnpj'),$id_fornecedor);
-             if($resultado){
-                 $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
+                //confirmar se ja existe outro fornecedor com o cnpj
+                if($error==''){
+                   $resultado = $model->check_other_cnpj($request->getPost('text_cnpj'),$id_fornecedor);
+                if($resultado){
+                    $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
+                }
              }
-             }
-             
-
-            
-           
             //atualizar os dados da familia na BD 
             if($error ==''){
-                
-                
                 $model -> fornecedor_editar($id_fornecedor);
                 $data['success']= "Familia atualizada com sucesso !!";
-                // echo $error;
-                // die();
                 //redirecionamento para stock/familias
                 return redirect()->to(site_url('stocks/fornecedores'));
             }else{
                 $data['error'] = $error;
             }  
         } 
-        
         if($this->checkProfile('admin')){
             $data['admin'] = "true";
-        }
-        
+        } 
         echo view('stocks/fornecedores_editar',$data);
-
      }
     
     //========================================================
+    public function cotacao_editar($id_cotacao){
+        
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        
+        if($id_cotacao == -1){
+            return;
+        }
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        $data['fornecedores']=$model->get_all_fornecedores();
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> cotacao_editar($id_cotacao);
+                $data['success']= "Cotação atualizada com sucesso !!";
+                return redirect()->to(site_url('stocks/cotacoes'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        } 
+        echo view('stocks/cotacao_editar',$data);
+     }
+    //========================================================
+    public function cotacao_editar_fornecedor($id_cotacao){
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        
+        if($id_cotacao == -1){
+            return;
+        }
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        // $data['fornecedores']=$model->get_all_fornecedores();
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> cotacao_editar_fornecedor($id_cotacao);
+                $data['success']= "Cotação atualizada com sucesso !!";
+                return redirect()->to(site_url('stocks/cotacoes_fornecedor'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        } 
+        echo view('stocks/cotacao_editar_fornecedor',$data);
+     }
+    //========================================================
+    public function cotacao_editar_fornecedor_aprovada($id_cotacao){
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        
+        if($id_cotacao == -1){
+            return;
+        }
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        // $data['fornecedores']=$model->get_all_fornecedores();
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> cotacao_editar_fornecedor_aprovada($id_cotacao);
+                $data['success']= "Cotação atualizada com sucesso !!";
+                return redirect()->to(site_url('stocks/cotacoes_fornecedor_aprovadas'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        } 
+        echo view('stocks/cotacao_editar_fornecedor_aprovada',$data);
+     }
+    
+    //========================================================
+    
     public function familia_editar_servicos($id_familia){
         helper('funcoes');
         $id_familia = aesDecrypt($id_familia);
         if($id_familia == -1){
             return;
         }
-        //editar familia
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['familias']= $model->get_all_families_servicos();
         $data['familia']=$model->get_family_servicos($id_familia);
         $error = '';
         if($_SERVER['REQUEST_METHOD']=='POST'){
-           
             //vamos buscar a submissao pelo formulario
             $request = \Config\Services::request();
-            
             // confirmar se ja existe a familia com o mesmo nome
             $resultado = $model->check_other_family_servicos($request->getPost('text_designacao'),$id_familia);
             if($resultado){
                 $error = 'Já existe outra família com a mesma desigção!!';
             }
-            
             // atualizar os dados da familia na BD 
             if($error ==''){
                 $model -> family_edit_servicos($id_familia);
@@ -411,6 +467,17 @@ class Stocks extends BaseController{
      }
     
     //========================================================
+    public function acompanhamento_servicos(){
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes_aprovadas();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/acompanhamento_servicos',$data);
+     }
+
+    //========================================================
     public function cotacoes_fornecedor(){
         $model = new StocksModel();
         $s = session();
@@ -422,6 +489,19 @@ class Stocks extends BaseController{
             $data['admin'] = "true";
         }
         echo view('stocks/cotacoes_fornecedor',$data);
+     }
+    //========================================================
+    public function cotacoes_fornecedor_aprovadas(){
+        $model = new StocksModel();
+        $s = session();
+        $user = $s->name;
+        //buscar o id de fornecedor
+        $id_fornecedor = $model->get_id_fornecedor($user);
+        $data['cotacoes']= $model->get_all_cotacoes_fornecedor_aprovadas($id_fornecedor);
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacoes_fornecedor_aprovadas',$data);
      }
     //========================================================
     public function familias_servicos(){
@@ -529,6 +609,18 @@ class Stocks extends BaseController{
         echo view('stocks/taxas_editar',$data);
      }
     //========================================================
+    public function cotacoes_aprovar($id_aprovado_crip){
+        helper('funcoes');
+        $id_aprovado = aesDecrypt($id_aprovado_crip);
+        if($id_aprovado == -1){
+            return;
+        }
+        $model = new StocksModel();
+        $model -> cot_aprovado($id_aprovado);
+
+        return redirect()->to(site_url('stocks/cotacoes'));
+    }
+    //========================================================
     public function taxas_eliminar($id_taxa,$resposta = 'nao'){
         
         helper('funcoes');
@@ -554,7 +646,58 @@ class Stocks extends BaseController{
         echo view('stocks/taxas_eliminar',$data);
      }
     //========================================================
-            //PRODUTOS
+    public function cotacao_eliminar($id_cotacao,$resposta = 'nao'){
+        
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        if($id_cotacao == -1){
+            return;
+        }
+        
+        $model = new StocksModel();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        if($resposta=='sim'){
+            //Eliminacao da familia
+            $model->delete_cotacao($id_cotacao);
+            //redirecionamento para stock/familias
+            return redirect()->to(site_url('stocks/cotacoes'));
+        }
+
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/cotacao_eliminar',$data);
+     }
+    //========================================================      
+    public function cotacao_eliminar_fornecedor($id_cotacao,$resposta = 'nao'){
+        
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        if($id_cotacao == -1){
+            return;
+        }
+        
+        $model = new StocksModel();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        if($resposta=='sim'){
+            //Eliminacao da familia
+            $model->delete_cotacao($id_cotacao);
+            //redirecionamento para stock/familias
+            return redirect()->to(site_url('stocks/cotacoes_fornecedor'));
+        }
+
+        //verificar tipo de profile
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/cotacao_eliminar_fornecedor',$data);
+     }
+    
+    //========================================================
+    //PRODUTOS
     //========================================================
     public function produtos(){
 
@@ -661,12 +804,35 @@ class Stocks extends BaseController{
                 //erro mensagem de preencher o campo família de servicos
                 $erro = 'preencha o campo família de servicos';  
             }
-             
+            
+            //verificacao de senhas de usuario
+            $request = \Config\Services::request();
+            $senha1=$request->getPost('text_password');
+            $senha2=$request->getPost('text_password_repetir');
             if($erro==''){
+                if($senha1!=$senha2){
+                    $erro = 'As Senhas de Usuario estão diferentes ';  
+
+                }
+            }
+
+
+            $model = new UsersModel();           
+            //verificar se ja existe um user com o mesmo username ou email
+            if($erro ==''){
+                $result = $model->checkExistingUser();
+                if(count($result)!=0){
+                    $error= "Já Existe um utilizador com esses dados";
+                }
+            }
+
+
+            if($erro==''){
+            //adicionar novo fornecedor
             $model = new StocksModel();
             $model -> fornecedor_add();
 
-            // busca id_fornecedor
+            // busca id_fornecedor e adiciona usuario de fornecedor reladionado ao id no user do fornecedor
             $id_fornecedor = $model->fornecedor_check_tras_id();
             $model2 = new UsersModel();
             $model2->addNewUser_fornecedor($id_fornecedor);   
@@ -895,5 +1061,7 @@ class Stocks extends BaseController{
         }
         echo view('stocks/fornecedores',$data);
      }
-    
+
+//========================================================
+
 }

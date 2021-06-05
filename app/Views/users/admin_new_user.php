@@ -72,9 +72,9 @@
                 <div class="card card-claro marg-fundo">
                     <h5 class="text-start ms-3 "> Profile</h5>
                     <div class="mb-2 text-start">
-                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_admin" > Admin</label></br>
-                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_moderator" > Moderator</label></br>
-                        <label class="form-check-label ms-3"><input type="checkbox" class="form-check-input" name="check_user" checked > User</label></br>
+                        <label class="form-check-label ms-3"><input type="radio" class="form-check-input" value="admin" name="profile_tipo" > Admin</label></br>
+                        <!-- <label class="form-check-label ms-3"><input type="radio" class="form-check-input" name="check_admin" > Moderator</label></br> -->
+                        <label class="form-check-label ms-3"><input type="radio" class="form-check-input" value="user" name="profile_tipo"  > User</label></br>
                     </div>
                 </div>
                 <!-- botao adicionar                -->

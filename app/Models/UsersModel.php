@@ -168,10 +168,17 @@ class UsersModel extends Model
                 $dados['text_name'],
                 $dados['text_email']   
             );
+
+            
            
-            return $this->db->query("SELECT id_user FROM users WHERE username = ? OR email = ?",$params)->getResult('array');
+            return $this->db->query("SELECT id_user FROM users WHERE name = ? OR email = ?",$params)->getResult('array');
 
         }   
+    //==========================================
+
+
+
+
     //==========================================
     public function checkAnotherUserEmail($id_user){
             // verifica se outro usuario com o mesmo nome ou email
@@ -188,27 +195,13 @@ class UsersModel extends Model
     public function addNewUser(){
             $request = \Config\Services::request();
             $dados = $request->getPost();
-            //profile
-            $profileTemp = array();
-            if(isset($dados['check_admin'])){
-                array_push($profileTemp,'admin');
-            }
-            if(isset($dados['check_moderator'])){
-                array_push($profileTemp,'moderator');
-            }
-            if(isset($dados['check_user'])){
-                array_push($profileTemp,'user');
-            }
-
-            //codigo implode para inserir "virgulas" 
-            $profile = implode(',',$profileTemp);
-            
+        
             $params=array(
-                $dados['text_name'],
+                $dados['text_username'],
                 md5(sha1($dados['text_password'])),
                 $dados['text_name'],
                 $dados['text_email'],
-                $profile
+                $dados['profile_tipo']
             );
             
             //Query para inserir um novo user
@@ -217,21 +210,34 @@ class UsersModel extends Model
         }
     //==========================================
     public function addNewUser_fornecedor($id_fornecedor){
+        // $error ='';
         $request = \Config\Services::request();
         $dados = $request->getPost();
+        // $data1 = array();
+        
+
+
+        
+        
+        // if($error ==''){
         $params=array(
-            $dados['text_name'],
+            $dados['text_razao_social'],
             md5(sha1($dados['text_password'])),
             $dados['text_name'],
             $dados['text_email'], 
             $id_fornecedor 
         );
         //Query para inserir um novo user
-        $this->db->query("INSERT INTO users(username, passwrd, name, email,id_fornecedor) 
-                          VALUES(?,?,?,?,?)",$params);
+        $this->db->query("INSERT INTO users(name, passwrd, username, email,id_fornecedor, profile) 
+                          VALUES(?,?,?,?,?,'Fornecedor')",$params);
+        // }
+        // if($error !=''){
+        //     $data1['error'] = $error;
+
+        // } 
+
+        // echo view('stocks/fornecedores_adicionar');
     }
-
-
     //==========================================
     public function randomPassword($numChars = 8){
             //gera uma senha aleatória
@@ -281,8 +287,7 @@ class UsersModel extends Model
             return $this->db->query("SELECT id_user FROM users WHERE  name = ? AND id_user <> ?",$params)->getResult('array');
         }   
     //==========================================
-    public function deleteUser($id_user){
-            
+    public function deleteUser($id_user){          
             $params =array(
                 $id_user
             );
@@ -295,6 +300,5 @@ class UsersModel extends Model
                 $id_user
             );
             $this->db->query('UPDATE users SET deleted = 0 WHERE id_user = ?',$params);
-        }
-      
+        }     
 }

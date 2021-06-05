@@ -2,7 +2,6 @@
 	$this->extend('Layout/layout_users');
 	 // tratar o id do produto a editar
 	 helper('funcoes');
-	 
 	 $id_fornecedor = aesEncrypt($fornecedor['id_for']);
   
         //recolher  dados apos submeter

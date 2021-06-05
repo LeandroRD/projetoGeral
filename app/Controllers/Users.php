@@ -238,7 +238,6 @@ class Users extends BaseController
             return;
         }
        
-        
         // verifique se o usuário tem permissão
         if($this->checkProfile('admin')==false){
             return redirect()->to(site_url('users'));  
@@ -269,9 +268,7 @@ class Users extends BaseController
             }
             if($error ==''){
                 //verifica se pelo menos uma check de profile foi checada
-                if(!isset($dados['check_admin'])&&
-                   !isset($dados['check_moderator'])&&
-                   !isset($dados['check_user'])){
+                if(!isset($dados['profile_tipo'])){
                     $error = 'Indique pelo menos, um tipo de Profile !!'; 
                 }
             }
@@ -283,9 +280,11 @@ class Users extends BaseController
                 if(count($result)!=0){
                     $error= "Já Existe um utilizador com esses dados";
                 }
+                
             }
+           
             if($error==''){
-                $model->addNewUser_fornecedor();
+                $model->addNewUser();
                 $sucesso = 'Fornecedor adicionado com sucesso!';        
             }            
         }
