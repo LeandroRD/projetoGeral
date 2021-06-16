@@ -225,6 +225,38 @@ class Stocks extends BaseController{
         echo view('stocks/cotacao_editar',$data);
      }
     //========================================================
+    public function cotacao_editar_aprovada($id_cotacao){
+        
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        
+        if($id_cotacao == -1){
+            return;
+        }
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes']= $model->get_all_cotacoes();
+        $data['cotacao']=$model->get_cotacao($id_cotacao);
+        $data['fornecedores']=$model->get_all_fornecedores();
+        $error = '';
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if($error ==''){
+                $model -> cotacao_editar($id_cotacao);
+                $data['success']= "Cotação atualizada com sucesso !!";
+                return redirect()->to(site_url('stocks/cotacoes'));
+            }else{
+                $data['error'] = $error;
+            }  
+        } 
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        } 
+        echo view('stocks/cotacao_editar_aprovada',$data);
+     }
+    //========================================================
     public function cotacao_editar_fornecedor($id_cotacao){
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
@@ -855,6 +887,37 @@ class Stocks extends BaseController{
         echo view('stocks/fornecedores_adicionar',$data);
     }
     //========================================================
+    public function fornecedores_adicionar_cep(){
+        
+        $model = new StocksModel();
+        
+        //carregar fornecedores
+        $data['familias']=$model->get_all_families_servicos();
+        $sucesso = '';
+        $erro = '';
+
+        //tratar a submissao do formulario
+        IF($_SERVER['REQUEST_METHOD'] =='POST'){  
+              
+        }
+        //passar para a $data a mensagem de erro ou nao
+        if($erro !=''){ 
+            $data['error']= $erro;
+        }
+        
+        if($sucesso !=''){ 
+            $data['success']= $sucesso;
+        }
+        
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+        //apresenta o formulario de adiciona
+        echo view('stocks/fornecedores_adicionar',$data);
+    }
+    
+    
+    //========================================================
     public function produtos_editar($id){
         helper('funcoes');
         $id = aesDecrypt($id);
@@ -1063,5 +1126,14 @@ class Stocks extends BaseController{
      }
 
 //========================================================
-
+    public function descobrir_cep(){
+        $model = new StocksModel();
+        $data['fornecedores']= $model->get_all_fornecedores();
+        if($this->checkProfile('admin')){
+            $data['admin'] = "true";
+        }
+   
+       echo view('stocks/descobrir_cep',$data);
+    }
+//========================================================
 }

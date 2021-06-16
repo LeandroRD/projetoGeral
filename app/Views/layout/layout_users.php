@@ -101,6 +101,7 @@
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
     <script src="<?php echo base_url('assets/js/app.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/consulta-endereco.js')?>"></script>
     <script src="<?php echo base_url('assets/js/datatables.min.js')?>"></script> 
     <!-- link JS NOVO -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
@@ -113,7 +114,7 @@
 	$("#celular").mask("(99) 99999-9999");
 
 	//CEP
-	$("#cep").mask("99999-999");
+	// $("#cep").mask("99999-999");
 
 	//CPF
 	$("#cpf").mask("999.999.999-99");

@@ -153,6 +153,14 @@
     margin-top: 150px;
 }
 
+.marg-topo-10{
+    margin-top: 10px;
+}
+
+.marg-topo-30{
+    margin-top: 30px;
+}
+
 .borda-mensagem{
     border: rgb(211, 139, 139) 3px solid;
 }
@@ -175,6 +183,10 @@
 
 .table-striped2 > tbody > tr:nth-of-type(odd) {
     background-color: #dff1f1;
+  }
+
+  .cor-alerta{
+      color: rgb(240, 94, 94);
   }
 
 

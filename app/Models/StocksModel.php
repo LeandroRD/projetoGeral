@@ -154,7 +154,7 @@ class StocksModel extends Model
             $request->getPost('select_parent'),
             $request->getPost('text_escopo')
         );
-        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0 )",$params);
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'' )",$params);
      }
     //=====================================================
     public function family_add_servicos(){
@@ -909,7 +909,7 @@ public function get_all_cotacoes_aprovadas(){
      return $this->query("SELECT 
      c.id_cot, 
      c.escopo,
-     c.detalhes,
+     c.acompanhamento,
      f.razao_social AS razaoSocial
      FROM cotacao_servicos c
      LEFT JOIN 

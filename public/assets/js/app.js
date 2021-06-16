@@ -53,11 +53,40 @@ $(document).ready(function(){
 	//Data
 	$("#data").mask("99/99/9999");
 
-  
-
 	//Dinheiro
 	$('#dinheiro1').mask('000.000.000.000.000,00' , { reverse : true});
 
 	$('#dinheiro2').mask("#.##0,00" , { reverse:true});
 });
+//===============================================================
+// metodo para buscar cep
+let cep = document.querySelector('#cep');
+let rua = document.querySelector('#rua');
+let bairro = document.querySelector('#bairro');
+let cidade = document.querySelector('#cidade');
+let estado = document.querySelector('#estado');
 
+
+// blur, evento quando é clicado no caso o tab
+cep.addEventListener('blur', function(e){
+    let cep = e.target.value;
+    let script = document.createElement('script');
+    script.src = 'https://viacep.com.br/ws/'+cep+'/json/?callback=popularform';
+    document.body.appendChild(script);
+
+   
+});
+function popularform(resposta){
+    if('erro' in resposta){
+        alert('Cep nao localizado');
+        return;
+    }
+    rua.value = resposta.logradouro;
+    bairro.value = resposta.bairro;
+    cidade.value = resposta.localidade;
+    estado.value = resposta.uf;
+
+}
+
+
+//===============================================================
