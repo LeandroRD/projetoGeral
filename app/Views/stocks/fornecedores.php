@@ -31,7 +31,7 @@
 								<td><?php echo $fornecedor['razao_social'] ?></td>
 								<td><?php echo $fornecedor['nome_servico'] ?></td>
 								<td class="text-center"><?php echo $fornecedor['municipio']  ?> </td>
-								<td class="text-center"><?php echo $fornecedor['UF']  ?> </td>
+								<td class="text-center"><?php echo $fornecedor['estado']  ?> </td>
 								<td class="text-center">
 								<!-- botoes editar/deletar -->
 									<a class="btn btn-primary btn-sm btn-100"href="<?php echo site_url('stocks/fornecedor_editar/'.aesEncrypt($fornecedor['id_for']))?>">

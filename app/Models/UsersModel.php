@@ -165,17 +165,63 @@ class UsersModel extends Model
             $dados = $request->getPost(); 
             
             $params = array(
-                $dados['text_name'],
-                $dados['text_email']   
+                $dados['text_username'],
+                // $dados['text_email']   
             );
-
-            
-           
-            return $this->db->query("SELECT id_user FROM users WHERE name = ? OR email = ?",$params)->getResult('array');
-
+            return $this->db->query("SELECT id_user FROM users WHERE username = ?",$params)->getResult('array');
         }   
     //==========================================
+    public function checkExistingUserForn(){
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost(); 
+        
+        $params = array(
+            $dados['text_name'],
+            // $dados['text_email']   
+        );
+        return $this->db->query("SELECT id_user FROM users WHERE username = ?",$params)->getResult('array');
+    }   
 
+
+    //==========================================
+    public function checkExistingEmail(){
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost(); 
+        
+        $params = array(
+            // $dados['text_name'],
+            $dados['text_email']   
+        );
+        return $this->db->query("SELECT id_user FROM users WHERE  email = ?",$params)->getResult('array');
+    }   
+    //==========================================
+    public function checkExistingEmailForn(){
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost(); 
+        
+        $params = array(
+            // $dados['text_name'],
+            $dados['text_email']   
+        );
+        return $this->db->query("SELECT id_user FROM users WHERE  email = ?",$params)->getResult('array');
+    }   
+
+
+    //==========================================
+    public function checkExistingName(){
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost(); 
+        
+        $params = array(
+            // $dados['text_name'],
+            $dados['text_name']   
+        );
+        return $this->db->query("SELECT id_user FROM users WHERE  name = ?",$params)->getResult('array');
+    }   
 
 
 

@@ -202,14 +202,6 @@ class Users extends BaseController
         }
      }
     //===============================================
-    // public function op1(){
-    //     echo "OP1";
-    //  }
-    // //===============================================
-    // public function op2(){
-    //     echo "OP2";
-    //  }
-    //===============================================
     public function admin_users(){
         //checar se  ja existe sessao vai para homepae
         if (!$this->checkSession()){
@@ -256,10 +248,9 @@ class Users extends BaseController
                $dados['text_password']==''||
                $dados['text_password_repetir']==''||
                $dados['text_name']==''||
-               $dados['text_email']=='')    
-            {
+               $dados['text_email']==''){
                 $error = 'preencha todos os campos de texto!!';
-            }
+                }
             //verifica se as passwords coincidem
             if($error ==''){
                 if ($dados['text_password'] !=  $dados['text_password_repetir']){
@@ -274,15 +265,27 @@ class Users extends BaseController
             }
             
             $model = new UsersModel();           
-            //verificar se ja existe um user com o mesmo username ou email
+            //verificar se ja existe um user com o mesmo username 
             if($error ==''){
                 $result = $model->checkExistingUser();
                 if(count($result)!=0){
-                    $error= "Já Existe um utilizador com esses dados";
-                }
-                
+                    $error= "Já Existe um utilizador com userName";
+                }   
             }
-           
+            //verificar se ja existe um user com o mesmo name 
+            if($error ==''){
+                $result3 = $model->checkExistingName();
+                if(count($result3)!=0){
+                    $error= "Já Existe um utilizador com Nome";
+                }   
+            }
+            //verificar se ja existe um user com o mesmo  email
+            if($error ==''){
+                $result2 = $model->checkExistingEmail();
+                if(count($result2)!=0){
+                    $error= "Já Existe um utilizador com esse email";
+                }   
+            }
             if($error==''){
                 $model->addNewUser();
                 $sucesso = 'Fornecedor adicionado com sucesso!';        

@@ -78,17 +78,16 @@
                     </div>
                 <?php endif; ?>            
                 <div class="row">
-                <!-- <div class="row"> -->
                     <!--  Cep-->
                     <div class="col-md-7 col-xs-6 ">
                         <label>Cep.:</label>
                         <input autofocus type="text" id="cep"name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo " autocomplete="off">
                     </div>
+                    <!-- botao nao sabe o cep -->
                     <div class="col-md-5 col-xs-6 marg-topo-30 ">
                         <label></label>  
                         <a href="<?php echo site_url('stocks/descobrir_cep')?>" ><span class="font2"><b>Não sabe o CEP</b></span></a>    
                     </div>
-                <!-- </div> -->
                     <!--  Endereco-->
                     <div class="col-md-12 col-xs-9">
                         <label>Endereço:</label>
@@ -99,8 +98,6 @@
                         <label>Nr:</label>
                         <input type="text" name="text_numero"value = "<?php echo $nr?>"  class="form-control marg-fundo"  >
                     </div>
-                    <!-- nao sabe seu CEP -->
-                    
                     <!--  complemento-->
                     <div class="col-md-4 col-xs-5 ">
                         <label >Complemento:</label>
@@ -114,21 +111,27 @@
                 </div>
                 <div class="row">
                     <!--  munícipio-->
-                    <div class="col-md-8 col-xs-8 ">
+                    <div class="col-md-9 col-xs-9 ">
                         <label>Município:</label>
                         <input id="cidade" type="text" name="text_municipio"value = "<?php echo $municipio?>"  class="form-control marg-fundo" >
                     </div>
-                    <!--  UF-->
-                    <div class="col-md-3 col-xs-3 ">
-                        <label>UF:</label>
-                        <input id="estado" type="text" name="text_uf" maxlength="2"value = "<?php echo $uf?>" class="form-control marg-fundo" >       
+                    <!--selecao de  UF-->
+                    <div class="mt-3 col-xs-3">
+                        <label>Estados novos:</label>
+                        <select name="text_uf" class="form-control marg-fundo"id="estado"name="text_uf"   >
+                            <option value="0">Nenhum</option>  
+                            <?php foreach($select_uf as $cada_uf):?>
+                                <option value="<?php echo $cada_uf['id_uf'] ?>"><?php echo $cada_uf['UF'];?></option>   
+                            <?php endforeach;?>
+                        </select>
                     </div>
+                    
                 </div>
-                <!-- familias servicos -->
+                <!-- selecao de  familias servicos -->
                 <div class="mt-3">
                     <label>Família de serviços:</label>
                     <select class="form-control" name="select_parent" >
-                        <option value="0">Nenhum</option> 
+                        <option value="0">Nenhum</option>  
                         <?php foreach($familias as $familia):?>
                             <option value="<?php echo $familia['id_familia_servicos'] ?>"><?php echo $familia['designacao_servicos'];?></option>   
                         <?php endforeach;?>

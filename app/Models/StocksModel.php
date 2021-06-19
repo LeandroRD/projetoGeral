@@ -48,14 +48,19 @@ class StocksModel extends Model
     public function get_all_families_servicos(){
       
         return $this->query('
-        SELECT a.*, b.designacao_servicos AS parent_servicos
-        FROM stock_familias_servicos a LEFT JOIN stock_familias_servicos b
-        ON a.id_parent_servicos = b.id_familia_servicos
-        ')->getResult('array');
-
-        
+            SELECT a.*, b.designacao_servicos AS parent_servicos
+            FROM stock_familias_servicos a LEFT JOIN stock_familias_servicos b
+            ON a.id_parent_servicos = b.id_familia_servicos
+            ')->getResult('array');
         }
 
+    //=======================================================
+    public function get_all_estados(){
+        return $this->query('
+        SELECT * FROM relacao_uf
+            ')->getResult('array');
+        }
+    
     //=======================================================
     public function check_family($designacao){
         $params = array(
@@ -593,10 +598,9 @@ class StocksModel extends Model
          $dados = $request->getPost(); 
          
          $params = array(
-             $dados['text_name'],
-             $dados['text_email']   
+             $dados['text_razao_social']
          );
-         return $this->db->query("SELECT id_user FROM users WHERE name = ? OR email = ?",$params)->getResult('array');
+         return $this->db->query("SELECT id_for FROM fornecedores WHERE razao_social = ? ",$params)->getResult('array');
      }
     //=====================================================
     public function fornecedor_check_tras_id(){
@@ -855,8 +859,8 @@ class StocksModel extends Model
                 WHERE id_produto = ?
             ",$params);
      }
-     //=====================================================
-     public function movimento_del_produto(){
+//=====================================================
+    public function movimento_del_produto(){
         //adiciona a BD de produtos 
        $request = \Config\Services::request();
        $params = array(
@@ -873,17 +877,20 @@ class StocksModel extends Model
     public function get_all_fornecedores(){
         //busca todos as familias de  servicos atraves do id_familia_servicos
         return $this->query("SELECT 
-        f.id_for, 
+        f.id_for,
         f.razao_social,
-        f.servico,
         f.municipio,
-        f.UF,
+        u.UF AS estado,
         s.designacao_servicos AS nome_servico
         FROM fornecedores f
         LEFT JOIN 
-            stock_familias_servicos s 
+            stock_familias_servicos s  
         ON 
             f.servico = s.id_familia_servicos
+        LEFT JOIN 
+            relacao_uf u 
+        ON 
+        f.UF = u.id_uf    
         ")->getResult('array');
     }
 //=======================================================
@@ -902,7 +909,6 @@ class StocksModel extends Model
          Where c.cot_aprovado = 0 
          ")->getResult('array');
     }
-
 //=====================================================
 public function get_all_cotacoes_aprovadas(){
     //busca todos as cotacoes

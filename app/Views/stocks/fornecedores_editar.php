@@ -108,15 +108,28 @@
                         <label>Cep:</label>
                         <input type="text" id="cep"name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo" >
                     </div>
-                    <div class="col-md-6 col-xs-5 ">
+                    <div class="col-md-5 col-xs-5 ">
                         <!--  munícipio-->
                         <label>Município:</label>
                         <input type="text" name="text_municipio"value = "<?php echo $municipio?>"  class="form-control marg-fundo" >
                     </div>
-                        <div class="col-md-2 col-xs-3 ">
+                        <div class="col-md-3 col-xs-3 ">
                         <!--  UF-->
                         <label>UF:</label>
-                        <input type="text" name="text_uf" maxlength="2"value = "<?php echo $uf?>" class="form-control marg-fundo" >       
+                        <select name="text_uf" class="form-control" >
+                            <?php if($fornecedor['UF']== 0):?>
+                                <option value="0" selected>Nenhuma</option>
+                            <?php else:?>
+                                <option value="0" >Nenhuma</option>
+                            <?php endif;?>
+                                <?php foreach($select_uf as $cada_uf):?>
+                                    <?php if($fornecedor['UF'] == $cada_uf['id_uf']):?>
+                                        <option value="<?php echo $cada_uf['id_uf'] ?>" selected><?php echo $cada_uf['UF']?></option>
+                                    <?php else:?>
+                                        <option value="<?php echo $cada_uf['id_uf'] ?>"><?php echo $cada_uf['UF']?></option>
+                                    <?php endif;?>                               
+                                <?php endforeach;?>
+                        </select>
                     </div>
                 </div>
                 <div class="row">

@@ -67,20 +67,107 @@ let cidade = document.querySelector('#cidade');
 let estado = document.querySelector('#estado');
 
 
-// blur, evento quando é clicado no caso o tab
+// blur, evento quando é clicado no caso o tab na variavel CEP
 cep.addEventListener('blur', function(e){
     let cep = e.target.value;
     let script = document.createElement('script');
     script.src = 'https://viacep.com.br/ws/'+cep+'/json/?callback=popularform';
-    document.body.appendChild(script);
-
-   
+    document.body.appendChild(script);  
 });
 function popularform(resposta){
     if('erro' in resposta){
         alert('Cep nao localizado');
         return;
     }
+
+    //converter o nome do estado recebido para o numero do indice do CEP
+    switch (resposta.uf) {
+        case 'AC':
+            resposta.uf = "1";
+        break; 
+        case 'AL':
+            resposta.uf = "2";
+        break;
+        case 'AP':
+            resposta.uf = "3";
+        break; 
+        case 'AM':
+            resposta.uf = "4";
+        break; 
+        case 'BA':
+            resposta.uf = "5";
+        break; 
+        case 'CE':
+            resposta.uf = "6";
+        break; 
+        case 'DF':
+            resposta.uf = "7";
+        break; 
+        case 'ES':
+            resposta.uf = "8";
+        break; 
+        case 'GO':
+            resposta.uf = "9";
+        break; 
+        case 'MA':
+            resposta.uf = "10";
+        break; 
+        case 'MT':
+            resposta.uf = "11";
+        break; 
+        case 'MS':
+            resposta.uf = "12";
+        break; 
+        case 'MG':
+            resposta.uf = "13";
+        break; 
+        case 'PA':
+            resposta.uf = "14";
+        break; 
+        case 'PB':
+            resposta.uf = "15";
+        break; 
+        case 'PR':
+            resposta.uf = "16";
+        break; 
+        case 'PE':
+            resposta.uf = "17";
+        break; 
+        case 'PI':
+            resposta.uf = "18";
+        break; 
+        case 'RJ':
+            resposta.uf = "19";
+        break;  
+        case 'RN':
+            resposta.uf = "20";
+        break; 
+        case 'RS':
+            resposta.uf = "21";
+        break; 
+        case 'RO':
+            resposta.uf = "22";
+        break; 
+        case 'RR':
+            resposta.uf = "23";
+        break; 
+        case 'SC':
+            resposta.uf = "24";
+        break; 
+        case 'SP':
+            resposta.uf = "25";
+        break; 
+        case 'SE':
+            resposta.uf = "26";
+        break;
+        case 'TO':
+            resposta.uf = "27";
+        break;
+        default:
+            resposta.uf = "0";
+        break;   
+    }
+
     rua.value = resposta.logradouro;
     bairro.value = resposta.bairro;
     cidade.value = resposta.localidade;

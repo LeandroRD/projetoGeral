@@ -157,6 +157,8 @@ class Stocks extends BaseController{
         $data['fornecedores']= $model->get_all_fornecedores();
         $data['fornecedor']=$model->get_fornecedor($id_fornecedor);
         $data['familia_servicos']= $model->get_all_families_servicos();
+        //carregar estados
+        $data['select_uf']=$model->get_all_estados();
         $error = '';
         
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -814,61 +816,77 @@ class Stocks extends BaseController{
         
         //carregar fornecedores
         $data['familias']=$model->get_all_families_servicos();
+        
+        //carregar estados
+        $data['select_uf']=$model->get_all_estados();
+        
         $sucesso = '';
         $erro = '';
 
         //tratar a submissao do formulario
         IF($_SERVER['REQUEST_METHOD'] =='POST'){  
             $model = new StocksModel();
-            //verifica se ja existe fornecedor com o mesmo nome
-            if($model->fornecedor_check()){
-                //erro ja existe outro fornecedor com o mesmo nome
-                $erro = 'Já existe outro fornecedor com o mesmo nome!';  
+            //verifica se ja existe fornecedor com o mesmo nome 
+             if($erro ==''){
+                $result7 = $model->fornecedor_check();
+                if(count($result7)!=0){
+                    $erro= "Já existe outro fornecedor com o mesmo nome";
+                }   
             }
 
-            //verifica se ja existe fornecedor com o mesmo nome
-            if($model->cnpj_check()){
-                //erro ja existe outro fornecedor com o mesmo nome
-                $erro = 'Já existe outro fornecedor com o mesmo cnpj!';  
+            //verifica se ja existe fornecedor com o mesmo cnpj
+            if($erro ==''){
+                if($model->cnpj_check()){
+                    //erro ja existe outro fornecedor com o mesmo cnpj
+                    $erro = 'Já existe outro fornecedor com o mesmo cnpj!';  
+                    }
             }
 
-            if($model->fornecedor_servicos()){
-                //erro mensagem de preencher o campo família de servicos
-                $erro = 'preencha o campo família de servicos';  
+            if($erro ==''){
+                if($model->fornecedor_servicos()){
+                    //erro mensagem de preencher o campo família de servicos
+                    $erro = 'preencha o campo família de servicos';  
+                }
             }
             
             //verificacao de senhas de usuario
-            $request = \Config\Services::request();
-            $senha1=$request->getPost('text_password');
-            $senha2=$request->getPost('text_password_repetir');
-            if($erro==''){
-                if($senha1!=$senha2){
-                    $erro = 'As Senhas de Usuario estão diferentes ';  
-
-                }
-            }
-
-
-            $model = new UsersModel();           
-            //verificar se ja existe um user com o mesmo username ou email
             if($erro ==''){
-                $result = $model->checkExistingUser();
-                if(count($result)!=0){
-                    $error= "Já Existe um utilizador com esses dados";
+                $request = \Config\Services::request();
+                $senha1=$request->getPost('text_password');
+                $senha2=$request->getPost('text_password_repetir');
+                if($erro==''){
+                    if($senha1!=$senha2){
+                        $erro = 'As Senhas de Usuario estão diferentes ';  
+
+                    }
                 }
             }
-
+            $model = new UsersModel();           
+            //verificar se ja existe um user com o mesmo username 
+            if($erro ==''){
+                $result = $model->checkExistingUserForn();
+                if(count($result)!=0){
+                    $erro= "Já Existe um utilizador com userName";
+                }   
+            }
+            //verificar se ja existe um user com o mesmo  email
+            if($erro ==''){
+                $result5 = $model->checkExistingEmailForn();
+                if(count($result5)!=0){
+                    $erro= "Já Existe um Fornecedor com esse email";
+                }   
+            }
 
             if($erro==''){
-            //adicionar novo fornecedor
-            $model = new StocksModel();
-            $model -> fornecedor_add();
+                //adicionar novo fornecedor
+                $model = new StocksModel();
+                $model -> fornecedor_add();
 
-            // busca id_fornecedor e adiciona usuario de fornecedor reladionado ao id no user do fornecedor
-            $id_fornecedor = $model->fornecedor_check_tras_id();
-            $model2 = new UsersModel();
-            $model2->addNewUser_fornecedor($id_fornecedor);   
-                    $sucesso = 'Fornecedor adicionado com sucesso!';                   
+                // busca id_fornecedor e adiciona usuario de fornecedor reladionado ao id no user do fornecedor
+                $id_fornecedor = $model->fornecedor_check_tras_id();
+                $model2 = new UsersModel();
+                $model2->addNewUser_fornecedor($id_fornecedor);   
+                $sucesso = 'Fornecedor adicionado com sucesso!';                   
             }    
         }
         //passar para a $data a mensagem de erro ou nao
