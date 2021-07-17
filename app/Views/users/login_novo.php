@@ -4,11 +4,6 @@
 
 
 <?php $this->section('conteudo')?>
-    
-    <div class="text-right ">
-        <?php echo view('users/userbar') ?>
-    </div>
-
     <?php if(isset($error)): ?>
         <div class="col-md-offset-4 col-md-4 alert alert-danger text-center mt-2"id="error-message">
             <?php echo $error?>

@@ -1,3 +1,13 @@
+   
+   <a class="btn btn-primary " href="<?php echo site_url('stocks/cotacao_adicionar_servico/'.$servico['servicos'])?>">
+                        
+   
+   
+   
+   
+   
+   
+   
    public function produtos_adicionar(){
         
         $model = new StocksModel();

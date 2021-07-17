@@ -59,7 +59,15 @@
         return $codigo;
 
     }
-    //=====================================
+    //==========================================================
+    function testefuncao($teste1){
+        $teste2="teste aqui funcao";
+            return $teste2;
+    }
+
+
+
+    //==========================================================
         // exemplo de apresentacao de array 
         // echo "<pre>";
         //     print_r($params);

@@ -3,9 +3,6 @@
 	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
-	<div class="text-end ">
-        <?php echo view('users/userbar') ?>
-    </div>
 	<div class="marg-dir-esq-20px ">
 		<div class="row marg-topo-menos-15  ">
 			<div class="col-6 text-start  ">
@@ -45,22 +42,22 @@
 	</div>
 	<script>
 	$(document).ready( function () {
-    $('#tabela_familias').DataTable({"language": {
-    "sEmptyTable": "Nenhum registro encontrado",
-    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-    "sInfoThousands": ".",
-    "sLengthMenu": "_MENU_ resultados por página",
-    "sLoadingRecords": "Carregando...",
-    "sProcessing": "Processando...",
-    "sZeroRecords": "Nenhum registro encontrado",
-    "sSearch": "Pesquisar",
-    "oPaginate": {
-        "sNext": "Próximo",
-        "sPrevious": "Anterior",
-        "sFirst": "Primeiro",
-        "sLast": "Último"
+    	$('#tabela_familias').DataTable({"language": {
+    	"sEmptyTable": "Nenhum registro encontrado",
+    	"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+    	"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+    	"sInfoFiltered": "(Filtrados de _MAX_ registros)",
+    	"sInfoThousands": ".",
+    	"sLengthMenu": "_MENU_ resultados por página",
+    	"sLoadingRecords": "Carregando...",
+    	"sProcessing": "Processando...",
+    	"sZeroRecords": "Nenhum registro encontrado",
+    	"sSearch": "Pesquisar",
+    	"oPaginate": {
+    	    "sNext": "Próximo",
+    	    "sPrevious": "Anterior",
+    	    "sFirst": "Primeiro",
+    	    "sLast": "Último"
     },
     "oAria": {
         "sSortAscending": ": Ordenar colunas de forma ascendente",

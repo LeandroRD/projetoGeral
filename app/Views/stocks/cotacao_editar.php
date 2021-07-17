@@ -24,7 +24,7 @@
                     </div>
                 <?php endif; ?>
                 <div class=" marg-fundo" >
-                <label>Família do servicos:</label>
+                <label>Fornecedores:</label>
                 <select name="combo_fornecedor" class="form-control" >
                     <?php if($cotacao['id_for']== 0):?>
                         <option value="0" selected>Nenhuma</option>
