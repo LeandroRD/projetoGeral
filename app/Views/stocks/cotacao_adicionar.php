@@ -44,7 +44,7 @@ $this->extend('Layout/layout_users');
                 <!-- ESCOLHA DE FORNECEDOR -->
                 <div class="col-md-6 ">
                     <h4><strong>Nome do Projeto:</strong></h4>
-                    <input type="text" class="form-control" name="projeto" >
+                    <input type="text" class="form-control" name="projeto">
                     <h4><strong>Fornecedor:</strong></h4>
                     <select class="form-control" name="select_parent">
                         <option value="0">Nenhuma</option>
