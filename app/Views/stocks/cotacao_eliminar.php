@@ -17,10 +17,10 @@
                 <br>
                 <h4> <b><?php echo $cotacao['escopo'] ?></h4></b> 
                 <br>
-                <!-- botoes -->
+                <!-- botoes nao e sim -->
                 <div class=" col-md-10 col-md-offset-1 ">
                     <div class="col-md-5 col-md-offset-1 marg-fundo">
-                        <a class="btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/taxas') ?>">Não</a>
+                        <a class="btn cor-botao-secondary btn-200 marg-fundo" href="<?php echo site_url('stocks/cotacoes') ?>">Não</a>
                     </div>
                     <div class="col-md-5  ">
                         <a class="btn btn-primary btn-200" href="<?php echo site_url('stocks/cotacao_eliminar/'.$id_cotacao.'/sim')?> ">Sim</a>

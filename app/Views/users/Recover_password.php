@@ -3,7 +3,6 @@
 ?>
 
 <?php $this->section('conteudo')?>
-<?php echo view('users/userbar') ?>
     <div class="container">
         <div class="row">
             <div class="col-6 offset-3">

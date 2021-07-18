@@ -177,3 +177,39 @@ function popularform(resposta){
 
 
 //===============================================================
+
+
+
+// declarado uma array
+var meuarray = new Array();
+
+
+// push - incluir novo valor no final da array
+function incluir(){
+meuarray.push('nova inclusao');
+apresentar_incluir_array();    
+}
+
+
+function apresentar_incluir_array()
+{   
+// ligacao nas id's do paragrafo e input_hidden
+var input_hidden = document.getElementById("input_hidden");
+var paragrafo = document.getElementById("paragrafo");
+
+//var nomes = array meuarray
+var nomes = meuarray;
+
+
+//apresenta o array no paragrafo
+paragrafo.innerHTML = nomes.join(' <br> ');
+
+
+
+// incluir o array nomes no atributo value da variavel input_hidden
+input_hidden.setAttribute("value",nomes);
+
+
+}
+
+

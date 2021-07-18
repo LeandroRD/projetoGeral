@@ -3,9 +3,6 @@
 	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
-	<div class="text-end ">
-        <?php echo view('users/userbar') ?>
-    </div>
 	<div class="row mt-1">
 		<div class="col-12 ">
 			<h1>Fornecedores</h1>	

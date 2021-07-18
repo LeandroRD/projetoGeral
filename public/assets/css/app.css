@@ -90,6 +90,10 @@
     margin-bottom: 20px;
 }
 
+.marg-fundo-30{
+    margin-bottom: 60px;
+}
+
 .marg-fundo20{
     margin-bottom: 20px;
 }
@@ -185,9 +189,11 @@
     background-color: #dff1f1;
   }
 
-  .cor-alerta{
+.cor-alerta{
       color: rgb(240, 94, 94);
   }
+
+
 
 
 

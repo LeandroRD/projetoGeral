@@ -1,3 +1,15 @@
+   
+   <a class="btn btn-primary " href="<?php echo site_url('stocks/cotacao_adicionar_servico/'.$servico['servicos'])?>">
+                        
+   
+   
+   
+   Anim labore officia commodo dolor. Et ipsum elit velit id fugiat consequat qui. Aliqua laboris enim amet sit ullamco et dolor dolor aliquip ipsum. Sunt occaecat nisi eu officia aliqua eu adipisicing nisi.
+   
+   Dolore commodo aliqua sit et occaecat pariatur officia incididunt veniam. Voluptate do nulla eiusmod ea qui aliqua ea occaecat. Veniam duis nostrud consectetur cupidatat veniam sunt voluptate aliqua elit laborum tempor anim. Cupidatat excepteur pariatur do dolor deserunt minim. Adipisicing ipsum ex consequat laboris. Qui sint veniam pariatur fugiat consequat. Officia ea reprehenderit sunt dolor deserunt occaecat magna.
+   
+   Voluptate in cupidatat occaecat amet commodo id excepteur mollit veniam velit. Sint non nulla qui tempor officia. Ut exercitation ad excepteur pariatur consequat velit adipisicing exercitation commodo non. Quis minim reprehenderit tempor excepteur reprehenderit.
+   
    public function produtos_adicionar(){
         
         $model = new StocksModel();

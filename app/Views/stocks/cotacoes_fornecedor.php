@@ -3,9 +3,6 @@
 	helper('funcoes');
 ?>
 <?php $this->section('conteudo')?>
-	<div class="text-end ">
-        <?php echo view('users/userbar') ?>
-    </div>
 	<div class="marg-dir-esq-20px ">
 		<div class="row marg-topo-menos-15  ">
 			<div class="col-6 text-start  ">

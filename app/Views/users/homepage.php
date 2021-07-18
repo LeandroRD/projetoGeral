@@ -4,9 +4,6 @@
 ?>
 
 <?php $this->section('conteudo')?>   
-    <div class="text-right ">
-        <?php echo view('users/userbar') ?>
-    </div>
     <br><br>
     <div class="row ">
         <div class=" text-center  col-md-4 ard card-claro col-md-offset-4">

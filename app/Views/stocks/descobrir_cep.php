@@ -36,7 +36,6 @@
                             <button id="btnBuscarCep"class="btn-200 btn btn-primary">Buscar Cep</button>
                         </div>
                     </div>
-                    
                <p id="escolha_endereco" class="cor-alerta" style="display:none; ">Escolha o endereço e confirme embaixo!!</p>
                     <ul id="listaCep">
                         </ul>
@@ -46,7 +45,7 @@
                             <input type="text" id="cep_certo" name="cep_certo"class="form-control">
                         </div>
                     </div>
-                        <!-- botao submeter -->
+                        <!-- botao submeter confirme o cep -->
                     <div class="row">
                         <div class="col-md-7 col-xs-12">
                             <button class="btn btn-primary btn-200" id="btnBuscarCep"class="submit">Confirme o Cep</button>
