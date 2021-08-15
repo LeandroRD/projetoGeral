@@ -202,8 +202,6 @@ class StocksModel extends Model
         );
         $this->query("INSERT INTO stock_familias_servicos VALUES(0,?,? )", $params);
     }
-
-
     //=====================================================
     public function check_other_family($designacao, $id_family)
     {
@@ -325,8 +323,6 @@ class StocksModel extends Model
             $id_fornecedor
         );
 
-
-
         $this->query(
             "UPDATE fornecedores SET 
          razao_social = ?,
@@ -372,9 +368,24 @@ class StocksModel extends Model
         );
     }
     //=====================================================
+    public function escopo_editar($id_escopo)
+    {
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_escopo')
+        );
+        $this->query(
+            "UPDATE cotacao_escopo SET 
+         escopo = ?
+          WHERE id_escopo = $id_escopo ",
+            $params
+        );
+    }
+
+    //=====================================================
     public function cotacao_editar_fornecedor($id_cotacao)
     {
-
         //atualizar os dados da family
         $request = \Config\Services::request();
         $params = array(
@@ -391,7 +402,6 @@ class StocksModel extends Model
     //=====================================================
     public function cotacao_editar_fornecedor_aprovada($id_cotacao)
     {
-
         //atualizar os dados da family
         $request = \Config\Services::request();
         $params = array(
@@ -423,8 +433,6 @@ class StocksModel extends Model
             $params
         );
     }
-
-
     //=====================================================
     public function family_servicos_edit($id_family)
     {
@@ -443,7 +451,6 @@ class StocksModel extends Model
             $params
         );
     }
-
     //=====================================================
     public function delete_family($id_family)
     {
@@ -480,8 +487,6 @@ class StocksModel extends Model
         $this->query("UPDATE stock_familias_servicos SET id_parent_servicos = 0 
                     WHERE id_parent_servicos = ? ", $params);
     }
-
-
     //=====================================================
     public function delete_fornecedor($id_fornecedor)
     {
@@ -509,6 +514,12 @@ class StocksModel extends Model
         return $this->query("SELECT * FROM stock_taxas")->getResult('array');
     }
     //=======================================================
+    public function get_all_checklists()
+    {
+        //retorna todas as taxas
+        return $this->query("SELECT * FROM servicos")->getResult('array');
+    }
+    //=======================================================
     public function check_tax($designacao)
     {
         // verifique se existe um taxa com o mesmo nome
@@ -517,6 +528,40 @@ class StocksModel extends Model
         );
         $results = $this->query(
             "SELECT * FROM stock_taxas WHERE designacao = ?",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=======================================================
+    public function check_checkList($designacao)
+    {
+        // verifique se existe um checklist com o mesmo nome
+        $params = array(
+            $designacao
+        );
+        $results = $this->query(
+            "SELECT * FROM servicos WHERE servicos = ?",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=======================================================
+    public function check_cotacao($designacao)
+    {
+        // verifique se existe uma cotacao com o mesmo nome
+        $params = array(
+            $designacao
+        );
+        $results = $this->query(
+            "SELECT * FROM cotacao_servicos WHERE escopo = ?",
             $params
         )->getResult('array');
         if (count($results) != 0) {
@@ -540,43 +585,56 @@ class StocksModel extends Model
     public function tratar_servicos()
     {
         $request = \Config\Services::request();
-        $params2 = array( $request->getPost('select_parent'),
-                          $request->getPost('projeto')
-                        );
-        
-        $params5 = array( $request->getPost('select_parent'));
-        
+        $params2 = array(
+            $request->getPost('select_parent'),
+            $request->getPost('projeto')
+        );
+        $params5 = array($request->getPost('select_parent'));
         //selecionar tudo o que foi postado
         $servico = $_POST;
-
+        
         //tirar o ultimo registro que é o fornecedor
         $params =  array_pop($servico);
-        $params3 = array($servico);
-
-        //pegar o penultimo registro que é o projeto
+        //tirar o penultimo registro que é o projeto
         $params =  array_pop($servico);
-        $params3 = array($servico);
-        
-       
         // cadastrar na cotacao
         $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'' )", $params2);
-    
-        //apos cdastrao cotacao pegar todos os reistros
+        //apos cadastrar cotacao pegar todos os registros 
         $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_for = ?', $params5)->getResult('array');
-
         //selecionar o ultimo registro
         $results5 = array_pop($results);
         $results3 = $results5['id_cot'];
-        
-        
         //cadastrar todos os servicos na ultima cotacao
-       
-        foreach($servico as $t1){
-            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?)",$t1);
-        }  
+        foreach ($servico as $t1) {
+            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?)", $t1);
+        }
+        
     }
     //=======================================================
+    public function tratar_servicos2()
+    {
+        $request = \Config\Services::request();
+        $params2 = array(
+            $request->getPost('checkLista')
+        );
+        $servico = $_POST;
+        // tirar o ultimo registro que é o nome do check list
+        $params2 =  array_pop($servico);
+        // cadastrar no servicos
+        $this->query("INSERT INTO servicos VALUES(0,? )", $params2);
+        //apos cadastrar cotacao pegar todos os registros 
+        $results = $this->query('SELECT * FROM servicos WHERE servicos = ?', $params2)->getResult('array');
+        // selecionar o ultimo registro
+        $results5 = array_pop($results);
+        // pegar o id do ultimo servico cadastrado
+        $results3 = $results5['id_servico'];
+        //cadastrar todos os check list  do  ultimo servico
+        foreach ($servico as $t1) {
+            $this->query("INSERT INTO check_list VALUES(0,$results3,?)", $t1);
+        }
+    }
 
+    //=======================================================
     public function get_tax($id_tax)
     {
         //retorna a familia
@@ -623,6 +681,16 @@ class StocksModel extends Model
           WHERE id_taxas = ? ",
             $params
         );
+    }
+    //=====================================================
+    public function get_checklists_editar($id_check)
+    {
+        $params = array($id_check);
+        return $this->query(
+            "SELECT * FROM check_list
+        WHERE id_servico = ? ",
+            $params
+        )->getResult('array');
     }
     //=====================================================
     public function cot_aprovado($id_aprovado)
@@ -1055,18 +1123,29 @@ class StocksModel extends Model
         ")->getResult('array');
     }
     //=======================================================
-    public function escopo_por_cotacao($id_cotacao){
+    public function escopo_por_cotacao($id_cotacao)
+    {
 
         $params = array($id_cotacao);
-        return $this->query('SELECT * 
+        return $this->query(
+            'SELECT * 
                FROM cotacao_escopo 
-               WHERE id_cot =?', $params
+               WHERE id_cot =?',
+            $params
         )->getResult('array');
     }
-    
-    
-    
-    
+    //=======================================================
+    public function get_escopo($id_escopo)
+    {
+
+        $params = array($id_escopo);
+        return $this->query(
+            'SELECT * 
+               FROM cotacao_escopo 
+               WHERE id_escopo =?',
+            $params
+        )->getResult('array');
+    }
     //=======================================================
     public function get_all_servicos()
     {

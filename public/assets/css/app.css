@@ -17,8 +17,22 @@
 .borda-teste2{
     border: red 5px solid;
 }
+
+.padding-0{
+    padding: 0%;
+}
+
+.borda-teste0{
+    
+    width: 100%;
+    height: 100%;
+}
 .card-claro{
     background-color: rgb(240, 232, 232);
+}
+
+.card-claro2{
+    background-color: rgb(245, 210, 210);
 }
 
 .card-user{
@@ -38,6 +52,14 @@
     margin-top: 20px;
 }
 
+.marg-topo-5{
+    margin-top: 5px;
+}
+
+
+.marg-topo-10{
+    margin-top: 10px;
+}
 
 
 .marg-topo-menos-15{
@@ -84,6 +106,10 @@
 
 .marg-fundo{
     margin-bottom: 10px;
+}
+
+.marg-fundo-5{
+    margin-bottom: 5px;
 }
 
 .marg-fundo-20{
@@ -191,6 +217,12 @@
 
 .cor-alerta{
       color: rgb(240, 94, 94);
+  }
+
+  ol textarea
+  {
+    width: 100%;
+    height: 100%;
   }
 
 

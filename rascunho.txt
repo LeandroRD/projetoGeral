@@ -1,3 +1,20 @@
+   <div class="col-md-6 ">
+                    <?php $i = 0; ?>
+                    <?php foreach ($all_servicos as $servico) : ?>
+                        <label for="<?php echo $servico['servicos'] ?>">
+                            <input class="tudoxx" onClick="enviar('<?= $i ?>')" type="checkbox" id="servicos<?= $i ?>" value="<?php echo $servico['servicos'] ?>">
+                            <?php echo $servico['servicos'] ?>
+                        </label>
+                        <br>
+                        <br>
+                        <br>
+                    <?php $i++;
+                    endforeach; ?>
+                    <br>
+                </div>
+
+
+
    
    <a class="btn btn-primary " href="<?php echo site_url('stocks/cotacao_adicionar_servico/'.$servico['servicos'])?>">
                         

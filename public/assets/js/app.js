@@ -211,5 +211,11 @@ input_hidden.setAttribute("value",nomes);
 
 
 }
+//===============================================================
+//voltar a navegacao do Browser
+function voltar(){
+    history.back();
+}
+//===============================================================
 
 
