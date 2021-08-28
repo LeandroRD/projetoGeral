@@ -13,15 +13,13 @@ helper('funcoes');
 			--->
 		<div class="col-6 text-start  ">
 			<div class="col-6 align-self-end">
-				<h1>Lista de Cotações: </h1>
+				<h1>Cotações aguardando propostas: </h1>
 			</div>
-			<!-- botao adicionar cotacao-->
-			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/cotacao_adicionar') ?>" class="btn btn-primary btn-200">Adicionar cotação...</a></div>
 			<!-- botao check list -->
-			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/checkLists') ?>" class="btn btn-primary btn-200">Check List's...</a></div>
-			<!-- botao adicionar check list-->
-			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/checkList_adicionar') ?>" class="btn btn-primary btn-200">Adicionar Check List...</a></div>
+			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/checkLists') ?>" class="btn btn-primary btn-200">Adicionar Nova Cotação</a></div>
+			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/cotacoes_semFornecedor') ?>" class="btn btn-primary btn-200">Cotações sem Fornecedor</a></div>
 		</div>
+		<!-- caixa de alertas -->
 		<div class="col-md-6 col-md-offset-3 marg-topo-10">
 			<?php if (isset($error)) : ?>
 				<div class="alert alert-danger text-center alerta-apagando">
@@ -39,7 +37,7 @@ helper('funcoes');
 				<thead class="  cabeca-tabela">
 					<th class="text-center">ID</th>
 					<th class="text-center">Escopo</th>
-					<th class="text-center">Detalhes</th>
+					<th class="text-center">Proposta</th>
 					<th class="text-center">Fornecedor</th>
 					<th class="text-center">Ações</th>
 				</thead>

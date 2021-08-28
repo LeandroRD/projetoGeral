@@ -1,3 +1,45 @@
+
+<div class="col-6 text-start  ">
+			<div class="col-6 align-self-end"><a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary  btn-150   ">Voltar</a> </div>
+			<div class="mt-2 mb-2 marg-topo-10 "><a href="<?php echo site_url('stocks/checkList_adicionar') ?>" class="btn btn-primary btn-200">Gerar Novo Check List</a></div>
+			<br>
+			<div class="col-md-6 col-md-offset-3">
+				<?php if (isset($success)) : ?>
+					<div class="alert alert-success alerta-apagando p-3 text-center">
+						<?php echo $success ?>
+					</div>
+				<?php endif; ?>
+			</div>
+
+
+		</div>
+
+
+$this->query("INSERT INTO servicos VALUES(0,? )", $params2);
+
+
+<div>
+            <div class="d-inline2">
+                <strong class="tamanho-1_5em">Check List: &nbsp;&nbsp;</strong>
+            </div>
+            <div class="d-inline2">
+                <span class="cor-alerta3"><strong> <?php echo $get_checkList['servicos'] ?></strong></span>
+            </div>
+        </div>
+
+
+
+<span class="tamanho-1em"> Adicionar novos itens no check-list.</sp>
+                <div>
+                    <input class="form-control col-md-6" type="text" name="text_checkList" id="text_checkList">
+                </div>
+                <br>
+                <br>
+                <div>
+                    <button onclick=" enviar3('') " onclick="soma_id()" class="btn btn-primary btn-200">Adicionar Novo item...</button>
+                </div>
+
+
    <div class="col-md-6 ">
                     <?php $i = 0; ?>
                     <?php foreach ($all_servicos as $servico) : ?>

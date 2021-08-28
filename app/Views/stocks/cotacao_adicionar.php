@@ -4,18 +4,38 @@ $this->extend('Layout/layout_users');
 //===========================================================
 ?>
 <?php $this->section('conteudo') ?>
-
 <div class="row mt-2 card-claro">
     <div class="col-12 text-center ">
-        <h3>Cotações - Adicionar</h3>
+        <h3>Cotações_Adicionar</h3>
     </div>
     <br>
-    <div class="col-md-12  ">
-        <h4><strong>Escopo:</strong></h4>
-        <label for="check_tudo " class="red">
-            <input onclick="check()" type="checkbox" name="check_tudo" id="check_tudo" value="check_tudo">
-            Selecionar tudo
-        </label>
+    <div class="col-md-6  ">
+        <div class="col-6 text-start  ">
+            <div class="col-6 "><a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary  btn-150   ">Voltar</a> </div>
+        </div>
+        <span class="tamanho-1em"> Adicionar novos itens no check-list.</sp>
+            <div class="row">
+                <div class="col-md-8">
+                    <input class="form-control col-md-6" type="text" name="text_checkList" id="text_checkList">
+                </div>
+                <div class="col-md-4">
+                    <button onclick=" enviar_item_novo('') " class="btn btn-primary btn-200">Adicionar Novo item...</button>
+                </div>
+            </div>
+            <br>
+            <div>
+                <div class="d-inline2">
+                    <strong class="tamanho-1_5em">Check List: &nbsp;&nbsp;</strong>
+                </div>
+                <div class="d-inline2">
+                    <span class="cor-alerta3"><strong> <?php echo $get_checkList['servicos'] ?></strong></span>
+                </div>
+            </div>
+            <br>
+            <label for="check_tudo " class="cor-alerta2" value="label">
+                <input onclick="check()" type="checkbox" name="check_tudo" id="check_tudo" value="check_tudo">
+                Selecionar tudo
+            </label>
     </div>
     <form action="<?php echo site_url('stocks/tratar_servicos') ?>" method="post">
         <div class="col-md-12  marg-fundo card card-claro">
@@ -63,9 +83,9 @@ $this->extend('Layout/layout_users');
                 <!-- ESCOLHA DE FORNECEDOR -->
                 <div class="col-md-6 ">
                     <h4><strong>Nome do Projeto:</strong></h4>
-                    <input type="text" class="form-control" name="projeto">
+                    <input type="text" class="form-control" id="projeto1" name="projeto" required>
                     <h4><strong>Fornecedor:</strong></h4>
-                    <select class="form-control" name="select_parent">
+                    <select class="form-control" name="select_parent" required>
                         <option value="0">Nenhuma</option>
                         <?php foreach ($fornecedores as $fornecedor) : ?>
                             <option value="<?php echo $fornecedor['id_for']   ?>"><?php echo $fornecedor['razao_social']; ?></option>
@@ -78,7 +98,7 @@ $this->extend('Layout/layout_users');
                 <div class="marg-fundo  col-md-6 col-md-offset-3 ">
                     <div class="text-center">
                         <!-- BOTAO CONFIRMAR -->
-                        <button type="button" class="  btn btn-primary btn-lg btn-200 col-md-8 col-md-offset-2 " data-toggle="modal" data-target="#myModal">
+                        <button onClick="testeteste()" type="button" class="  btn btn-primary btn-lg btn-200 col-md-8 col-md-offset-2 " data-toggle="modal" data-target="#myModal">
                             Confirmar
                         </button>
                     </div>

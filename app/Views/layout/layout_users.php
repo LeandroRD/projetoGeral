@@ -12,6 +12,10 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/font-awesome.min.css')?>">
+    
+    
+    
+    
     <!-- CSS APP-->
     <link rel="stylesheet" href="<?php echo base_url('assets/css/app.css')?>">
     <!-- DATATABLE -->

@@ -1,6 +1,7 @@
 
 
-function enviar3() {
+function enviar3() 
+{
 
 	let novoCheckList = document.querySelector('#listaCep');
 
@@ -17,10 +18,18 @@ function enviar3() {
 	li.name = nr_arelatorio;
 	novoCheckList.appendChild(li);
 }
+//==================================================================
+function testeteste()
+{
+	
+	testeyx= document.getElementById('projeto1').autofocus;
+	
+}
 
 
-
-function enviar(id) {
+function enviar(id)
+ {
+	 
 	// criado variavel conectando  no UL listaCep
 	let listaCep = document.querySelector('#listaCep');
 
@@ -36,6 +45,7 @@ function enviar(id) {
 		li.value = string1;
 		li.id = 'servico' + id;
 		li.name = 'servico' + id;
+		li.setAttribute("required", true);
 		let servico3 = 'servico';
 		listaCep.appendChild(li);
 		//se checkbox estiver false esconde o servico
@@ -43,13 +53,26 @@ function enviar(id) {
 		var ttt = 'servico' + id
 		var item = document.getElementById(ttt);
 		item.parentNode.removeChild(item);
-
 	}
 }
-
+//==================================================================
+function enviar_item_novo()
+{
+	let listaCep = document.querySelector('#listaCep');
+	let text_checkList = document.getElementById('text_checkList').value;
+	let novo_input = document.createElement('textarea');
+	novo_input.value = text_checkList;
+	//gerar numero aleatorio para o name do novo item de checklist
+	var nr_arelatorio = Math.random();
+	novo_input.name = nr_arelatorio;
+	novo_input.setAttribute("required", true);
+	listaCep.appendChild(novo_input);
+}
 //codigo para selecionar todos os servicos 
 var title = document.getElementsByClassName("tudoxx");
-function check() {
+//==================================================================
+function check() 
+{
 	var ttudo = document.getElementsByClassName("tudoxx")
 	for (var i = 0; i < ttudo.length; i++) {
 		title[i].click();

@@ -88,6 +88,29 @@ class StocksModel extends Model
         }
     }
     //=====================================================
+    public function check_itemCheck($id)
+    {
+        $request = \Config\Services::request();
+        
+            
+        $params = array(
+            $id,
+            $request->getPost('text_designacao'));
+            
+
+        $results = $this->query(
+            "SELECT * FROM check_list WHERE id_checklist = ?
+            AND check_list = ?",
+            $params
+        )->getResult('array');
+       
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=====================================================
     public function check_family_servicos($designacao)
     {
         $params = array(
@@ -117,6 +140,19 @@ class StocksModel extends Model
         }
     }
     //=====================================================
+    public function get_checkList($id_check)
+    {
+        //retorna a familia
+        $params = array($id_check);
+        $results = $this->query('SELECT * FROM servicos WHERE id_servico =?', $params)->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
+
+    //=====================================================
     public function get_fornecedor($id_fornecedor)
     {
         //retorna a familia
@@ -140,7 +176,35 @@ class StocksModel extends Model
             return array();
         }
     }
+    //=====================================================
+    public function get_itemCheck($id_itemCheck, $item2)
+    {
 
+        //retorna a cotacao
+        $params = array($id_itemCheck, $item2);
+        $results = $this->query('SELECT * FROM check_list
+        WHERE id_checklist = ?
+        AND check_list =?', $params)->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
+    //=====================================================
+    public function get_Check($id_itemCheck)
+    {
+        //retorna todos os servicos
+        $params = array($id_itemCheck);
+        $results = $this->query('SELECT * FROM servicos
+        WHERE id_servico = ?'
+        , $params)->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
     //=====================================================
     public function get_family_servicos($id_family)
     {
@@ -592,7 +656,6 @@ class StocksModel extends Model
         $params5 = array($request->getPost('select_parent'));
         //selecionar tudo o que foi postado
         $servico = $_POST;
-        
         //tirar o ultimo registro que é o fornecedor
         $params =  array_pop($servico);
         //tirar o penultimo registro que é o projeto
@@ -608,7 +671,6 @@ class StocksModel extends Model
         foreach ($servico as $t1) {
             $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?)", $t1);
         }
-        
     }
     //=======================================================
     public function tratar_servicos2()
@@ -683,6 +745,23 @@ class StocksModel extends Model
         );
     }
     //=====================================================
+    public function itemCheck_edit($id_item)
+    {
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_designacao'),
+            $id_item
+        );
+        
+        $this->query(
+            "UPDATE check_list
+         SET check_list = ?
+          WHERE id_checklist = ? ",
+            $params
+        );
+    }
+    //=====================================================
     public function get_checklists_editar($id_check)
     {
         $params = array($id_check);
@@ -722,6 +801,48 @@ class StocksModel extends Model
         //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
         $this->query("UPDATE stock_produtos SET id_taxa = 0 
                     WHERE id_taxa = ? ", $params);
+    }
+    //=====================================================
+    public function delete_itemCheckList($id_itemCheck)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_itemCheck
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  check_list
+          WHERE id_checklist = ? ",
+            $params
+        );
+    }
+    //=====================================================
+    public function delete_CheckList($id_itemCheck)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_itemCheck
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  servicos
+          WHERE id_servico = ? ",
+            $params
+        );
+    }
+    //=====================================================
+    public function delete_itensCheckList($id_itemCheck)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_itemCheck
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  check_list
+          WHERE id_servico = ? ",
+            $params
+        );
     }
     //=====================================================
     public function delete_cotacao($id_cotacao)
@@ -792,6 +913,35 @@ class StocksModel extends Model
         }
     }
     //=====================================================
+    public function checkExistingItemCheck()
+    {
+        //verifica se ja existe um produto com o mesmo nome
+        $request = \Config\Services::request();
+        $dados = $request->getPost();
+        $params = array(
+            $dados['text_novoItemCheckList'],
+            $dados['id_servico']
+
+        );
+
+        $results = $this->query(
+            "SELECT check_list FROM check_list WHERE check_list = ? 
+             AND id_servico = ?      ",
+            $params
+        )->getResult('array');
+
+
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+    //=====================================================
     public function fornecedor_check()
     {
         // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
@@ -802,6 +952,19 @@ class StocksModel extends Model
             $dados['text_razao_social']
         );
         return $this->db->query("SELECT id_for FROM fornecedores WHERE razao_social = ? ", $params)->getResult('array');
+    }
+    //=====================================================
+    public function itemCheck_add()
+    {
+        $request = \Config\Services::request();
+        $dados = $request->getPost();
+        $params = array(
+            $dados['id_servico'],
+            $dados['text_novoItemCheckList']
+
+
+        );
+        $this->query("INSERT INTO check_list VALUES(0,?,? )", $params);
     }
     //=====================================================
     public function fornecedor_check_tras_id()
@@ -843,6 +1006,9 @@ class StocksModel extends Model
         //verifica se ja existe um fornecedor com o mesmo nome
         $request = \Config\Services::request();
         $servicos =    $request->getPost('select_parent');
+        
+        
+        
         if ($servicos == 0) {
             return true;
         } else {
@@ -1158,7 +1324,7 @@ class StocksModel extends Model
     //=======================================================
     public function get_all_cotacoes()
     {
-        //busca todos as cotacoes
+        //busca todas as cotacoes com pendencia de fornecedor
         return $this->query("SELECT 
          c.id_cot, 
          c.escopo,
@@ -1169,7 +1335,24 @@ class StocksModel extends Model
              fornecedores f 
          ON 
              c.id_for = f.id_for
-         Where c.cot_aprovado = 0 
+         Where c.cot_aprovado = 0 AND c.id_for <> 0
+         ")->getResult('array');
+    }
+    //=====================================================
+    public function cotacoes_semFornecedor()
+    {
+        //busca todas as cotacoes com pendencia de fornecedor
+        return $this->query("SELECT 
+         c.id_cot, 
+         c.escopo,
+         c.detalhes,
+         f.razao_social AS razaoSocial
+         FROM cotacao_servicos c
+         LEFT JOIN 
+             fornecedores f 
+         ON 
+             c.id_for = f.id_for
+         Where c.cot_aprovado = 0 AND c.id_for = 0
          ")->getResult('array');
     }
     //=====================================================

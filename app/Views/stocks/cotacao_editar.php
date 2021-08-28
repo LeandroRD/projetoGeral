@@ -48,8 +48,8 @@ $detalhes = $cotacao['detalhes'];
                     <label>Escopo:</label>
                     <input class="form-control marg-fundo" type="text" value="<?php echo $escopo ?>" name="text_escopo" required placeholder="família">
                     <!-- detalhes -->
-                    <label>Detalhes:</label>
-                    <input class="form-control" type="text" name="text_detalhes" value="<?php echo $detalhes ?>" required>
+                    <label>Proposta:</label>
+                    <input class="form-control" type="text" name="text_detalhes" value="<?php echo $detalhes ?>" >
                 </div>
             </div>
             <div class="  col-md-6   ">
@@ -116,13 +116,13 @@ $detalhes = $cotacao['detalhes'];
                                 <!-- botoes editar  -->
                                 <td class="text-center">
                                     <div class="marg-fundo-5">
-                                        <a class=" btn btn-primary btn-sm btn-100" href="<?php echo site_url('stocks/escopo_editar/'.aesEncrypt($escopo['id_escopo']))?>">
+                                        <a class=" btn btn-primary btn-sm btn-100" href="<?php echo site_url('stocks/escopo_editar/' . aesEncrypt($escopo['id_escopo'])) ?>">
                                             <i class="fa fa-pencil me-2"></i> Editar
                                         </a>
                                     </div>
                                     <div>
                                         <!-- botao eliminar -->
-                                        <a class="btn btn-danger btn-sm btn-100 " href="<?php echo site_url('stocks/escopo_eliminar/'.aesEncrypt($escopo['id_escopo']))?>">
+                                        <a class="btn btn-danger btn-sm btn-100 " href="<?php echo site_url('stocks/escopo_eliminar/' . aesEncrypt($escopo['id_escopo'])) ?>">
                                             <i class="fa fa-trash me-2"></i> Eliminar
                                         </a>
                                     </div>
@@ -167,45 +167,46 @@ $detalhes = $cotacao['detalhes'];
     </div>
 </div>
 <script>
-	$(document).ready( function () {
-    $('#tabela_familias').DataTable({"language": {
-    "sEmptyTable": "Nenhum registro encontrado",
-    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-    "sInfoThousands": ".",
-    "sLengthMenu": "_MENU_ resultados por página",
-    "sLoadingRecords": "Carregando...",
-    "sProcessing": "Processando...",
-    "sZeroRecords": "Nenhum registro encontrado",
-    "sSearch": "Pesquisar",
-    "oPaginate": {
-        "sNext": "Próximo",
-        "sPrevious": "Anterior",
-        "sFirst": "Primeiro",
-        "sLast": "Último"
-    },
-    "oAria": {
-        "sSortAscending": ": Ordenar colunas de forma ascendente",
-        "sSortDescending": ": Ordenar colunas de forma descendente"
-    },
-    "select": {
-        "rows": {
-            "_": "Selecionado %d linhas",
-            "0": "Nenhuma linha selecionada",
-            "1": "Selecionado 1 linha"
-        }
-    },
-    "buttons": {
-        "copy": "Copiar para a área de transferência",
-        "copyTitle": "Cópia bem sucedida",
-        "copySuccess": {
-            "1": "Uma linha copiada com sucesso",
-            "_": "%d linhas copiadas com sucesso"
-        }
-    }
-}
-		});
-} );
+    $(document).ready(function() {
+        $('#tabela_familias').DataTable({
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                },
+                "select": {
+                    "rows": {
+                        "_": "Selecionado %d linhas",
+                        "0": "Nenhuma linha selecionada",
+                        "1": "Selecionado 1 linha"
+                    }
+                },
+                "buttons": {
+                    "copy": "Copiar para a área de transferência",
+                    "copyTitle": "Cópia bem sucedida",
+                    "copySuccess": {
+                        "1": "Uma linha copiada com sucesso",
+                        "_": "%d linhas copiadas com sucesso"
+                    }
+                }
+            }
+        });
+    });
 </script>
 <?php $this->endSection() ?>

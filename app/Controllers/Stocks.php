@@ -69,8 +69,27 @@ class Stocks extends BaseController
         echo view('stocks/cotacao_adicionar', $data);
     }
     //========================================================
-    public function checkLists()
+    public function cotacao_adicionar2()
     {
+        $model = new StocksModel();
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        $data['all_servicos'] = $model->get_all_servicos();
+        $data['get_checkList'] = "por get aqui";
+        $error = '';
+        $data['all_escopo'] = array();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        
+        echo view('stocks/cotacao_adicionar2', $data);
+    }
+      
+    //========================================================
+    public function checkLists($delete=0)
+    {
+        if($delete==1){
+            $data['success'] = "Check list eliminado com Sucesso!!";
+        }
         $model = new StocksModel();
         $data['checklists'] = $model->get_all_checklists();
 
@@ -90,10 +109,11 @@ class Stocks extends BaseController
         }
         $model = new StocksModel();
         $data['checklists_editar'] = $model->get_checklists_editar($id_check);
-
+        $data['get_checkList'] = $model->get_checkList($id_check);
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
+
         echo view('stocks/checklists_editar', $data);
     }
 
@@ -108,12 +128,13 @@ class Stocks extends BaseController
         $model = new StocksModel();
         $data['all_servicos'] = $model->get_checklists_editar($id_check);
         $data['fornecedores'] = $model->get_all_fornecedores();
-        // $data['all_servicos'] = $model->get_all_servicos();
+        $data['get_checkList'] = $model->get_checkList($id_check);
         $error = '';
         $data['all_escopo'] = array();
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
+
 
         echo view('stocks/cotacao_adicionar', $data);
     }
@@ -300,6 +321,19 @@ class Stocks extends BaseController
         echo view('stocks/cotacao_editar', $data);
     }
     //========================================================
+    public function itemCheck_editar($id_item, $item2)
+    {
+        helper('funcoes');
+        $model = new StocksModel();
+        $data['itemCheck'] = $model->get_itemCheck($id_item, $item2);
+        
+        //confirmar tipo de usuario
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/itemCheck_editar', $data);
+    }
+    //========================================================
     public function cotacao_editar2($id_cotacao)
     {
         // carregar os dados das familias para passar a View
@@ -409,12 +443,12 @@ class Stocks extends BaseController
             $baixar =  array_pop($novo_checkList);
             $baixar =  array_pop($novo_checkList);
             $data['all_servicos'] = $novo_checkList;
-            //confirmar se ja existe uma ccotacao com o mesmo nome
+            //confirmar se ja existe uma cotacao com o mesmo nome
             $request = \Config\Services::request();
             $resultado = $model->check_cotacao($request->getPost('projeto'));
             if ($resultado) {
-                $error = 'Já existe um checkList com a mesma desigção!!';
-            }
+                $error = 'Já existe uma Cotação com a mesma desigção!!';
+            }            
             if ($error == '') {
                 $model->tratar_servicos();
                 $data['sucess'] = "Cotação adicionada com Sucesso";
@@ -448,7 +482,7 @@ class Stocks extends BaseController
             if ($error == '') {
                 //adicionar o servico
                 $model->tratar_servicos2();
-                $data['success'] = "Cotação adicionada com Sucesso";
+                $data['success'] = "Check List adicionado com Sucesso";
             } else {
                 $data['error'] = $error;
             }
@@ -709,7 +743,17 @@ class Stocks extends BaseController
         }
         echo view('stocks/cotacoes', $data);
     }
-
+    //========================================================
+    public function cotacoes_semFornecedor()
+    {
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes'] = $model->cotacoes_semFornecedor();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacoes_semFornecedor', $data);
+    }
     //========================================================
     public function acompanhamento_servicos()
     {
@@ -819,9 +863,42 @@ class Stocks extends BaseController
         echo view('stocks/taxas_adicionar', $data);
     }
     //========================================================
+    public function itemCheck_editarConfirmar($id_checklist)
+    {
+        helper('funcoes');
+        $model = new StocksModel();
+        $error = '';
+        //confirmar se ja existe item de check list igual 
+        $resultado = $model->check_itemCheck($id_checklist);
+
+        if ($resultado) {
+            $error = 'Já existe um item de check-List com os mesmos Dados!!';
+        }
+
+        if ($error == '') {
+            $model->itemCheck_edit($id_checklist);
+        }
+
+        $request = \Config\Services::request();
+        $id_item_check = $request->getPost('id_servico');
+        $model = new StocksModel();
+        $data['checklists_editar'] = $model->get_checklists_editar($id_item_check);
+        $data['get_checkList'] = $model->get_checkList($id_item_check);
+
+        // verificar tipo de profile
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        if ($error == '') {
+            $data['success'] = "Feito as alterações com sucesso!!";
+        } else {
+            $data['error']  =  $error;
+        }
+        echo view('stocks/checklists_editar', $data);
+    }
+    //========================================================
     public function taxas_editar($id_taxa)
     {
-
         helper('funcoes');
         $id_taxa = aesDecrypt($id_taxa);
         if ($id_taxa == -1) {
@@ -898,6 +975,46 @@ class Stocks extends BaseController
         }
 
         echo view('stocks/taxas_eliminar', $data);
+    }
+    //========================================================
+    public function itemCheck_eliminar($id_idCheck, $checkList, $idServico = 0, $resposta = 'nao')
+    {
+        $model = new StocksModel();
+        $data['itemCheck'] = $model->get_itemCheck($id_idCheck, $checkList);
+        $success ="";
+        if ($resposta == 'sim') {
+            $model->delete_itemCheckList($id_idCheck);
+            $success = "Eliminado item de check List com sucesso!!";
+            $data['get_checkList'] = $model->get_checkList($idServico);
+            $data['checklists_editar'] = $model->get_checklists_editar($idServico);
+            $data['success'] = $success;
+            echo view('stocks/checklists_editar', $data);
+        }
+
+        //verificar tipo de profile
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/itemCheck_eliminar', $data);
+    }
+    //========================================================
+    
+    public function CheckList_eliminar($id_idCheck, $resposta = 'nao')
+    {
+        $model = new StocksModel();
+        $data['itemCheck'] = $model->get_Check($id_idCheck);
+        $success ="";
+        if ($resposta == 'sim') {
+            $model->delete_CheckList($id_idCheck);
+            $model->delete_itensCheckList($id_idCheck);
+            $delete = 1;
+            $this->checklists($delete);
+        }
+        //verificar tipo de profile
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/CheckList_eliminar', $data);
     }
     //========================================================
     public function cotacao_eliminar($id_cotacao, $resposta = 'nao')
@@ -1102,6 +1219,7 @@ class Stocks extends BaseController
                 }
             }
 
+            
             if ($erro == '') {
                 //adicionar novo fornecedor
                 $model = new StocksModel();
@@ -1162,8 +1280,43 @@ class Stocks extends BaseController
         echo view('stocks/fornecedores_adicionar', $data);
     }
 
+    //========================================================
+    public function ItemCheckList_adicionar()
+    {
+        $error = '';
+        $success = '';
+        $data = array();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $request = \Config\Services::request();
+            $dados = $request->getPost();
+        }
+
+        $model = new StocksModel();
+        //verificar se ja existe item de check list com os mesmos dados
+        if ($error == '') {
+            $resultado = $model->checkExistingItemCheck();
+            if ($resultado) {
+                $error = 'Já existe um checkList com a mesma desigção!!';
+                $data['error'] = $error;
+            }
+        }
+        if ($error == '') {
+            $model->itemCheck_add();
+            $data['success'] = "Adicionado item com Sucesso!!";
+        }
+        $id_check = $dados['id_servico'];;
+        $data['checklists_editar'] = $model->get_checklists_editar($id_check);
+        $data['get_checkList'] = $model->get_checkList($id_check);
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        echo view('stocks/checklists_editar', $data);
+    }
 
     //========================================================
+
+
     public function produtos_editar($id)
     {
         helper('funcoes');

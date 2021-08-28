@@ -13,59 +13,57 @@ function soma_id($i)
     <div class="col-12 text-center ">
         <h3>Check List - Adicionar</h3>
     </div>
+
     <br>
     <div class="col-md-12 marg-fundo-20 ">
+
         <!-- Check List -->
         <div class="col-md-6">
-            <h4><strong>Check List:</strong></h4>
+            <div class="col-6 align-self-end"><a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary  btn-150   ">Voltar</a> </div>
+            <h4><strong>Adicione os itens do Check List:</strong></h4>
             <!-- <p id="pteste">primeira</p> -->
-                <input class="form-control" type="text" name="text_checkList" id="text_checkList" >
-                <div class="mt-2 mb-2 marg-topo ">
-                    <button onclick=" enviar3('<?= $i ?>') " onclick="soma_id()" class="btn btn-primary btn-200">Adicionar Check List...</button>
-                </div></form>
+            <input class="form-control" type="text" name="text_checkList" id="text_checkList">
+            <div class="mt-2 mb-2 marg-topo ">
+                <button onclick=" enviar3('<?= $i ?>') " onclick="soma_id()" class="btn btn-primary ">Adicionar itens ao Check List..</button>
+            </div>
+            <!-- ACAMPOS DE ALERTAS -->
+            <div class="col-md-8 col-md-offset-8">
+                <?php if (isset($error)) : ?>
+                    <div class="alert alert-danger alerta-apagando p-3 text-center">
+                        <?php echo $error ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($success)) : ?>
+                    <div class="alert alert-success alerta-apagando p-3 text-center">
+                        <?php echo $success ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+            </form>
         </div>
     </div>
-
     <div class="col-md-12  marg-fundo card card-claro2">
         <form action="<?php echo site_url('stocks/tratar_servicos2') ?>" method="post">
-
-            <!-- ACAMPOS DE ALERTAS -->
-            <?php if (isset($error)) : ?>
-                <div class="alert alert-danger alerta-apagando p-3 text-center">
-                    <?php echo $error ?>
-                </div>
-            <?php endif; ?>
-            <?php if (isset($success)) : ?>
-                <div class="alert alert-success alerta-apagando p-3 text-center">
-                    <?php echo $success ?>
-                </div>
-            <?php endif; ?>
             <br>
             <br>
             <!-- ESCOLHA DE ESCOPO -->
             <div class="row">
-
                 <!-- tabela de novo escopo -->
                 <div class="col-md-6 ">
                     <table class="table table-striped2 " id="tabela_familias">
                         <thead class="cabeca-tabela">
-                            <th class="text-center">Check List:</th>
+                            <th class="text-center">itens do Check List:</th>
                         </thead>
                     </table>
                     <!-- Check-list -->
-                    <ol class="padding-0" id="listaCep">
-                       
-                        <!-- <textarea name="tt2" id="tipo1" cols="10" rows="1">ola</textarea>
-                        <textarea name="tt2" id="tt2" cols="10" rows="1">ola</textarea>
-                        <textarea name="tt2" id="tt2" cols="10" rows="1">ola</textarea> -->
-                    </ol>
+                    <ol class="padding-0" id="listaCep"></ol>
                 </div>
             </div>
             <div class="col-md-8  marg-fundo text-center col-md-offset-4 ">
                 <!-- ESCOLHA DE FORNECEDOR -->
                 <div class="col-md-6 ">
                     <h4><strong>Nome do Check List:</strong></h4>
-                    <input type="text" class="form-control" name="checkLista"required>
+                    <input type="text" class="form-control" name="checkLista" required>
                 </div>
             </div>
             <br>
@@ -109,7 +107,7 @@ function soma_id($i)
                     <a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Cancelar</a>
                 </div>
             </div>
+        </form>
     </div>
-    </form>
 </div>
 <?php $this->endSection() ?>

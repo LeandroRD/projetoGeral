@@ -219,11 +219,48 @@
       color: rgb(240, 94, 94);
   }
 
+.cor-alerta2{
+    color: rgb(87, 154, 231);
+}
+
+  
+  /* alinhar div's uma ao lado da outra */
+ .d-inline2
+  {
+    display:inline!important
+  }
+
+  .cor-alerta3
+  {
+    color: rgb(240, 94, 94);
+    font-size: 1.5em;  
+  }
+
+  .tamanho-1_5em
+  {
+    font-size: 1.5em;  
+  } 
+
+   .tamanho-1em
+  {
+    font-size: 1.2em;
+      
+  } 
+
   ol textarea
   {
     width: 100%;
     height: 100%;
   }
+  
+  p input
+  {
+    width: 100%;
+    height: 100%;
+  }
+
+  
+
 
 
 
