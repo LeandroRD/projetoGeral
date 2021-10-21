@@ -16,15 +16,13 @@ function soma_id($i)
 
     <br>
     <div class="col-md-12 marg-fundo-20 ">
-
-        <!-- Check List -->
-        <div class="col-md-6">
-            <div class="col-6 align-self-end"><a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary  btn-150   ">Voltar</a> </div>
-            <h4><strong>Adicione os itens do Check List:</strong></h4>
-            <!-- <p id="pteste">primeira</p> -->
-            <input class="form-control" type="text" name="text_checkList" id="text_checkList">
-            <div class="mt-2 mb-2 marg-topo ">
-                <button onclick=" enviar3('<?= $i ?>') " onclick="soma_id()" class="btn btn-primary ">Adicionar itens ao Check List..</button>
+        <div class="col-md-7">
+            <div class="col-md-10 ">
+                <h4><strong>Descreva o item do Check List:</strong></h4>
+                <input class="form-control" type="text" name="text_checkList" id="text_checkList">
+                <div class="mt-2 mb-2 marg-topo ">
+                    <button onclick=" enviar3('<?= $i ?>') " onclick="soma_id()" class="btn btn-200 btn-primary ">Adicionar item.</button>
+                </div>
             </div>
             <!-- ACAMPOS DE ALERTAS -->
             <div class="col-md-8 col-md-offset-8">
@@ -50,15 +48,19 @@ function soma_id($i)
             <div class="row">
                 <!-- tabela de novo escopo -->
                 <div class="col-md-6 ">
-                    <table class="table table-striped2 " id="tabela_familias">
-                        <thead class="cabeca-tabela">
-                            <th class="text-center">itens do Check List:</th>
-                        </thead>
-                    </table>
-                    <!-- Check-list -->
-                    <ol class="padding-0" id="listaCep"></ol>
+                    <div class="col-md-12 ">
+                        <div class="col-md-12 ">
+                            <h4><strong>Novo Check List:</strong></h4>
+                            <ol class="padding-0" id="listaCep"></ol>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <br>
+            <div class="row marg-fundo">
+
+
+
             <div class="col-md-8  marg-fundo text-center col-md-offset-4 ">
                 <!-- ESCOLHA DE FORNECEDOR -->
                 <div class="col-md-6 ">
@@ -66,8 +68,7 @@ function soma_id($i)
                     <input type="text" class="form-control" name="checkLista" required>
                 </div>
             </div>
-            <br>
-            <div class="row marg-fundo">
+                
                 <div class="marg-fundo  col-md-6 col-md-offset-3 ">
                     <div class="text-center">
                         <!-- BOTAO CONFIRMAR -->
@@ -104,7 +105,7 @@ function soma_id($i)
                 </div>
                 <!-- BOTAO CANCELAR -->
                 <div class="col-md-6 col-md-offset-3 text-center">
-                    <a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Cancelar</a>
+                    <a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Voltar</a>
                 </div>
             </div>
         </form>

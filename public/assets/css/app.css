@@ -8,8 +8,15 @@
 /*buttons*/
 .btn-100{width: 100px;}
 .btn-150{width: 150px;}
+.btn-180{width: 180px;}
 .btn-200{width: 200px;}
 .btn-250{width: 250px;}
+
+.color-teste
+{
+    background-color: red;
+    color: red;
+}
 
 .borda-teste{
     border: red 2px solid;
@@ -31,16 +38,30 @@
     background-color: rgb(240, 232, 232);
 }
 
+.card-claro_2{
+    background-color: rgb(218, 213, 213);
+}
+
 .card-claro2{
-    background-color: rgb(245, 210, 210);
+    background-color: rgb(241, 231, 231);
+}
+
+.card-claro8{
+    background-color: rgb(236, 216, 216);
 }
 
 .card-user{
     background-color: rgb(201, 187, 187);
 }
 
-.card-claro2{
-    background-color: rgb(224, 212, 212);
+
+
+.card-laranja-claro{
+    background-color: rgb(245, 217, 194);
+}
+
+.marg-fundo-teste-100{
+    margin-bottom: 100px;
 }
 
 
@@ -95,9 +116,17 @@
     font-size: 20px;
     color: rgb(240, 154, 43);
 }
+
+.font4{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    color: rgb(134, 105, 67);
+}
 .font2{
     color: burlywood;
 }
+
+
 
 .padding-dir-esq-10px{
     padding-left: 10px;
@@ -124,6 +153,8 @@
     margin-bottom: 20px;
 }
 
+
+
 .cor-botao-secondary{
     background-color: #6c757d;
     color: white;
@@ -131,6 +162,16 @@
 
 .cor-botao-verde{
     background-color: #2aa735;
+    color: white;
+}
+
+.cor-botao-azul-claro{
+    background-color: #77d2f6;
+    color: white;
+}
+
+.cor-botao-laranja{
+    background-color: #f1841eea;
     color: white;
 }
 
@@ -258,6 +299,33 @@
     width: 100%;
     height: 100%;
   }
+
+  .bordaTransparente
+  {
+      border: solid 0px;
+  }
+
+  .padding-esq-20
+  {
+      padding-left: 100px;
+  }
+
+  .transp1 
+  {
+      background-color: transparent;
+      border: transparent 0px;
+  }
+
+  .tudo_transp
+  {
+      color:transparent;
+  }
+
+  
+
+
+
+  
 
   
 

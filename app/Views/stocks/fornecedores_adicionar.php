@@ -81,7 +81,7 @@
                     <!--  Cep-->
                     <div class="col-md-7 col-xs-6 ">
                         <label>Cep.:</label>
-                        <input autofocus type="text" id="cep"name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo " autocomplete="off">
+                        <input autofocus type="text" id="cep" name="text_cep" value = "<?php echo $cep?>" class="form-control marg-fundo " autocomplete="off">
                     </div>
                     <!-- botao nao sabe o cep -->
                     <div class="col-md-5 col-xs-6 marg-topo-30 ">
@@ -174,7 +174,7 @@
                 <!--  email-->
                 <div class="mt-3 ">
                     <label>Email:</label>
-                    <input type="email" name="text_email" value = "<?php echo $email?>" class="form-control marg-fundo" >
+                    <input type="email" name="text_email" value = "<?php echo $email?>" class="form-control marg-fundo" autocomplete="off">
                 </div>
                 <!--  OBS-->
                 <div class="mt-3 ">

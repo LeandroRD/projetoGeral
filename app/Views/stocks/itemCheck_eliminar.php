@@ -15,7 +15,7 @@
         <div class="row col-md-6 col-md-offset-3 col-12 mt-3  card card-claro"> 
             <div class=" p-4 text-center ">
                 <br>
-                <h4 class="cor-alerta-del">Tem a certeza que prentende este item do Check List !?</h4>  
+                <h4 class="cor-alerta-del">Tem certeza que prentende eliminar este item ?!</h4>  
                 <br>
                 <h4> <b><?php echo $itemCheck['check_list'] ?></h4></b> 
                 <br>

@@ -4,11 +4,11 @@
 <?php $this->section('conteudo')?>
     <div class="row mt-2 ">
 		<div class="col-12 text-center ">
-			<h3>Procurar CEP:</h3>
+			<h3>Clientes Procurar CEP:</h3>
         </div>
         <div class="  col-md-6 col-md-offset-3 marg-fundo card card-claro">
 		    <div class=" container">
-                <form action="<?php echo site_url('stocks/fornecedores_adicionar_cep') ?>" method="get">
+                <form action="<?php echo site_url('stocks/clientes_adicionar_cep') ?>" method="get">
                     <div class="row">
                         <!-- rua -->
                         <div class="col-md-6 col-xs-12 marg-topo-10">

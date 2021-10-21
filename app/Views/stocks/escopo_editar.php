@@ -4,29 +4,40 @@ $this->extend('Layout/layout_users');
 $id_escopo =  $escopo[0]['id_escopo'];
 $id_cotacao = $escopo[0]['id_cot'];
 
- 
+
 ?>
 <?php $this->section('conteudo') ?>
 <div class="row mt-2">
     <div class="col-12 text-center ">
         <h3>Escopo - Editar</h3>
     </div>
-    <div class="col-md-6 col-md-offset-3 card card-claro">                                        
-        <form action="<?php echo site_url('stocks/escopo_editar2/'.$id_escopo).'?v='.$id_cotacao ?>" method="post">
+    <div class="col-md-6 col-md-offset-3 card card-claro">
+        <form action="<?php echo site_url('stocks/escopo_editar2/' . $id_escopo) . '?v=' . $id_cotacao ?>" method="post">
             <?php if (isset($error)) : ?>
                 <div class="alert alert-danger p-3 text-center">
                     <?php echo $error ?>
                 </div>
             <?php endif; ?>
             <br>
-            <div class="mt-3 marg-fundo">
+            <div class="mt-3 ">
                 <label>Nome:</label>
                 <input class="form-control" type="text" name="text_escopo" required value="<?php echo $escopo[0]['escopo'] ?>">
             </div>
             <br>
+            <div class="col-md-8 col-md-offset-2 marg-fundo ">
+                <select onclick="mudar_data()" name="select_data" id="select_data" class="marg-fundo form-control" required>
+                    <?php foreach ($datas_cadastras as $datas) : ?>
+                        <?php if ($item_data_cadastrada[0]['CheckList_data'] == $datas['data_cot']) : ?>
+                            <option class="xxyy" value="<?php echo $datas['id_data_cot'] ?>" selected><?php echo $datas['data_cot']; ?></option>
+                        <?php else : ?>
+                            <option id="xxyy" class="xxyy" value="<?php echo $datas['id_data_cot']   ?>"><?php echo $datas['data_cot']; ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <!-- modal -->
             <div class="row marg-fundo">
-                <div class="marg-fundo  col-md-6 col-md-offset-3 ">
+                <div class="marg-fundo  col-md-10 col-md-offset-1 ">
                     <!-- Button trigger modal -->
                     <div class="text-center">
                         <button type="button" class="  btn btn-primary btn-lg btn-200 col-md-8 col-md-offset-2 " data-toggle="modal" data-target="#myModal">
@@ -59,7 +70,7 @@ $id_cotacao = $escopo[0]['id_cot'];
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-md-offset-3 text-center">
+                <div class="col-md-10 col-md-offset-1 text-center">
                     <button onclick="voltar()" type="button" class="  btn cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">
                         voltar
                     </button>

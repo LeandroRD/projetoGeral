@@ -1,12 +1,18 @@
 <?php
 $this->extend('Layout/layout_users');
-
-//===========================================================
 ?>
+<!-- //=========================================================== -->
 <?php $this->section('conteudo') ?>
+<!-- confirmar se chegou nome de fornecedor -->
+<?php if (isset($parent)) : ?>
+    <?php $parent = $parent['razao_social']; ?>
+<?php else : ?>
+    <?php $parent = 'Nenhuma'; ?>
+<?php endif; ?>
+
 <div class="row mt-2 card-claro">
     <div class="col-12 text-center ">
-        <h3>Cotações_Adicionar_1</h3>
+        <h3>Cotações_Adicionar2</h3>
     </div>
     <br>
     <div class="col-md-6  ">
@@ -28,7 +34,7 @@ $this->extend('Layout/layout_users');
                     <strong class="tamanho-1_5em">Check_List: &nbsp;&nbsp;</strong>
                 </div>
                 <div class="d-inline2">
-                    <span class="cor-alerta3"><strong> <?php echo $get_checkList['servicos'] ?></strong></span>
+                    <span class="cor-alerta3"><strong> <?php echo $get_checkList['servicos']; ?></strong></span>
                 </div>
             </div>
             <br>
@@ -37,49 +43,18 @@ $this->extend('Layout/layout_users');
                 Selecionar tudo
             </label>
     </div>
-
-
-
-    
-
-   
-
-    <div class="marg-fundo">
-        <button onclick=" add_data(), add_hora()" class=" btn btn-primary" id=btn_data>data/hora confirme aqui!</button>
-    </div>
-
-
-    <form action="<?php echo site_url('stocks/tratar_servicos') ?>" method="post">
+    <form action="<?php echo site_url('stocks/tratar_servicos_continue') ?>" method="post">
         <div class="row">
-            <!-- Campos data e hora -->
+            <input type="hidden" name="nr_checklist" value="<?php echo $nr_checkList ?>">
+            <input type="hidden" name="nome_checklist" value="<?php echo $get_checkList['servicos']; ?>">
             <div class="col-md-4">
                 <label for="">Data do início da execução:</label>
-                <input type="hidden" name="nr_checklist" value="<?php echo $get_checkList['id_servico'] ?>">
-                <input class="form-control " type="date" id="input_Data" name="input_Data" value="Data" id="">
-                <label for="">Hora do início da execução:</label>
-                <input class="form-control marg-fundo " type="time" id="input_Hora" name="input_Hora" value="Data" id="">
+                <input class="form-control " type="date" name="input_Data" value="Data" id="">
             </div>
             <div class="col-md-4">
-                <div>
-                    <table class="table table-striped2 " id="tabela_familias">
-                        <thead class="  cabeca-tabela">
-                            <th class="text-center">Datas / Horas:</th>
-                        </thead>
-                    </table>
-                    <!-- Campos de inclusao das horas -->
-                    <div class="row">
-                        <div>
-                            <ol class="padding-0 col-md-6" id="lista_data"></ol>
-                        </div>
-                        <div>
-                            <ol class="padding-0 col-md-6" id="lista_hora"></ol>
-                        </div>
-                    </div>
-
-                </div>
+                <label for="">Hora do início da execução:</label>
+                <input class="form-control " type="time" name="input_Hora" value="Data" id="">
             </div>
-
-
         </div>
         <div class="col-md-12  marg-fundo card card-claro">
             <!-- ACAMPOS DE ALERTAS -->
@@ -111,12 +86,6 @@ $this->extend('Layout/layout_users');
                     endforeach; ?>
                     <br>
                 </div>
-
-
-
-
-
-
                 <!-- tabela de novo escopo -->
                 <div class="col-md-6 ">
                     <table class="table table-striped2 " id="tabela_familias">
@@ -132,21 +101,23 @@ $this->extend('Layout/layout_users');
                 <!-- ESCOLHA DE FORNECEDOR -->
                 <div class="col-md-6 ">
                     <h4><strong>Nome do Projeto:</strong></h4>
-                    <input type="text" class="form-control" id="projeto1" name="projeto" required>
+                    <input type="text" class="form-control" id="projeto1" value="<?php echo $nome_projeto; ?>" name="projeto1" disabled>
+                    <input type="hidden" class="form-control" id="projeto1" value="<?php echo $nome_projeto; ?>" name="projeto1">
                     <h4><strong>Fornecedor:</strong></h4>
-                    <select class="form-control" name="select_parent" required>
-                        <option value="0">Nenhuma</option>
-                        <?php foreach ($fornecedores as $fornecedor) : ?>
-                            <option value="<?php echo $fornecedor['id_for']   ?>"><?php echo $fornecedor['razao_social']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <input type="text" class="form-control" id="parent1" name="parent1" value="<?php echo $parent; ?>" disabled>
+                    <input type="hidden" class="form-control" id="parent1" name="parent1" value="<?php echo $parent; ?>">
                 </div>
             </div>
             <br>
             <div class="row marg-fundo">
                 <div class="marg-fundo  col-md-6 col-md-offset-3 ">
-
-                    <!-------------------------- Modal1 -------------------->
+                    <div class="text-center">
+                        <!-- BOTAO CONFIRMAR -->
+                        <button type="button" class="  btn btn-primary btn-lg btn-200 col-md-8 col-md-offset-2 " data-toggle="modal" data-target="#myModal">
+                            Cadastrar novos Serviços/data.
+                        </button>
+                    </div>
+                    <!-- Modal -------------------->
                     <div class="modal fade marg-topo-150  " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content ">
@@ -172,54 +143,14 @@ $this->extend('Layout/layout_users');
                             </div>
                         </div>
                     </div>
-
-
-                    <!-------------------------- Modal2 -------------------->
-                    <div class="modal fade marg-topo-150" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content ">
-                                <!-- //=========================================================== -->
-                                <div class="modal-header borda-mensagem encher-mensagem">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel"></h4>
-                                </div>
-                                <!-- //=========================================================== -->
-                                <div class="modal-body  text-center ">
-                                    <h4> Atenção!!! Preencher os campos Data e Hora.</h4>
-                                    <!-- <div class="marg-fundo">
-                                        <button class="btn btn-primary btn-200 ">Atualizar</button>
-                                    </div> -->
-                                    <div>
-                                        <a type="button" class="btn cor-botao-secondary btn-200" data-dismiss="modal">OK</a>
-                                    </div>
-                                </div>
-                                <!-- //=========================================================== -->
-                                <div class="modal-footer ">
-                                </div>
-                                <!-- //=========================================================== -->
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
-                <!-- BOTAO CONFIRMAR -->
-                <div class="col-md-6 col-md-offset-3 text-center marg-fundo">
-                    <button type="button" onclick="data_vazia()" class="  btn btn-primary btn-lg btn-200 col-md-8 col-md-offset-2 ">
-                        Confirmar
-                    </button>
-                </div>
+
                 <!-- BOTAO CANCELAR -->
                 <div class="col-md-6 col-md-offset-3 text-center">
-                    <a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Cancelar</a>
+                    <a href="<?php echo site_url('stocks/cotacoes') ?>" class="btn  cor-botao-secondary btn-lg btn-200 col-md-8 col-md-offset-2 ">Confirmar</a>
                 </div>
             </div>
         </div>
     </form>
-    <!-- //==============botoes ocultos modal========================= -->
-    <button class="transp1" id="btn1" type="button" data-toggle="modal" data-target="#myModal"></button>
-    <br>
-    <button class="transp1" id="btn2" type="button" data-toggle="modal" data-target="#myModal2"></button>
-    <!-- //======================================= -->
 </div>
 <?php $this->endSection() ?>

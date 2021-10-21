@@ -2,24 +2,25 @@
 	$this->extend('Layout/layout_users');
 	 // tratar o id do produto a editar
 	 helper('funcoes');
-	 $id_fornecedor = aesEncrypt($fornecedor['id_for']);
+	 $id_cliente = aesEncrypt($cliente['id_cliente']);
   
+     
         //recolher  dados apos submeter
-        $razao_social = $fornecedor['razao_social'];
-        $endereco = $fornecedor['endereco'];
-        $nr = $fornecedor['numero'];
-        $complemento = $fornecedor['complemento'];
-        $bairro = $fornecedor['bairro'];
-        $cep = $fornecedor['CEP'];
-        $municipio = $fornecedor['municipio'];
-        $uf = $fornecedor['UF'];
-        $cnpj = $fornecedor['cnpj'];
-        $ie = $fornecedor['I_E'];
-        $contato = $fornecedor['contato'];
-        $telefone = $fornecedor['telefone'];
-        $celular = $fornecedor['celular'];
-        $email = $fornecedor['email'];
-        $obs = $fornecedor['obs'];
+        $razao_social = $cliente['razao_social_cli'];
+        $endereco = $cliente['endereco_cli'];
+        $nr = $cliente['numero_cli'];
+        $complemento = $cliente['complemento_cli'];
+        $bairro = $cliente['bairro_cli'];
+        $cep = $cliente['CEP_cli'];
+        $municipio = $cliente['municipio_cli'];
+        $uf = $cliente['UF_cli'];
+        $cnpj = $cliente['cnpj_cli'];
+        $ie = $cliente['I_E_cli'];
+        $contato = $cliente['contato_cli'];
+        $telefone = $cliente['telefone_cli'];
+        $celular = $cliente['celular_cli'];
+        $email = $cliente['email_cli'];
+        $obs = $cliente['obs_cli'];
     
 
     //limpar campos apos adicionar novo fornecedor
@@ -44,10 +45,11 @@
 <?php $this->section('conteudo')?>
     <div class="row mt-2">
 		<div class="col-12 text-center">
-			<h3>Fornecedores - Editar</h3>
+			<h3>Clientes_Cotação_Editar</h3>
+            
         </div>
         <div class=" col-md-6 col-md-offset-3 marg-fundo card card-claro">
-            <form action="<?php echo site_url('stocks/fornecedor_editar/'.$id_fornecedor) ?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo site_url('stocks/cliente_cotacao/'.$id_cliente) ?>" method="post" enctype="multipart/form-data">
                 <!-- caixa de mensagens -->
                 <?php if(isset($error)): ?>
                     <div class="alerta-apagando alert alert-danger p-3 text-center">
@@ -58,28 +60,13 @@
                     <div class="alerta-apagando alert alert-success p-3 text-center">
                         <?php echo $success ?>
                     </div>
-                <?php endif; ?>
-                <!-- familias servicos -->
-                    <label>Família de servicos:</label>
-                    <select name="combo_familia" class="form-control" >
-                        <?php if($fornecedor['servico']== 0):?>
-                            <option value="0" selected>Nenhuma</option>
-                        <?php else:?>
-                            <option value="0" >Nenhuma</option>
-                        <?php endif;?>
-                            <?php foreach($familia_servicos as $servicos):?>
-                                <?php if($fornecedor['servico'] == $servicos['id_familia_servicos']):?>
-                                    <option value="<?php echo $servicos['id_familia_servicos'] ?>" selected><?php echo $servicos['designacao_servicos']?></option>
-                                <?php else:?>
-                                    <option value="<?php echo $servicos['id_familia_servicos'] ?>"><?php echo $servicos['designacao_servicos']?></option>
-                                <?php endif;?>                               
-                            <?php endforeach;?>
-                    </select>
+                <?php endif; ?>    
                     <!-- razao social -->
                 <div class="mt-3">
                     <label>Razão Social:</label>
                     <input type="text" name="text_razao_social" class="marg-fundo form-control"  required value = "<?php echo $razao_social?>">
-                </div>                
+                </div>
+                <input type="text" name="id_cot" value="<?php echo $id_cot ?>">                
                 <div class="row">
                     <div class="col-md-7 col-xs-9">
                         <!--  Endereco-->
@@ -117,13 +104,13 @@
                         <!--  UF-->
                         <label>UF:</label>
                         <select name="text_uf" class="form-control" >
-                            <?php if($fornecedor['UF']== 0):?>
+                            <?php if($cliente['UF_cli']== 0):?>
                                 <option value="0" selected>Nenhuma</option>
                             <?php else:?>
                                 <option value="0" >Nenhuma</option>
                             <?php endif;?>
                                 <?php foreach($select_uf as $cada_uf):?>
-                                    <?php if($fornecedor['UF'] == $cada_uf['id_uf']):?>
+                                    <?php if($cliente['UF_cli'] == $cada_uf['id_uf']):?>
                                         <option value="<?php echo $cada_uf['id_uf'] ?>" selected><?php echo $cada_uf['UF']?></option>
                                     <?php else:?>
                                         <option value="<?php echo $cada_uf['id_uf'] ?>"><?php echo $cada_uf['UF']?></option>
@@ -136,7 +123,7 @@
                     <div class="col-md-6 col-xs-12  ">
                         <!-- CNPJ -->
                         <label>CNPJ:</label>
-                        <input type="text"  id="cnpj" name="text_cnpj"value = "<?php echo $cnpj?>" class="form-control marg-fundo"  >   
+                        <input type="text"  id="ie" name="text_ie" value = "<?php echo $cnpj?>"class="form-control marg-fundo"   >        
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <!-- Insc Estadual -->

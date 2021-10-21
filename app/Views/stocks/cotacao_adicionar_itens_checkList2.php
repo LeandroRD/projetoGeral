@@ -6,7 +6,7 @@ $this->extend('Layout/layout_users');
 <?php $this->section('conteudo') ?>
 <div class="row mt-2 card-claro">
     <div class="col-12 text-center ">
-        <h3>Cotações_Adicionar_1</h3>
+        <h3>Cotações_Adicionar</h3>
     </div>
     <br>
     <div class="col-md-6  ">
@@ -28,7 +28,7 @@ $this->extend('Layout/layout_users');
                     <strong class="tamanho-1_5em">Check_List: &nbsp;&nbsp;</strong>
                 </div>
                 <div class="d-inline2">
-                    <span class="cor-alerta3"><strong> <?php echo $get_checkList['servicos'] ?></strong></span>
+                    <span class="cor-alerta3"><strong> <?php //echo $get_checkList['servicos'] ?></strong></span>
                 </div>
             </div>
             <br>
@@ -44,9 +44,7 @@ $this->extend('Layout/layout_users');
 
    
 
-    <div class="marg-fundo">
-        <button onclick=" add_data(), add_hora()" class=" btn btn-primary" id=btn_data>data/hora confirme aqui!</button>
-    </div>
+    
 
 
     <form action="<?php echo site_url('stocks/tratar_servicos') ?>" method="post">
@@ -54,30 +52,11 @@ $this->extend('Layout/layout_users');
             <!-- Campos data e hora -->
             <div class="col-md-4">
                 <label for="">Data do início da execução:</label>
-                <input type="hidden" name="nr_checklist" value="<?php echo $get_checkList['id_servico'] ?>">
+                <input type="hidden" name="nr_checklist" value="<?php //echo $get_checkList['id_servico'] ?>">
                 <input class="form-control " type="date" id="input_Data" name="input_Data" value="Data" id="">
-                <label for="">Hora do início da execução:</label>
-                <input class="form-control marg-fundo " type="time" id="input_Hora" name="input_Hora" value="Data" id="">
+                
             </div>
-            <div class="col-md-4">
-                <div>
-                    <table class="table table-striped2 " id="tabela_familias">
-                        <thead class="  cabeca-tabela">
-                            <th class="text-center">Datas / Horas:</th>
-                        </thead>
-                    </table>
-                    <!-- Campos de inclusao das horas -->
-                    <div class="row">
-                        <div>
-                            <ol class="padding-0 col-md-6" id="lista_data"></ol>
-                        </div>
-                        <div>
-                            <ol class="padding-0 col-md-6" id="lista_hora"></ol>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            
 
 
         </div>
@@ -99,16 +78,16 @@ $this->extend('Layout/layout_users');
             <div class="row">
                 <div class="col-md-6 ">
                     <?php $i = 0; ?>
-                    <?php foreach ($all_servicos as $servico) : ?>
-                        <label for="<?php echo $servico['check_list'] ?>">
-                            <input class="tudoxx" onClick="enviar('<?= $i ?>')" type="checkbox" id="servicos<?= $i ?>" value="<?php echo $servico['check_list'] ?>">
-                            <?php echo $servico['check_list'] ?>
+                    <?php   ?>
+                        <label for="<?php //echo $servico['check_list'] ?>">
+                            <input class="tudoxx" onClick="enviar('<?= $i ?>')" type="checkbox" id="servicos<?= $i ?>" value="<?php //echo $servico['check_list'] ?>">
+                            <?php //echo $servico['check_list'] ?>
                         </label>
                         <br>
                         <br>
                         <br>
                     <?php $i++;
-                    endforeach; ?>
+                     ?>
                     <br>
                 </div>
 
@@ -136,9 +115,9 @@ $this->extend('Layout/layout_users');
                     <h4><strong>Fornecedor:</strong></h4>
                     <select class="form-control" name="select_parent" required>
                         <option value="0">Nenhuma</option>
-                        <?php foreach ($fornecedores as $fornecedor) : ?>
-                            <option value="<?php echo $fornecedor['id_for']   ?>"><?php echo $fornecedor['razao_social']; ?></option>
-                        <?php endforeach; ?>
+                        <?php  ?>
+                            <option value="<?php //echo $fornecedor['id_for']   ?>"><?php //echo $fornecedor['razao_social']; ?></option>
+                        <?php  ?>
                     </select>
                 </div>
             </div>

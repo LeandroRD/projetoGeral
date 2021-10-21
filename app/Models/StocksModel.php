@@ -41,35 +41,39 @@ class StocksModel extends Model
         //AS parent é uma variavel criada aqui que estara retornando
         //=======================================================
 
-        return $this->query('
-        SELECT a.*, b.designacao AS parent
+        return $this->query(
+            'SELECT a.*, b.designacao AS parent
         FROM stock_familias a LEFT JOIN stock_familias b
         ON a.id_parent = b.id_familia
-        ')->getResult('array');
+        '
+        )->getResult('array');
     }
 
     //=======================================================
     public function get_all_families_servicos()
     {
-        return $this->query('
-            SELECT a.*, b.designacao_servicos AS parent_servicos
+        return $this->query(
+            'SELECT a.*, b.designacao_servicos AS parent_servicos
             FROM stock_familias_servicos a LEFT JOIN stock_familias_servicos b
             ON a.id_parent_servicos = b.id_familia_servicos
-            ')->getResult('array');
+            '
+        )->getResult('array');
     }
     //=======================================================
     public function get_all_estados()
     {
-        return $this->query('
-        SELECT * FROM relacao_uf
-            ')->getResult('array');
+        return $this->query(
+            'SELECT * FROM relacao_uf
+            '
+        )->getResult('array');
     }
     //=======================================================
     public function get_all_escopo()
     {
-        return $this->query('
-        SELECT * FROM cotacao_escopo
-            ')->getResult('array');
+        return $this->query(
+            'SELECT * FROM cotacao_escopo
+            '
+        )->getResult('array');
     }
     //=======================================================
     public function check_family($designacao)
@@ -91,19 +95,16 @@ class StocksModel extends Model
     public function check_itemCheck($id)
     {
         $request = \Config\Services::request();
-        
-            
         $params = array(
             $id,
-            $request->getPost('text_designacao'));
-            
-
+            $request->getPost('text_designacao')
+        );
         $results = $this->query(
             "SELECT * FROM check_list WHERE id_checklist = ?
             AND check_list = ?",
             $params
         )->getResult('array');
-       
+
         if (count($results) != 0) {
             return true;
         } else {
@@ -132,7 +133,38 @@ class StocksModel extends Model
     {
         //retorna a familia
         $params = array($id_family);
-        $results = $this->query('SELECT * FROM stock_familias WHERE id_familia =?', $params)->getResult('array');
+        $results = $this->query(
+            'SELECT * FROM stock_familias WHERE id_familia =?',
+            $params
+        )->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
+    //=====================================================
+    public function get_parent($id_parent)
+    {
+        //retorna a familia
+        $params = array($id_parent);
+        $results = $this->query(
+            'SELECT razao_social FROM fornecedores WHERE id_for =?',
+            $params
+        )->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
+    //=====================================================
+    public function get_parent_nome($id_parent)
+    {
+        //retorna a familia
+        $params = array($id_parent);
+
+        $results = $this->query('SELECT razao_social FROM fornecedores WHERE razao_social =?', $params)->getResult('array');
         if (count($results) == 1) {
             return $results[0];
         } else {
@@ -151,7 +183,6 @@ class StocksModel extends Model
             return array();
         }
     }
-
     //=====================================================
     public function get_fornecedor($id_fornecedor)
     {
@@ -165,11 +196,11 @@ class StocksModel extends Model
         }
     }
     //=====================================================
-    public function get_cotacao($id_fornecedor)
+    public function get_cliente($id_cliente)
     {
-        //retorna a cotacao
-        $params = array($id_fornecedor);
-        $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_cot =?', $params)->getResult('array');
+        //retorna a familia
+        $params = array($id_cliente);
+        $results = $this->query('SELECT * FROM clientes WHERE id_cliente =?', $params)->getResult('array');
         if (count($results) == 1) {
             return $results[0];
         } else {
@@ -177,9 +208,171 @@ class StocksModel extends Model
         }
     }
     //=====================================================
-    public function get_itemCheck($id_itemCheck, $item2)
+    public function get_cotacao($id_fornecedor)
+    {
+        //retorna a cotacao
+        $params = array($id_fornecedor);
+
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_cot =?', $params)->getResult('array');
+        if (count($results) == 1) {
+            return $results[0];
+        } else {
+            return array();
+        }
+    }
+    //====================================================
+    public function get_datas_escopo($id_cotacao)
+    {
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT * 
+                FROM cotacao_data 
+                WHERE id_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //====================================================
+    public function get_horas_escopo($todas_horas)
+    {
+        foreach ($todas_horas as $h1) {
+            $total_horas[] =  $this->query(
+                'SELECT hora_cot
+               FROM cotacao_hora 
+               WHERE id_data_cot = ?',
+                $h1['id_data_cot']
+            )->getResult('array');
+        }
+        return $total_horas;
+    }
+    //====================================================
+    public function get_datas($id_cotacao)
+    {
+        //retorna a cotacao
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT data_cot 
+               FROM cotacao_data 
+               WHERE id_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_id_cot_datas($id_cotacao)
+    {
+        //retorna a cotacao
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT id_cot 
+               FROM cotacao_data 
+               WHERE id_data_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_id_cot_data($id_cotacao)
+    {
+        //retorna a cotacao
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT id_cot 
+               FROM cotacao_escopo 
+               WHERE id_escopo =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_data($id_cotacao)
+    {
+        //retorna a data do item 
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT data_cot 
+               FROM cotacao_data 
+               WHERE id_data_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_hora($id_cotacao, $menor_data)
+    {
+        $params = array($id_cotacao, $menor_data);
+        return $this->query(
+            'SELECT id_data_cot 
+               FROM cotacao_data 
+               WHERE id_cot =?
+               AND data_cot=?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_menor_hora($id_cotacao, $menor_data)
+    {
+        $menor_data2 = $menor_data['data_cot'];
+        $params = array($id_cotacao, $menor_data2);
+        return $this->query(
+            'SELECT id_data_cot 
+               FROM cotacao_data 
+               WHERE id_cot =?
+               AND data_cot=?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_hora_p_outro_forn($id_cotacao)
+    {
+        $params = array($id_cotacao);
+        return $this->query(
+            'SELECT id_data_cot 
+               FROM cotacao_data 
+               WHERE id_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_hora_copia($id_anterior)
+    {
+        $params = array($id_anterior);
+        return $this->query(
+            'SELECT id_data_cot 
+               FROM cotacao_data 
+               WHERE id_cot =?',
+            $params
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_hora2($get_hora)
+    {
+        return $this->query(
+            'SELECT hora_cot 
+               FROM cotacao_hora 
+               WHERE id_data_cot =?',
+            $get_hora
+        )->getResult('array');
+    }
+    //=====================================================
+    public function get_all_horas($get_hora)
     {
 
+        $s = 0;
+        foreach ($get_hora as $t1) {
+            $get_hora_indice = $get_hora[$s]['id_data_cot'];
+            $selecao_horas_object = $get_hora_indice;
+
+            $teste = $this->query(
+                'SELECT hora_cot 
+               FROM cotacao_hora 
+               WHERE id_data_cot =?',
+                $get_hora_indice
+            )->getResult('array');
+            $testex = $teste[0]['hora_cot'];
+            $teste2[] = $testex;
+            $s++;
+        }
+        return ($teste2);
+    }
+    //=====================================================
+    public function get_itemCheck($id_itemCheck, $item2)
+    {
         //retorna a cotacao
         $params = array($id_itemCheck, $item2);
         $results = $this->query('SELECT * FROM check_list
@@ -196,9 +389,11 @@ class StocksModel extends Model
     {
         //retorna todos os servicos
         $params = array($id_itemCheck);
-        $results = $this->query('SELECT * FROM servicos
-        WHERE id_servico = ?'
-        , $params)->getResult('array');
+        $results = $this->query(
+            'SELECT * FROM servicos
+        WHERE id_servico = ?',
+            $params
+        )->getResult('array');
         if (count($results) == 1) {
             return $results[0];
         } else {
@@ -218,12 +413,9 @@ class StocksModel extends Model
             return array();
         }
     }
-
-
     //=====================================================
     public function family_add()
     {
-
         //adiciona uma nova familia de produtos na BD
         $request = \Config\Services::request();
         $params = array(
@@ -245,7 +437,6 @@ class StocksModel extends Model
     //=====================================================
     public function cotacao_add()
     {
-
         //adiciona uma nova familia de produtos na BD
         $request = \Config\Services::request();
         $params = array(
@@ -294,6 +485,25 @@ class StocksModel extends Model
         $results = $this->query(
             "SELECT * FROM fornecedores WHERE razao_social = ? 
                    AND id_for <> ?
+                  ",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=====================================================
+    public function check_other_razao_social_cliente($razao_social, $id_razaoSocial)
+    {
+        $params = array(
+            $razao_social,
+            $id_razaoSocial
+        );
+        $results = $this->query(
+            "SELECT * FROM clientes WHERE razao_social_cli = ? 
+                   AND id_cliente <> ?
                   ",
             $params
         )->getResult('array');
@@ -411,9 +621,57 @@ class StocksModel extends Model
     }
 
     //=====================================================
-    public function cotacao_editar($id_cotacao)
+    public function cliente_editar($id_cliente)
     {
 
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+
+            $request->getPost('text_razao_social'),
+            $request->getPost('text_cnpj'),
+            $request->getPost('text_ie'),
+            $request->getPost('text_endereco'),
+            $request->getPost('text_numero'),
+            $request->getPost('text_complemento'),
+            $request->getPost('text_bairro'),
+            $request->getPost('text_municipio'),
+            $request->getPost('text_uf'),
+            $request->getPost('text_cep'),
+            $request->getPost('text_email'),
+            $request->getPost('text_contato'),
+            $request->getPost('text_telefone'),
+            $request->getPost('text_celular'),
+            $request->getPost('text_obs'),
+            $id_cliente
+        );
+
+        $this->query(
+            "UPDATE clientes SET 
+         razao_social_cli = ?,
+         cnpj_cli=?,
+         I_E_cli=?,
+         endereco_cli=?,
+         numero_cli=?,
+         complemento_cli=?,
+         bairro_cli=?,
+         municipio_cli=?,
+         UF_cli=?,
+         CEP_cli=?,
+         email_cli=?,
+         contato_cli=?,
+         telefone_cli=?,
+         celular_cli=?,
+         obs_cli=?
+          WHERE id_cliente = ? ",
+            $params
+        );
+    }
+
+    //=====================================================
+
+    public function cotacao_editar($id_cotacao)
+    {
         //atualizar os dados da family
         $request = \Config\Services::request();
         $params = array(
@@ -431,22 +689,74 @@ class StocksModel extends Model
             $params
         );
     }
+    //===================================================== 
+    public function cotacao_outroFornecedor($id_cotacao)
+    {
+        //atualizar os dados da family
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_escopo'),
+            $request->getPost('combo_fornecedor'),
+            $request->getPost('text_detalhes'),
+            $id_cotacao
+        );
+        $this->query(
+            "UPDATE cotacao_servicos SET 
+                escopo = ?,
+                id_for =?,
+                detalhes=?
+            WHERE id_cot = ? ",
+            $params
+        );
+    }
     //=====================================================
     public function escopo_editar($id_escopo)
     {
         //atualizar os dados da family
         $request = \Config\Services::request();
+        $data = $request->getPost('select_data');
+        $nova_data = $this->get_data($data);
+        $nova_data2 = $nova_data[0]['data_cot'];
         $params = array(
-            $request->getPost('text_escopo')
+            $request->getPost('text_escopo'),
+            $nova_data2
         );
+
         $this->query(
             "UPDATE cotacao_escopo SET 
-         escopo = ?
-          WHERE id_escopo = $id_escopo ",
+                escopo = ?,
+                CheckList_data=?
+            WHERE id_escopo = $id_escopo ",
             $params
         );
     }
+    //=====================================================
+    public function Cotacao_ItemCheckList_adicionar()
+    {
+        helper('funcoes');
+        $servico = $_POST;
+        $id_data =  array_pop($servico);
+        $id_incript =  array_pop($servico);
+        $id = aesDecrypt($id_incript);
+        $id_data_array = $this->get_data($id_data);
+        $id_data_object = $id_data_array[0]['data_cot'];
 
+        $params = array(
+            $id,
+            $servico,
+            $id_data_object
+        );
+        $this->query(
+            "INSERT INTO 
+                cotacao_escopo 
+            VALUES(
+                0,
+                ?,
+                ?,
+                ?)",
+            $params
+        );
+    }
     //=====================================================
     public function cotacao_editar_fornecedor($id_cotacao)
     {
@@ -570,6 +880,19 @@ class StocksModel extends Model
                     WHERE servico = ? ", $params);
     }
     //=====================================================
+    public function delete_cliente($id_cliente)
+    {
+        //eliminar o cliente
+        $params = array($id_cliente);
+
+        //deletando cliente
+        $this->query(
+            "DELETE FROM  clientes
+          WHERE id_cliente = ? ",
+            $params
+        );
+    }
+    //=====================================================
     //               TAXAS
     //=====================================================
     public function get_all_taxes()
@@ -601,6 +924,24 @@ class StocksModel extends Model
         }
     }
     //=======================================================
+    public function check_nome_cotacao($nome_cotacao)
+    {
+        // verifique se existe uma cotacao com o mesmo nome
+        $params = array(
+            $nome_cotacao
+        );
+        $results = $this->query(
+            "SELECT * FROM cotacao_servicos WHERE escopo = ?",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=======================================================
+
     public function check_checkList($designacao)
     {
         // verifique se existe um checklist com o mesmo nome
@@ -649,10 +990,6 @@ class StocksModel extends Model
     public function tratar_servicos()
     {
         $request = \Config\Services::request();
-        $params2 = array(
-            $request->getPost('select_parent'),
-            $request->getPost('projeto')
-        );
         $params5 = array($request->getPost('select_parent'));
         //selecionar tudo o que foi postado
         $servico = $_POST;
@@ -660,8 +997,20 @@ class StocksModel extends Model
         $params =  array_pop($servico);
         //tirar o penultimo registro que é o projeto
         $params =  array_pop($servico);
+        //retirar o primeiro, segundo e terceiro item do POST(id_checklist, data e hora)
+        $nr_checkList = array_shift($servico);
+        $cot_data = array_shift($servico);
+        $cot_hora = array_shift($servico) . ":00";
+
+        //pegando data e hora
+        $params2 = array(
+            $request->getPost('select_parent'),
+            $request->getPost('projeto'),
+            $cot_data,
+            $cot_hora
+        );
         // cadastrar na cotacao
-        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'' )", $params2);
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'',?,? )", $params2);
         //apos cadastrar cotacao pegar todos os registros 
         $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_for = ?', $params5)->getResult('array');
         //selecionar o ultimo registro
@@ -669,8 +1018,373 @@ class StocksModel extends Model
         $results3 = $results5['id_cot'];
         //cadastrar todos os servicos na ultima cotacao
         foreach ($servico as $t1) {
-            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?)", $t1);
+            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?,'$cot_data')", $t1);
         }
+    }
+    //=======================================================
+    public function cadastrar_menor_data($hora_relacionada, $ultimo_id_cadastro)
+    {
+        $hora_relacionada2 = $hora_relacionada['data_cot'];
+        $params = array(
+            $hora_relacionada2, $ultimo_id_cadastro
+        );
+        $this->query("UPDATE cotacao_servicos SET cot_data = ?
+                    WHERE id_cot = ? ", $params);
+    }
+    //=======================================================
+    public function cadastrar_hora_relacionada($hora_relacionada, $ultimo_id_cadastro)
+    {
+        $hora_relacionada2 = $hora_relacionada['hora_cot'];
+
+        $params = array(
+            $hora_relacionada2, $ultimo_id_cadastro
+        );
+        $this->query("UPDATE cotacao_servicos SET cot_hora = ?
+                    WHERE id_cot = ? ", $params);
+    }
+    //=======================================================
+    public function tratar_servicos_data()
+    {
+        //baixar todo o post
+        $post_cot_data = $_POST;
+
+        //retirar id fornecedor e nome da cotacao
+        $fornecedor = array_shift($post_cot_data);
+        $cotacao = array_shift($post_cot_data);
+        $id_itens = array_shift($post_cot_data);
+
+        //----------------------------------------------------------
+        // separar somente as horas de cada itens
+        $novo_fornecedor_gravar = $post_cot_data;
+        $tudo = -1;
+        foreach ($novo_fornecedor_gravar as $t1) {
+            $x[] = array_shift($novo_fornecedor_gravar) . ":00";
+            $tudo = $tudo + 1;
+        }
+        for ($contador = 1; $contador <= $tudo; $contador += 2) {
+            $hora[] = $x[$contador];
+        }
+        //----------------------------------------------------------
+        // separar somente as datas
+        $novo_fornecedor_gravar2 = $post_cot_data;
+        $tudo2 = -1;
+        foreach ($novo_fornecedor_gravar2 as $t2) {
+            $x2[] = array_shift($novo_fornecedor_gravar2);
+            $tudo2 = $tudo2 + 1;
+        }
+        for ($contador = 0; $contador <= $tudo2; $contador += 2) {
+            $data[] = $x2[$contador];
+        }
+        //----------------------------------------------------------
+        $params2 = array(
+            $fornecedor,
+            $cotacao
+        );
+        $params5 = array(
+            $cotacao
+        );
+
+        // cadastrar na cotacao
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'','','' )", $params2);
+        //apos cadastrar cotacao pegar todos os registros 
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE escopo = ?', $params5)->getResult('array');
+        //selecionar o ultimo registro
+        $results3 = $results[0]['id_cot'];
+
+        // cadastrar todas as datas
+        foreach ($data as $t1) {
+            $this->query("INSERT INTO cotacao_data VALUES(0,$results3,?)", $t1);
+        }
+        $selecao_horas = $this->query('SELECT id_data_cot FROM cotacao_data WHERE id_cot = ?', $results3)->getResult('array');
+
+        // cadastrar todas as horas relacionado com cada data
+        $s = 0;
+        foreach ($hora as $t1) {
+            $selecao_horas_indice = $selecao_horas[$s];
+            $selecao_horas_object = $selecao_horas_indice['id_data_cot'];
+            $this->query("INSERT INTO cotacao_hora VALUES(0,$selecao_horas_object,?)", $t1);
+            $s++;
+        }
+    }
+    //=======================================================
+    public function buscar_id_ultimo_cad($nome_cotacao)
+    {
+        $params = array($nome_cotacao);
+        //retorna todas as taxas
+        return $this->query("SELECT * FROM cotacao_servicos
+                                      WHERE escopo = ?
+        ", $params)->getResult('array');
+    }
+
+    //=======================================================
+    public function tratar_servicos_continue()
+    {
+        $request = \Config\Services::request();
+        $params5 = array($request->getPost('select_parent'));
+        //selecionar tudo o que foi postado
+        $servico = $_POST;
+
+
+        //retirar o primeiro, segundo e terceiro item do POST(id_checklist, data e hora) 
+        $nome_item = array_shift($servico);
+        $id_item = array_shift($servico);
+        $cot_data = array_shift($servico);
+        $cot_hora = array_shift($servico) . ":00";
+        //apos cadastrar cotacao pegar todos os registros 
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE cot_aprovado = 0', $params5)->getResult('array');
+        //selecionar o ultimo registro
+        $results5 = array_pop($results);
+        //selecionar o ultimo id da cotacao
+        $results3 = $results5['id_cot'];
+        $tirar_parent = array_pop($servico);
+        $tirar_projeto1 = array_pop($servico);
+
+        //cadastrar todos os servicos na ultima cotacao
+        foreach ($servico as $t1) {
+            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results3,?,'$cot_data')", $t1);
+        }
+    }
+    //=======================================================
+    public function tratar_servicos_itens()
+    {
+        //selecionar tudo o que foi postado
+        $servico = $_POST;
+
+        $request = \Config\Services::request();
+        $params5 = array($request->getPost('nome_cotacao'));
+
+        //retirar o primeiro, segundo e terceiro item do POST(id_checklist, data e hora) 
+        $id_item = array_shift($servico);
+        $nome_item = array_shift($servico);
+        $cot_data = array_shift($servico);
+        //buscar a data escolhida------------------------------
+        $params_data = array(
+            $cot_data
+        );
+        $cot_data2 = $this->query('SELECT data_cot 
+                                 FROM cotacao_data 
+                                 WHERE id_data_cot = ?', $params_data)->getResult('array');
+
+        $cot_data3 = $cot_data2[0]['data_cot'];
+        //-----------------------------------------------------
+        //apos cadastrar cotacao pegar todos os registros 
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE escopo = ?', $params5)->getResult('array');
+
+
+        //selecionar o ultimo registro
+        $results5 = $results[0]['id_cot'];
+
+        //selecionar o ultimo id da cotacao
+        $tirar_parent = array_pop($servico);
+        $tirar_projeto1 = array_pop($servico);
+        $tirar_id_cot = array_pop($servico);
+
+        // cadastrar todos os servicos na ultima cotacao
+        foreach ($servico as $t1) {
+            $this->query("INSERT INTO cotacao_escopo VALUES(0,$results5,?,'$cot_data3')", $t1);
+        }
+    }
+    //=======================================================
+    public function cotacao_novoFornecedor()
+    {
+        //pegar todo o post
+        $novo_fornecedor = $_POST;
+        //pegar o primeiro item do array
+        $fornecedor =  array_shift($novo_fornecedor);
+        //pegar o segundo item do array
+        $escopo =  array_shift($novo_fornecedor);
+        $cot_data = array_shift($novo_fornecedor);
+        $cot_hora = array_shift($novo_fornecedor) . ":00";
+        $id_cot_agora = array_shift($novo_fornecedor);
+
+        $Get_datas = $this->get_datas($id_cot_agora);
+        //pegar todos os itens atraves do id_cot
+        $id_cot_novo =  $this->get_all_itens_novo($id_cot_agora);
+        //tirar o 3o  item do array
+        $tirarFamilia =  array_shift($novo_fornecedor);
+        // apos separar itens do post inserir na cotacao_servicos
+        $params = array($fornecedor, $escopo, $cot_data, $cot_hora);
+        $this->query("INSERT INTO cotacao_servicos VALUES(0,?,?,'',0,'',?,? )", $params);
+        //apos cadastrar cotacao pegar todos os registros
+        $params_buscar = array($fornecedor, $escopo);
+        $results = $this->query('SELECT * FROM cotacao_servicos WHERE id_for = ? AND escopo = ?', $params_buscar)->getResult('array');
+        // selecionar o ultimo registro    
+        $results2 = array_pop($results);
+        // pegar o id do ultimo servico cadastrado
+        $results3 = $results2['id_cot'];
+        //Separar  em 2 variaveis(Data e nome do item) todos os itens
+        foreach ($id_cot_novo as $novo1) {
+            $datax1[] = array_pop($novo1);
+            $itemx1[] = array_pop($novo1);
+        }
+        // Cadastrar todos os itens usando o mesmo  id_cot para todos
+        foreach ($itemx1 as $novo1) {
+            $this->query("INSERT INTO cotacao_escopo 
+            VALUES(0, $results3,?,'')", $novo1);
+        }
+        //Cadastrar as datas
+        foreach ($Get_datas as $novo2) {
+            $this->query("INSERT INTO  cotacao_data 
+            VALUES(0, $results3,?)", $novo2['data_cot']);
+        }
+
+        // esse id data novo
+        $get_hora_p_outro_for =  $this->get_hora_p_outro_forn($results3);
+        $get_hora_copia = $this->get_hora_copia($id_cot_agora);
+        $get_all_horas = $this->get_all_horas($get_hora_copia);
+
+        $s = 0;
+        //Cadastrar as datas
+        foreach ($get_all_horas as $novo3) {
+            $testex = $get_hora_p_outro_for[$s]['id_data_cot'];
+            $testexx[] = $testex;
+            $testexxx = $testexx[$s];
+
+            $this->query("INSERT INTO  cotacao_hora 
+            VALUES(0, $testexxx,?)", $novo3);
+            $s++;
+        }
+        //apos cadastrar selecionar todos os registros pegar o primeiro id_escopo 
+        $id_cot_novoddd =  $this->get_all_itens_novo($results3);
+        $ultimoId_real = array_shift($id_cot_novoddd);
+        $contador_maisID = $ultimoId_real['id_escopo'];
+        //utilizando o primeiro id_escopo fazer updadate para inserir as  datas 
+        foreach ($datax1 as $data_final1) {
+            $this->query("UPDATE cotacao_escopo SET CheckList_data = ?
+                    WHERE id_escopo = $contador_maisID ", $data_final1);
+            $contador_maisID = $contador_maisID + 1;
+        }
+    }
+    //=======================================================
+    public function get_all_itens_novo($id_cot_novo)
+    {
+        $params = array($id_cot_novo);
+        //retorna todas as taxas
+        return $this->query("SELECT * FROM cotacao_escopo
+                                      WHERE id_cot = ?
+        ", $params)->getResult('array');
+    }
+    //=======================================================
+    public function acrescentar_data($id_cotacao)
+    {
+        $request = \Config\Services::request();
+        $nova_data = $_POST;
+        $nova_hora = array_pop($nova_data);
+        $params = array(
+            $id_cotacao,
+            $nova_data
+        );
+        $params2 = array(
+            $id_cotacao,
+            $nova_hora
+        );
+        $this->query("INSERT INTO  cotacao_data 
+            VALUES(0,?,?)", $params);
+
+        $params_novadata = array(
+            $id_cotacao, $nova_data
+        );
+        $ultimo_id = $this->query("SELECT id_data_cot FROM cotacao_data
+            WHERE id_cot = ?
+            AND data_cot = ?
+        ", $params_novadata)->getResult('array');
+        $params5 = array(
+            // $id_cotacao,
+            $nova_hora
+        );
+        $ultimoID = $ultimo_id[0]['id_data_cot'];
+        $this->query("INSERT INTO  cotacao_hora 
+             VALUES(0,$ultimoID,?)", $params5);
+    }
+
+    //=======================================================
+    public function verificar_data_hora($id_cotacao)
+    {
+        $request = \Config\Services::request();
+        $nova_data = $_POST;
+        $nova_hora = array_pop($nova_data);
+        $params = array(
+            $id_cotacao,
+            $nova_data
+        );
+        $params2 = array(
+            $id_cotacao,
+            $nova_hora
+        );
+        $params = $params[1]['input_Data'];
+
+        $results = $this->query(
+            "SELECT * FROM cotacao_data WHERE data_cot = ?",
+            $params
+        )->getResult('array');
+
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=======================================================
+
+
+
+    public function remover_data($id_cotacao, $data_guardar)
+    {
+        $data_guardar  = $data_guardar[0]["data_cot"];
+        $params = array(
+            $id_cotacao,  $data_guardar
+        );
+
+        // Apaga as datas dos  itens da cotacao
+        $nulo = 0000 - 00 - 00;
+        $this->query(
+            "UPDATE cotacao_escopo
+         SET CheckList_data = $nulo
+          WHERE id_cot = ?
+          AND CheckList_data = ?",
+            $params
+        );
+
+        //apaga a data da cotacao
+        $this->query(
+            "DELETE FROM  cotacao_data
+          WHERE id_cot = ? 
+          AND data_cot =?",
+            $params
+        );
+    }
+    //=======================================================
+    public function verificar_data($id_cotacao)
+    {
+
+        // verifique se existe uma cotacao com o mesmo nome
+        $params = array(
+            $id_cotacao
+        );
+
+        $results = $this->query(
+            "SELECT * FROM cotacao_data 
+             WHERE id_cot = ?",
+            $params
+        )->getResult('array');
+        if (count($results) > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //=======================================================
+    public function get_all_datas_cadastras($id_cot_novo)
+    {
+        $params = array($id_cot_novo);
+        //retorna todas as datas
+        return $this->query(
+            "SELECT * FROM cotacao_data
+             WHERE id_cot = ?
+            ",
+            $params
+        )->getResult('array');
     }
     //=======================================================
     public function tratar_servicos2()
@@ -695,17 +1409,59 @@ class StocksModel extends Model
             $this->query("INSERT INTO check_list VALUES(0,$results3,?)", $t1);
         }
     }
-
     //=======================================================
     public function get_tax($id_tax)
     {
-        //retorna a familia
         $params = array($id_tax);
         $results = $this->query('SELECT * FROM stock_taxas WHERE id_taxas =?', $params)->getResult('array');
         if (count($results) == 1) {
             return $results[0];
         } else {
             return array();
+        }
+    }
+    //=====================================================
+    public function check_novoFornecedor()
+    {
+        $novo_fornecedor = $_POST;
+        //pegar o primeiro item do array
+        $fornecedor =  array_shift($novo_fornecedor);
+        //pegar o segundo item do array
+        $escopo =  array_shift($novo_fornecedor);
+
+        $params = array($fornecedor, $escopo);
+
+        $results = $this->query(
+            "SELECT * FROM cotacao_servicos WHERE id_for = ?
+        AND escopo =?",
+            $params
+        )->getResult('array');
+
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=====================================================
+    public function check_ItemCheckList_adicionar()
+    {
+        helper('funcoes');
+        $servico = $_POST;
+
+        $servico2 = array_shift($servico);
+        $id_incript =  array_shift($servico);
+        $id = aesDecrypt($id_incript);
+        $params = array($id, $servico2);
+        $results = $this->query(
+            "SELECT * FROM cotacao_escopo WHERE id_cot = ?
+        AND escopo =?",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
         }
     }
     //=====================================================
@@ -753,7 +1509,7 @@ class StocksModel extends Model
             $request->getPost('text_designacao'),
             $id_item
         );
-        
+
         $this->query(
             "UPDATE check_list
          SET check_list = ?
@@ -801,6 +1557,20 @@ class StocksModel extends Model
         //   id_parent ficara no valor de '0' todas que sao iguais ao id_family eliminado
         $this->query("UPDATE stock_produtos SET id_taxa = 0 
                     WHERE id_taxa = ? ", $params);
+    }
+    //=====================================================
+    public function delete_item_escopo($id_item)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_item
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  cotacao_escopo
+          WHERE id_escopo = ? ",
+            $params
+        );
     }
     //=====================================================
     public function delete_itemCheckList($id_itemCheck)
@@ -854,6 +1624,53 @@ class StocksModel extends Model
         //deletendo a taxa 
         $this->query(
             "DELETE FROM  cotacao_servicos
+          WHERE id_cot = ? ",
+            $params
+        );
+    }
+    //=====================================================
+    public function delete_data_hora_cotacao($ids_cotacao)
+    {
+        foreach ($ids_cotacao as $d1) {
+            $this->query(
+                "DELETE FROM  cotacao_data
+              WHERE id_data_cot = ? ",
+                $d1['id_data_cot']
+            );
+            $this->query(
+                "DELETE FROM  cotacao_hora
+              WHERE id_data_cot = ? ",
+                $d1['id_data_cot']
+            );
+            
+        }
+        
+        
+    }
+    //====================================================
+    public function delete_Itens_cotacao($id_cotacao)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_cotacao
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  cotacao_escopo
+          WHERE id_cot = ? ",
+            $params
+        );
+    }
+    //=====================================================
+    public function delete_clientes_cotacao($id_cotacao)
+    {
+        //eliminar a taxa e alterar o id nos produtos
+        $params = array(
+            $id_cotacao
+        );
+        //deletendo a taxa 
+        $this->query(
+            "DELETE FROM  cotacao_cliente
           WHERE id_cot = ? ",
             $params
         );
@@ -937,10 +1754,6 @@ class StocksModel extends Model
             return false;
         }
     }
-
-
-
-
     //=====================================================
     public function fornecedor_check()
     {
@@ -954,6 +1767,19 @@ class StocksModel extends Model
         return $this->db->query("SELECT id_for FROM fornecedores WHERE razao_social = ? ", $params)->getResult('array');
     }
     //=====================================================
+    public function cliente_check()
+    {
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost();
+
+        $params = array(
+            $dados['text_razao_social_cli']
+        );
+        return $this->db->query("SELECT id_cliente FROM clientes WHERE razao_social_cli = ? ", $params)->getResult('array');
+    }
+
+    //=====================================================
     public function itemCheck_add()
     {
         $request = \Config\Services::request();
@@ -961,10 +1787,19 @@ class StocksModel extends Model
         $params = array(
             $dados['id_servico'],
             $dados['text_novoItemCheckList']
-
-
         );
         $this->query("INSERT INTO check_list VALUES(0,?,? )", $params);
+    }
+    //=====================================================
+    public function insert_cliente_cotacao($id_cliente)
+    {
+        $request = \Config\Services::request();
+        $id_cot = $request->getPost('id_cot');
+        $params = array(
+            $id_cot,
+            $id_cliente
+        );
+        $this->query("INSERT INTO cotacao_cliente VALUES(0,?,? )", $params);
     }
     //=====================================================
     public function fornecedor_check_tras_id()
@@ -1001,14 +1836,48 @@ class StocksModel extends Model
         }
     }
     //=====================================================
+    public function cnpj_check_cli()
+    {
+        //verifica se ja existe um fornecedor com o mesmo cnpj
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_cnpj_cli')
+        );
+
+        $results = $this->query(
+            "SELECT cnpj_cli FROM clientes WHERE cnpj_cli = ? 
+                    ",
+            $params
+        )->getResult('array');
+        if (count($results) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //=====================================================
+    public function checkExistingEmail_cli()
+    {
+        // verifica se já existe um usuário com o mesmo Nome de Usuário ou Endereço de Email
+        $request = \Config\Services::request();
+        $dados = $request->getPost();
+
+        $params = array(
+            // $dados['text_name'],
+            $dados['text_email_cli']
+        );
+        return $this->db->query("SELECT id_cliente FROM clientes WHERE  email_cli = ?", $params)->getResult('array');
+    }
+    //==========================================
+
     public function fornecedor_servicos()
     {
         //verifica se ja existe um fornecedor com o mesmo nome
         $request = \Config\Services::request();
         $servicos =    $request->getPost('select_parent');
-        
-        
-        
+
+
+
         if ($servicos == 0) {
             return true;
         } else {
@@ -1105,6 +1974,54 @@ class StocksModel extends Model
         );
     }
     //=====================================================
+    public function cliente_add()
+    {
+
+        //adiciona uma novo produto  na BD
+        $request = \Config\Services::request();
+        $params = array(
+            $request->getPost('text_razao_social_cli'),
+            $request->getPost('text_cnpj_cli'),
+            $request->getPost('text_ie_cli'),
+            $request->getPost('text_endereco_cli'),
+            $request->getPost('text_numero_cli'),
+            $request->getPost('text_complemento_cli'),
+            $request->getPost('text_bairro_cli'),
+            $request->getPost('text_municipio_cli'),
+            $request->getPost('text_uf_cli'),
+            $request->getPost('text_cep_cli'),
+            $request->getPost('text_email_cli'),
+            $request->getPost('text_contato_cli'),
+            $request->getPost('text_telefone_cli'),
+            $request->getPost('text_celular_cli'),
+            $request->getPost('text_obs_cli'),
+
+        );
+        $this->query(
+            "INSERT INTO clientes 
+        VALUES(
+        0,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?
+        )
+        ",
+            $params
+        );
+    }
+    //=====================================================
     public function get_product($id)
     {
         // retorna o espedifico produto
@@ -1117,6 +2034,38 @@ class StocksModel extends Model
             $params
 
         )->getResult('array')[0];
+    }
+    //=====================================================
+    public function get_id_cot($id)
+    {
+        // retorna o especifico produto
+        $params = array(
+            $id
+        );
+        return $this->query(
+            "SELECT id_cot FROM cotacao_escopo
+             WHERE id_escopo = ?",
+            $params
+
+        )->getResult('array')[0];
+    }
+    //=====================================================
+    public function get_id_cot2($id)
+    {
+        // retorna o especifico produto
+        $params = array(
+            $id
+        );
+        $params2 = array(
+            $params[0]
+        );
+        return $this->query(
+            "SELECT id_cot FROM cotacao_escopo
+             WHERE id_escopo = ?",
+            $params
+
+
+        )->getResult('array');
     }
     //=====================================================
     public function product_other_check($id_produto, $designacao)
@@ -1142,9 +2091,7 @@ class StocksModel extends Model
     //===================================================== 
     public function product_edit($id_produto, $imagem = '')
     {
-
         $request = \Config\Services::request();
-
         //atualizar o produto com nova imagem
         if ($imagem == '') {
             $params = array(
@@ -1209,7 +2156,6 @@ class StocksModel extends Model
             $params
         );
     }
-
     //=====================================================
     //MOVIMENTOS
     //=====================================================
@@ -1289,10 +2235,29 @@ class StocksModel extends Model
         ")->getResult('array');
     }
     //=======================================================
-    public function escopo_por_cotacao($id_cotacao)
+    public function get_all_clientes()
     {
+        //busca todos as familias de  servicos atraves do id_familia_servicos
+        return $this->query(
+            "SELECT 
+                c.id_cliente,
+                c.razao_social_cli,
+                c.municipio_cli,
+                u.UF AS estado
+            FROM    
+                clientes c
+            LEFT JOIN 
+                relacao_uf u 
+            ON 
+            c.UF_cli = u.id_uf  
+        "
+        )->getResult('array');
+    }
+    //=======================================================
+    public function escopo_por_cotacao($id_escopo)
+    {
+        $params = array($id_escopo);
 
-        $params = array($id_cotacao);
         return $this->query(
             'SELECT * 
                FROM cotacao_escopo 
@@ -1303,10 +2268,20 @@ class StocksModel extends Model
     //=======================================================
     public function get_escopo($id_escopo)
     {
-
         $params = array($id_escopo);
         return $this->query(
             'SELECT * 
+               FROM cotacao_escopo 
+               WHERE id_escopo =?',
+            $params
+        )->getResult('array');
+    }
+    //=======================================================
+    public function get_item_data_cadastrada($id_escopo)
+    {
+        $params = array($id_escopo);
+        return $this->query(
+            'SELECT CheckList_data 
                FROM cotacao_escopo 
                WHERE id_escopo =?',
             $params
@@ -1329,6 +2304,8 @@ class StocksModel extends Model
          c.id_cot, 
          c.escopo,
          c.detalhes,
+         c.cot_data,
+         c.cot_hora,
          f.razao_social AS razaoSocial
          FROM cotacao_servicos c
          LEFT JOIN 
@@ -1374,11 +2351,8 @@ class StocksModel extends Model
     }
 
     //=====================================================
-    public function get_all_cotacoes_fornecedor($id_fornecedor)
+    public function get_all_cotacoes_fornecedor($params)
     {
-        $params = array(
-            $id_fornecedor
-        );
         //busca todos as familias de  servicos atraves do id_familia_servicos
         return $this->query("SELECT 
          c.id_cot, 
@@ -1395,11 +2369,10 @@ class StocksModel extends Model
          ", $params)->getResult('array');
     }
     //=====================================================
-    public function get_all_cotacoes_fornecedor_aprovadas($id_fornecedor)
+    public function get_all_cotacoes_fornecedor_aprovadas($params)
     {
-        $params = array(
-            $id_fornecedor
-        );
+        
+        
         //busca todos as familias de  servicos atraves do id_familia_servicos
         return $this->query("SELECT 
      c.id_cot, 
@@ -1421,13 +2394,15 @@ class StocksModel extends Model
         $params = array(
             $id_fornecedor
         );
+        
+
         return $this->query(
             "SELECT id_fornecedor 
                  FROM users 
                  WHERE name = ?
                 ",
             $params
-        )->getResult('array')[0];
+        )->getResult('array');
     }
 }
 //=====================================================

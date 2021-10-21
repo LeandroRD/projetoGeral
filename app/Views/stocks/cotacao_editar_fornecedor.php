@@ -83,22 +83,12 @@ $detalhes = $cotacao['detalhes'];
                 <thead class="  cabeca-tabela">
                     <th class="text-center">ID</th>
                     <th class="text-center">Escopo</th>
-                    <th class="text-center">Ações</th>
                 </thead>
                 <tbody>
                     <?php foreach ($escopo_por_cotacao as $escopo) : ?>
                         <tr>
                             <td class="text-center"><?php echo $escopo['id_escopo'] ?></td>
                             <td class="text-center"><?php echo $escopo['escopo'] ?></td>
-                            <!-- botoes editar deletar -->
-                            <td class="text-center">
-                                <a class="btn btn-primary btn-sm btn-100" href="">
-                                    <i class="fa fa-pencil me-2"></i>Editar
-                                </a>
-                                <a class="btn btn-danger btn-sm btn-100 marg-topo-10" href="">
-                                    <i class="fa fa-trash me-2"></i> Eliminar
-                                </a>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

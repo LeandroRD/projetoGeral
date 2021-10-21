@@ -80,14 +80,13 @@ class Stocks extends BaseController
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-        
+
         echo view('stocks/cotacao_adicionar2', $data);
     }
-      
     //========================================================
-    public function checkLists($delete=0)
+    public function checkLists($delete = 0)
     {
-        if($delete==1){
+        if ($delete == 1) {
             $data['success'] = "Check list eliminado com Sucesso!!";
         }
         $model = new StocksModel();
@@ -98,7 +97,6 @@ class Stocks extends BaseController
         }
         echo view('stocks/checklists', $data);
     }
-
     //========================================================
     public function checkLists_editar($id_check)
     {
@@ -116,7 +114,6 @@ class Stocks extends BaseController
 
         echo view('stocks/checklists_editar', $data);
     }
-
     //========================================================
     public function cotacao_adicionar_novo($id_check)
     {
@@ -134,9 +131,82 @@ class Stocks extends BaseController
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-
-
         echo view('stocks/cotacao_adicionar', $data);
+    }
+    //========================================================
+    public function cotacao_adicionar_projeto($id_check)
+    {
+        helper('funcoes');
+        $id_check = aesDecrypt($id_check);
+        if ($id_check == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['id_check'] = array($id_check);
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacao_adicionar_projeto', $data);
+    }
+    //========================================================
+    public function cotacao_adicionar_data()
+    {
+        $error = "";
+
+        $request = \Config\Services::request();
+        $nome_cotacao = $request->getPost('projeto');
+        $nome_fornecedor = $request->getPost('select_parent');
+        $id_check = $request->getPost('id_check');
+
+        $model = new StocksModel();
+        //confirmar se ja existe a taxa com o mesmo nome
+        $resultado = $model->check_nome_cotacao($nome_cotacao);
+        if ($resultado) {
+            $error = 'Já existe uma cotação com o mesmo nome!!';
+        }
+
+        if ($error != "") {
+            $data['error'] = $error;
+            $data['id_check'] = array(
+                $id_check
+            );
+            $data['fornecedores'] = $model->get_all_fornecedores();
+
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_adicionar_projeto', $data);
+        }
+
+        if ($error == "") {
+            $data['nome_cotacao'] = $nome_cotacao;
+            $data['nome_fornecedor'] = $nome_fornecedor;
+            $data['id_check'] = $id_check;
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_adicionar_data', $data);
+        }
+    }
+    //========================================================
+    public function cotacao_adicionar_continue($id_check)
+    {
+        helper('funcoes');
+        $id_check = aesDecrypt($id_check);
+        if ($id_check == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['all_servicos'] = $model->get_checklists_editar($id_check);
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        $data['get_checkList'] = $model->get_checkList($id_check);
+        $error = '';
+        $data['all_escopo'] = array();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacao_adicionar2', $data);
     }
     //========================================================
     public function checkList_adicionar()
@@ -161,8 +231,6 @@ class Stocks extends BaseController
         $model->servicos_add($servicos);
         $data['all_servicos'] = $model->get_all_servicos();
         $data['all_escopo'] = $model->get_all_escopo();
-
-
         echo view('stocks/cotacao_adicionar', $data);
     }
     //========================================================    
@@ -193,11 +261,9 @@ class Stocks extends BaseController
                 $data['error'] = $error;
             }
         }
-
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-
         echo view('stocks/familias_adicionar_servicos', $data);
     }
     //========================================================
@@ -242,7 +308,7 @@ class Stocks extends BaseController
     {
         helper('funcoes');
         $id_fornecedor = aesDecrypt($id_fornecedor);
-
+        $editado = "no";
         if ($id_fornecedor == -1) {
             return;
         }
@@ -272,12 +338,13 @@ class Stocks extends BaseController
                     $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
                 }
             }
-            //atualizar os dados da familia na BD 
+            //atualizar os dados 
             if ($error == '') {
                 $model->fornecedor_editar($id_fornecedor);
-                $data['success'] = "Familia atualizada com sucesso !!";
-                //redirecionamento para stock/familias
-                return redirect()->to(site_url('stocks/fornecedores'));
+                $data['success'] = "Fornecedor atualizado com Sucesso !!";
+                $mensagem = "Fornecedor alterado com Sucesso!";
+                $this->fornecedores_success($mensagem);
+                $editado = "yes";
             } else {
                 $data['error'] = $error;
             }
@@ -285,23 +352,400 @@ class Stocks extends BaseController
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-        echo view('stocks/fornecedores_editar', $data);
+        if ($editado == "no") {
+            echo view('stocks/fornecedores_editar', $data);
+        }
     }
-
     //========================================================
-    public function cotacao_editar($id_cotacao)
+    public function cliente_editar($id_cliente)
+    {
+        helper('funcoes');
+        $id_cliente = aesDecrypt($id_cliente);
+        $editado = "no";
+
+        if ($id_cliente == -1) {
+            return;
+        }
+        // carregar os dados dos fornecedores para passar a View
+        $model = new StocksModel();
+        $data['clientes'] = $model->get_all_clientes();
+        $data['cliente'] = $model->get_cliente($id_cliente);
+        //carregar estados
+        $data['select_uf'] = $model->get_all_estados();
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //confirmar se ja existe outro fornecedor com o mesmo nome
+            $resultado = $model->check_other_razao_social_cliente($request->getPost('text_razao_social'), $id_cliente);
+            if ($resultado) {
+                $error = 'Já existe outro cliente com a mesma razão social!!';
+            }
+            //confirmar se ja existe outro fornecedor com o cnpj
+            if ($error == '') {
+                $resultado = $model->check_other_cnpj($request->getPost('text_cnpj'), $id_cliente);
+                if ($resultado) {
+                    $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
+                }
+            }
+            if ($error == '') {
+                $model->cliente_editar($id_cliente);
+                $editado_sucesso = "Cliente editado com Sucesso!!";
+                $this->clientes_success($editado_sucesso);
+                $editado = "yes";
+            } else {
+                $data['error'] = $error;
+            }
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        if ($editado == "no") {
+            echo view('stocks/clientes_editar', $data);
+        }
+    }
+    //========================================================
+    public function cliente_cotacao_editar($id_cliente, $id_cot = 0)
+    {
+        helper('funcoes');
+        $id_cliente = aesDecrypt($id_cliente);
+        $editado = "no";
+        if ($id_cliente == -1) {
+            return;
+        }
+        // carregar os dados dos fornecedores para passar a View
+        $model = new StocksModel();
+        $data['clientes'] = $model->get_all_clientes();
+        $data['cliente'] = $model->get_cliente($id_cliente);
+        //carregar estados
+        $data['select_uf'] = $model->get_all_estados();
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //confirmar se ja existe outro fornecedor com o mesmo nome
+            $resultado = $model->check_other_razao_social_cliente($request->getPost('text_razao_social'), $id_cliente);
+            if ($resultado) {
+                $error = 'Já existe outro cliente com a mesma razão social!!';
+            }
+            //confirmar se ja existe outro fornecedor com o cnpj
+            if ($error == '') {
+                $resultado = $model->check_other_cnpj($request->getPost('text_cnpj'), $id_cliente);
+                if ($resultado) {
+                    $error = 'Já existe outro fornecedor com o mesmo CNPJ!!';
+                }
+            }
+            if ($error == '') {
+                $model->cliente_editar($id_cliente);
+                $editado_sucesso = "Cliente editado com Sucesso!!";
+                $this->clientes_success($editado_sucesso);
+                $editado = "yes";
+            } else {
+                $data['error'] = $error;
+            }
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        $data['id_cot'] = $id_cot;
+        if ($editado == "no") {
+            echo view('stocks/clientes_cotacao_editar', $data);
+        }
+    }
+    //========================================================
+    public function cliente_cotacao($id_cliente)
+    {
+        helper('funcoes');
+        $id_cliente = aesDecrypt($id_cliente);
+        $request = \Config\Services::request();
+        $id_cot = $request->getPost('id_cot');
+        $model = new StocksModel();
+        $model->insert_cliente_cotacao($id_cliente);
+        die("ok");
+    }
+    //========================================================
+    public function cotacao_editar($id_cotacao, $elimina_item = 0)
+    {
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        $success = "";
+
+        if ($id_cotacao == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['cotacoes'] = $model->get_all_cotacoes();
+
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+
+        $data['fornecedores'] = $model->get_all_fornecedores();
+
+        $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+
+        //busca todas as datas relacionada a  cotacao
+        $data['get_datas'] = $model->get_datas($id_cotacao);
+        $get_datas =  $data['get_datas'];
+
+        //arsort deixa o array em ordem decrescente-----------------
+        arsort($get_datas);
+        // pega a ultima data(que é a menor)
+        $menor_data = array_pop($get_datas);
+        $data['menor_data'] = $menor_data;
+
+        //----------------------------------------------------------
+        //busca o id_exclusivo da hora relacionado a tabela data
+        $get_hora = $model->get_hora($id_cotacao, $menor_data);
+
+        //busca a hora relacionada o id_exclusivo
+        $get_hora2 = $model->get_hora2($get_hora);
+        $data['hora_relacionada_data'] = $get_hora2[0];
+
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if ($error == '') {
+                $model->cotacao_editar($id_cotacao);
+                $success = "Cotação atualizada com sucesso !!";
+                $data['success'] = $success;
+
+                if ($this->checkProfile('admin')) {
+                    $data['admin'] = "true";
+                }
+                $data['cotacao'] = $model->get_cotacao($id_cotacao);
+                echo view('stocks/cotacao_editar', $data);
+            } else {
+                $data['error'] = $error;
+            }
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        if ($elimina_item == 1) {
+            $success = "Eliminado item da cotação";
+            $data['success'] = $success;
+            echo view('stocks/cotacao_editar', $data);
+        }
+
+        if ($success == "") {
+            echo view('stocks/cotacao_editar', $data);
+        }
+    }
+    //========================================================
+    public function cotacao_item_editar($id_cotacao)
+    {
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        $data['success'] = "";
+        if ($id_cotacao == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['cotacoes'] = $model->get_all_cotacoes();
+
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+
+        $data['fornecedores'] = $model->get_all_fornecedores();
+
+        $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+
+        //busca todas as datas relacionada a  cotacao
+        $data['get_datas'] = $model->get_datas($id_cotacao);
+
+        $get_datas =  $data['get_datas'];
+
+        //arsort deixa o array em ordem decrescente-----------------
+        arsort($get_datas);
+        // pega a ultima data(que é a menor)
+        $menor_data = array_pop($get_datas);
+        $data['menor_data'] = $menor_data;
+
+        //----------------------------------------------------------
+        //busca o id_exclusivo da hora relacionado a tabela data
+        $get_hora = $model->get_hora($id_cotacao, $menor_data);
+
+        //busca a hora relacionada o id_exclusivo
+        $get_hora2 = $model->get_hora2($get_hora);
+        $data['hora_relacionada_data'] = $get_hora2[0];
+        $error = '';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //vamos buscar a submissao pelo formulario
+            $request = \Config\Services::request();
+            //atualizar os dados da familia na BD 
+            if ($error == '') {
+                //$model->cotacao_editar($id_cotacao);
+                $data['success'] = "Cotação atualizada com sucesso !!";
+
+                if ($this->checkProfile('admin')) {
+                    $data['admin'] = "true";
+                }
+
+                echo view('stocks/cotacao_editar', $data);
+            } else {
+                $data['error'] = $error;
+            }
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        if ($data['success'] == "") {
+            echo view('stocks/cotacao_editar', $data);
+        }
+    }
+    //========================================================
+    public function cotacao_editar_remove_data($id_cotacao)
+    {
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        $data['success'] = "";
+        if ($id_cotacao == -1) {
+            return;
+        }
+
+        $model = new StocksModel();
+        $data['cotacoes'] = $model->get_all_cotacoes();
+
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+
+
+
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+        //busca todas as datas relacionada a  cotacao
+        $data['get_datas'] = $model->get_datas($id_cotacao);
+        $get_datas =  $data['get_datas'];
+        //arsort deixa o array em ordem decrescente-----------------
+        arsort($get_datas);
+        // pega a ultima data(que é a menor)
+        $menor_data = array_pop($get_datas);
+        $data['menor_data'] = $menor_data;
+        //----------------------------------------------------------
+        //busca o id_exclusivo da hora relacionado a tabela data
+        $get_hora = $model->get_hora($id_cotacao, $menor_data);
+        //busca a hora relacionada o id_exclusivo
+        $get_hora2 = $model->get_hora2($get_hora);
+        $data['hora_relacionada_data'] = $get_hora2[0];
+        $error = '';
+
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        if ($data['success'] == "") {
+            echo view('stocks/cotacao_editar', $data);
+        }
+    }
+    //========================================================
+    public function acrescentar_data($id_cotacao)
+    {
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        $model = new StocksModel();
+        $error = "";
+
+        //verificar se data ja existe
+        $resultado = $model->verificar_data_hora($id_cotacao);
+        if ($error == '') {
+            if ($resultado) {
+                $error = 'Essa data já está adicionada nesta cotação!!';
+                $data['error'] = $error;
+            }
+        }
+
+        //cadastra data 
+        if ($error == '') {
+            $model->acrescentar_data($id_cotacao);
+
+            //---------inserir a menor data e hora relacionado na cotao------
+
+            //busca todas as datas relacionada a  cotacao
+            $data['get_datas'] = $model->get_datas($id_cotacao);
+            $get_datas =  $data['get_datas'];
+            // arsort deixa o array em ordem decrescente
+            arsort($get_datas);
+            // pega a ultima data(que é a menor)
+            $menor_data = array_pop($get_datas);
+            //busca o id_exclusivo da hora relacionado a tabela data
+            $get_hora = $model->get_menor_hora($id_cotacao, $menor_data);
+            // busca a hora relacionada o id_exclusivo
+            $get_hora2 = $model->get_hora2($get_hora);
+            $data['hora_relacionada_data'] = $get_hora2[0];
+            $hora_relacionada = $data['hora_relacionada_data'];
+            //cadastra menor data
+            $model->cadastrar_menor_data($menor_data, $id_cotacao);
+            //cadastra data relacionada a menor data
+            $model->cadastrar_hora_relacionada($hora_relacionada, $id_cotacao);
+
+            //----------inserir a menor data e hora relacionado na cotao------
+
+            $data['success'] = "Acrescentado data e hora com sucesso!.";
+        }
+
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+
+        // enviar as datas cadastradas no escopo
+        $todas_horas = $data['data_escopo'] = $model->get_datas_escopo($id_cotacao);
+
+        //enviar as horas cadastradas no escopo
+        $data['hora_escopo'] = $model->get_horas_escopo($todas_horas);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+
+        //verificar tipo de profile
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacao_alterar_data', $data);
+    }
+    //========================================================
+    public function remover_data($id_cotacao)
+    {
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+
+        $request = \Config\Services::request();
+        $id_cot = $_POST;
+        $model = new StocksModel();
+        $data_guardar = $model->get_data($id_cot);
+
+        $check_data = $model->verificar_data($id_cotacao);
+
+        if ($check_data) {
+            $sim = "sim";
+            $model->remover_data($id_cotacao, $data_guardar);
+            $id_cotacao_Encr =  aesEncrypt($id_cotacao);
+            $this->cotacao_alterar_data($id_cotacao_Encr, $sim);
+        } else {
+            $id_cotacao_Encr =  aesEncrypt($id_cotacao);
+            $this->cotacao_alterar_data_msg_data_vazia($id_cotacao_Encr);
+        }
+    }
+    //========================================================
+    public function cotacao_outroFornecedor($id_cotacao)
     {
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
         if ($id_cotacao == -1) {
             return;
         }
-        // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['cotacoes'] = $model->get_all_cotacoes();
         $data['cotacao'] = $model->get_cotacao($id_cotacao);
         $data['fornecedores'] = $model->get_all_fornecedores();
         $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //vamos buscar a submissao pelo formulario
@@ -318,7 +762,15 @@ class Stocks extends BaseController
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-        echo view('stocks/cotacao_editar', $data);
+
+        $data['escopo_por_cotacao'];
+
+        if ($data['escopo_por_cotacao'] == null) {
+            $data['error'] = "Esta cotação esta sem itens de check-list!";
+            echo view('stocks/cotacoes', $data);
+        } else {
+            echo view('stocks/cotacao_outroFornecedor', $data);
+        }
     }
     //========================================================
     public function itemCheck_editar($id_item, $item2)
@@ -326,7 +778,7 @@ class Stocks extends BaseController
         helper('funcoes');
         $model = new StocksModel();
         $data['itemCheck'] = $model->get_itemCheck($id_item, $item2);
-        
+
         //confirmar tipo de usuario
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
@@ -360,7 +812,6 @@ class Stocks extends BaseController
         }
         echo view('stocks/cotacao_editar', $data);
     }
-
     //========================================================
     public function escopo_editar($id_escopo)
     {
@@ -369,10 +820,20 @@ class Stocks extends BaseController
         $model = new StocksModel();
         //pega os dados do escopo
         $data['escopo'] = $model->get_escopo($id_escopo);
+        //pega o id da cotacao
+        $id_cot = $model->get_id_cot($id_escopo);
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cot);
+        //enviar o ultimo id cadastrado
+        $data['ultimo_id_cadastro'] = $id_escopo;
+        //busca a data do item do check list
+        $data['item_data_cadastrada'] = $model->get_item_data_cadastrada($id_escopo);
+
         $error = '';
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
+
         echo view('stocks/escopo_editar', $data);
     }
     //========================================================
@@ -389,31 +850,63 @@ class Stocks extends BaseController
             $request = \Config\Services::request();
             if ($error == '') {
                 $model->escopo_editar($id_escopo);
-                $data['success'] = "Cotação atualizada com sucesso !!";
-                return redirect()->to(site_url('stocks/cotacao_editar2/' . $acao));
+
+                $data['sucess'] = "Cotação atualizada com sucesso !!";
+                $data['cotacoes'] = $model->get_all_cotacoes();
+
+                $id_escopo = $model->get_id_cot_data($id_escopo);
+                $id_escopo_obj = $id_escopo[0]['id_cot'];
+                helper('funcoes');
+                $id_escopo_encript = aesEncrypt($id_escopo_obj);
+                $this->cotacao_item_editar($id_escopo_encript);
             } else {
                 $data['error'] = $error;
+                if ($this->checkProfile('admin')) {
+                    $data['admin'] = "true";
+                }
             }
         }
-        if ($this->checkProfile('admin')) {
-            $data['admin'] = "true";
-        }
-        echo view('stocks/escopo_editar', $data);
     }
     //========================================================
     public function cotacao_editar_aprovada($id_cotacao)
     {
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
+        $success = "";
 
         if ($id_cotacao == -1) {
             return;
         }
-        // carregar os dados das familias para passar a View
         $model = new StocksModel();
         $data['cotacoes'] = $model->get_all_cotacoes();
+
         $data['cotacao'] = $model->get_cotacao($id_cotacao);
+
         $data['fornecedores'] = $model->get_all_fornecedores();
+
+        $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+
+        //busca todas as datas relacionada a  cotacao
+        $data['get_datas'] = $model->get_datas($id_cotacao);
+        $get_datas =  $data['get_datas'];
+
+        //arsort deixa o array em ordem decrescente-----------------
+        arsort($get_datas);
+        // pega a ultima data(que é a menor)
+        $menor_data = array_pop($get_datas);
+        $data['menor_data'] = $menor_data;
+
+        //----------------------------------------------------------
+        //busca o id_exclusivo da hora relacionado a tabela data
+        $get_hora = $model->get_hora($id_cotacao, $menor_data);
+
+        //busca a hora relacionada o id_exclusivo
+        $get_hora2 = $model->get_hora2($get_hora);
+        $data['hora_relacionada_data'] = $get_hora2[0];
+
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //vamos buscar a submissao pelo formulario
@@ -421,8 +914,14 @@ class Stocks extends BaseController
             //atualizar os dados da familia na BD 
             if ($error == '') {
                 $model->cotacao_editar($id_cotacao);
-                $data['success'] = "Cotação atualizada com sucesso !!";
-                return redirect()->to(site_url('stocks/cotacoes'));
+                $success = "Cotação atualizada com sucesso !!";
+                $data['success'] = $success;
+
+                if ($this->checkProfile('admin')) {
+                    $data['admin'] = "true";
+                }
+                $data['cotacao'] = $model->get_cotacao($id_cotacao);
+                echo view('stocks/cotacao_editar', $data);
             } else {
                 $data['error'] = $error;
             }
@@ -430,7 +929,12 @@ class Stocks extends BaseController
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-        echo view('stocks/cotacao_editar_aprovada', $data);
+
+       
+
+        if ($success == "") {
+            echo view('stocks/cotacao_editar_aprovada', $data);
+        }
     }
     //========================================================
     public function tratar_servicos()
@@ -438,26 +942,262 @@ class Stocks extends BaseController
         $error = '';
         $model = new StocksModel();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //adicionar o servico
+            //pegar toda Postagem
             $novo_checkList = $_POST;
-            $baixar =  array_pop($novo_checkList);
-            $baixar =  array_pop($novo_checkList);
-            $data['all_servicos'] = $novo_checkList;
+
+            // tirar a ultima postagem
+            $parent =  array_pop($novo_checkList);
+            // tirar a penultima postagem
+            $nome_projeto =  array_pop($novo_checkList);
+            // tirar a primeira postagem
+            $nr_checkList = array_shift($novo_checkList);
+            // tirar a segunda postagem
+            $cot_data = array_shift($novo_checkList);
+            // tirar a terceira postagem
+            $cot_hora = array_shift($novo_checkList);
+            //pegar o nome fornecedor
+            if ($parent) {
+                $data['parent'] = $model->get_parent($parent);
+            }
+            //pegar o nome do projeto
+            $data['nome_projeto'] = $nome_projeto;
+            //pegar o numero check list
+            $data['nr_checkList'] = $nr_checkList;
+            $data['all_servicos'] = $model->get_checklists_editar($nr_checkList);
+            $data['get_checkList'] = $model->get_checkList($nr_checkList);
+
+            if ($error == '') {
+                if ($cot_data == "") {
+                    $error = 'Escolher a data de execuçao!!';
+                }
+            }
+
+            if ($error == '') {
+                if ($cot_hora == "") {
+                    $error = 'Escolher a hora de execuçao!!';
+                }
+            }
             //confirmar se ja existe uma cotacao com o mesmo nome
             $request = \Config\Services::request();
             $resultado = $model->check_cotacao($request->getPost('projeto'));
-            if ($resultado) {
-                $error = 'Já existe uma Cotação com a mesma desigção!!';
-            }            
             if ($error == '') {
+                if ($resultado) {
+                    $error = 'Já existe uma Cotação com a mesma desigção!!';
+                }
+            }
+
+            if ($novo_checkList == null) {
+                $error = 'Escolher itens do check-List';
+            }
+
+            if ($error == '') {
+                //Finalmente Cadastrar
                 $model->tratar_servicos();
-                $data['sucess'] = "Cotação adicionada com Sucesso";
+                $data['success'] = "Adicione novos Serviços/data/horario ou confirme!!";
             } else {
                 $data['error'] = $error;
             }
             $data['fornecedores'] = $model->get_all_fornecedores();
             $data['cotacoes'] = $model->get_all_cotacoes();
         }
+        if ($error == '') {
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_adicionar2', $data);
+        } else {
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_adicionar', $data);
+        }
+    }
+    //========================================================
+    public function tratar_servicos_data()
+    {
+        $request = \Config\Services::request();
+        $id_check = $request->getPost('id_check');
+        $nome_cotacao = $request->getPost('nome_cotacao');
+        $nome_fornecedor = $request->getPost('nome_fornecedor');
+
+        $model = new StocksModel();
+        $data['get_checkList'] = $model->get_checkList($id_check);
+        $data['nr_checkList'] = $id_check;
+        $data['all_servicos'] = $model->get_checklists_editar($id_check);
+        $data['nome_projeto'] = $nome_cotacao;
+
+        //cadastrar cotacao
+        $model->tratar_servicos_data();
+
+        //buscar ultimo id cadastrado
+        $tudo_ultimo_cadastro = $model->buscar_id_ultimo_cad($nome_cotacao);
+        $ultimo_cadastro =  array_pop($tudo_ultimo_cadastro);
+        $ultimo_id_cadastro =  $ultimo_cadastro['id_cot'];
+
+        //busca todas as datas relacionada a  cotacao
+        $data['get_datas'] = $model->get_datas($ultimo_id_cadastro);
+        $get_datas =  $data['get_datas'];
+
+        // arsort deixa o array em ordem decrescente-----------------
+        arsort($get_datas);
+        // pega a ultima data(que é a menor)
+        $menor_data = array_pop($get_datas);
+        $data['menor_data'] = $menor_data;
+
+
+        $data['get_id_cot_data'] = $model->get_id_cot_datas($ultimo_id_cadastro);
+        $get_id_cot_data =  $data['get_id_cot_data'];
+
+        $ultimo_cadastro2 = $ultimo_cadastro['id_cot'];
+
+        //----------------------------------------------------------
+        //busca o id_exclusivo da hora relacionado a tabela data
+        $get_hora = $model->get_menor_hora($ultimo_cadastro2, $menor_data);
+
+        // busca a hora relacionada o id_exclusivo
+        $get_hora2 = $model->get_hora2($get_hora);
+        $data['hora_relacionada_data'] = $get_hora2[0];
+
+        $hora_relacionada = $data['hora_relacionada_data'];
+
+        //cadastra menor data
+        $model->cadastrar_menor_data($menor_data, $ultimo_id_cadastro);
+
+        //cadastra data relacionada a menor data
+        $model->cadastrar_hora_relacionada($hora_relacionada, $ultimo_id_cadastro);
+
+        // enviar as novas datas cadastradas
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($ultimo_id_cadastro);
+        //enviar o ultimo id cadastrado
+        $data['ultimo_id_cadastro'] = $ultimo_id_cadastro;
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        //se fornecedor estiver vazio
+        if ($nome_fornecedor != '0') {
+            $data['parent'] = $model->get_parent($nome_fornecedor);
+        }
+        echo view('stocks/cotacao_adicionar_itens_checkList', $data);
+    }
+    //========================================================
+    public function cotacao_clientes()
+    {
+        $request = \Config\Services::request();
+        $id_cot = $request->getPost('id_cot');
+        $data['id_cot'] = $id_cot;
+
+        //carregar os fornecedores existentes
+        $model = new StocksModel();
+        $data['clientes'] = $model->get_all_clientes();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacao_clientes', $data);
+    }
+    //========================================================
+    public function tratar_servicos_continue()
+    {
+        $error = '';
+        $model = new StocksModel();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //adicionar o servico
+            $novo_checkList = $_POST;
+
+            $parent1 =  array_pop($novo_checkList);
+            $projeto1 =  array_pop($novo_checkList);
+            $baixar =  array_pop($novo_checkList);
+            $baixar =  array_pop($novo_checkList);
+            $id_item = array_shift($novo_checkList);
+            $nome_item = array_shift($novo_checkList);
+            $nr_checkList = array_shift($novo_checkList);
+            $cot_data = array_shift($novo_checkList);
+            $cot_hora = array_shift($novo_checkList);
+            $data['nr_checkList'] = $id_item;
+            $data['all_servicos'] = $model->get_checklists_editar($id_item);
+            $data['get_checkList'] = $model->get_checkList($id_item);
+            $data['nome_projeto'] = $projeto1;
+            if ($parent1 != 'Nenhuma') {
+                $data['parent'] = $model->get_parent_nome($parent1);
+            }
+
+            if ($error == '') {
+                $model->tratar_servicos_continue();
+                $data['success'] = "Adicione novos Serviços/data/horario ou confirme!!";
+            } else {
+                $data['error'] = $error;
+            }
+            $data['fornecedores'] = $model->get_all_fornecedores();
+            $data['cotacoes'] = $model->get_all_cotacoes();
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        echo view('stocks/cotacao_adicionar2', $data);
+    }
+    //========================================================
+    public function tratar_servicos_itens()
+    {
+        $error = '';
+        $model = new StocksModel();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $request = \Config\Services::request();
+            $id_check = $request->getPost('id_check');
+            $nome_cotacao = $request->getPost('nome_cotacao');
+            $nome_fornecedor = $request->getPost('nome_fornecedor');
+            $id_check = $request->getPost('id_check');
+            $id_cot = $request->getPost('id_cot');
+
+            $data['get_checkList'] = $model->get_checkList($id_check);
+            $data['nr_checkList'] = $id_check;
+            $data['all_servicos'] = $model->get_checklists_editar($id_check);
+            $data['nome_projeto'] = $nome_cotacao;
+
+            //buscar ultimo id cadastrado
+            $tudo_ultimo_cadastro = $model->buscar_id_ultimo_cad($nome_cotacao);
+            $ultimo_cadastro =  array_pop($tudo_ultimo_cadastro);
+            $ultimo_id_cadastro =  $ultimo_cadastro['id_cot'];
+            $data['datas_cadastras'] = $model->get_all_datas_cadastras($ultimo_id_cadastro);
+            if ($error == '') {
+                $model->tratar_servicos_itens();
+                $data['success'] = "Adicione novos Serviços/data/horario ou confirme!!";
+            } else {
+                $data['error'] = $error;
+            }
+            $data['fornecedores'] = $model->get_all_fornecedores();
+            $data['cotacoes'] = $model->get_all_cotacoes();
+        }
+        if ($nome_fornecedor != 'Nenhuma') {
+            $data['parent'] = $model->get_parent_nome($nome_fornecedor);
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        $data['ultimo_id_cadastro'] = $id_cot;
+        echo view('stocks/cotacao_adicionar_itens_checkList', $data);
+    }
+    //========================================================
+    public function cotacao_novoFornecedor()
+    {
+        // carregar os dados das familias para passar a View
+        $model = new StocksModel();
+        $error = '';
+        $model->check_novoFornecedor();
+        $resultado = $model->check_novoFornecedor();
+        if ($resultado) {
+            $error = 'Já existe uma cotacao com esse Fornecedor!!';
+            $data['error'] = $error;
+        }
+
+        if ($error == '') {
+            $model->cotacao_novoFornecedor();
+            $data['sucess'] = "Cotação enviado para novo Fornecedor!!";
+        }
+
+        $data['cotacoes'] = $model->get_all_cotacoes();
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        // $data['error'] = $error;
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
@@ -493,6 +1233,97 @@ class Stocks extends BaseController
             $data['admin'] = "true";
         }
         echo view('stocks/checkList_adicionar', $data);
+    }
+    //========================================================
+    public function Cotacao_ItemCheckList_adicionar()
+    {
+        $request = \Config\Services::request();
+        $id_check = $_POST;
+        $error = '';
+        $model = new StocksModel();
+        $resultado = $model->check_ItemCheckList_adicionar();
+        if ($resultado) {
+            $error = 'Já existe um item com a mesma desigção!!';
+            $data['error'] = $error;
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            $item = array_shift($id_check);
+            $id_incript =  array_shift($id_check);
+            helper('funcoes');
+            $id_cotacao = aesDecrypt($id_incript);
+
+            $model = new StocksModel();
+            $data['cotacoes'] = $model->get_all_cotacoes();
+            $data['cotacao'] = $model->get_cotacao($id_cotacao);
+            $data['fornecedores'] = $model->get_all_fornecedores();
+            $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+            // enviar as datas cadastradas no escopo
+            $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+            //busca todas as datas relacionada a  cotacao
+            $data['get_datas'] = $model->get_datas($id_cotacao);
+            $get_datas =  $data['get_datas'];
+
+            //arsort deixa o array em ordem decrescente-----------------
+            arsort($get_datas);
+            // pega a ultima data(que é a menor)
+            $menor_data = array_pop($get_datas);
+
+            $data['menor_data'] = $menor_data;
+            //----------------------------------------------------------
+            //busca o id_exclusivo da hora relacionado a tabela data
+            $get_hora = $model->get_hora($id_cotacao, $menor_data);
+
+            //busca a hora relacionada o id_exclusivo
+            $get_hora2 = $model->get_hora2($get_hora);
+
+            $data['hora_relacionada_data'] = $get_hora2[0];
+
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_editar', $data);
+        }
+        if ($error == '') {
+            $model = new StocksModel();
+            $model->Cotacao_ItemCheckList_adicionar();
+
+            $item = array_shift($id_check);
+            $id_incript =  array_shift($id_check);
+            helper('funcoes');
+            $id_cotacao = aesDecrypt($id_incript);
+
+            $model = new StocksModel();
+            $data['cotacoes'] = $model->get_all_cotacoes();
+            $data['cotacao'] = $model->get_cotacao($id_cotacao);
+            $data['fornecedores'] = $model->get_all_fornecedores();
+            $data['escopo_por_cotacao'] = $model->escopo_por_cotacao($id_cotacao);
+            // enviar as datas cadastradas no escopo
+            $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+            //busca todas as datas relacionada a  cotacao
+            $data['get_datas'] = $model->get_datas($id_cotacao);
+            $get_datas =  $data['get_datas'];
+            $data['success'] = "Item cadastrado com sucesso!";
+            //arsort deixa o array em ordem decrescente-----------------
+            arsort($get_datas);
+            // pega a ultima data(que é a menor)
+            $menor_data = array_pop($get_datas);
+
+            $data['menor_data'] = $menor_data;
+            //----------------------------------------------------------
+            //busca o id_exclusivo da hora relacionado a tabela data
+            $get_hora = $model->get_hora($id_cotacao, $menor_data);
+
+            //busca a hora relacionada o id_exclusivo
+            $get_hora2 = $model->get_hora2($get_hora);
+
+            $data['hora_relacionada_data'] = $get_hora2[0];
+
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_editar', $data);
+        }
     }
     //========================================================
     public function cotacao_editar_fornecedor($id_cotacao)
@@ -532,6 +1363,7 @@ class Stocks extends BaseController
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
 
+
         if ($id_cotacao == -1) {
             return;
         }
@@ -558,9 +1390,7 @@ class Stocks extends BaseController
         }
         echo view('stocks/cotacao_editar_fornecedor_aprovada', $data);
     }
-
     //========================================================
-
     public function familia_editar_servicos($id_familia)
     {
         helper('funcoes');
@@ -600,23 +1430,17 @@ class Stocks extends BaseController
     //========================================================
     public function familia_editar_servicos_confirmar($id_familia)
     {
-
         $data = array();
         $data['familia'] = $id_familia;
-
         echo view('stocks/familia_editar_servicos_confirmar', $data);
     }
-
     //========================================================
     public function familia_editar_confirmar($id_familia)
     {
-
         $data = array();
         $data['familia'] = $id_familia;
-
         echo view('stocks/familia_editar_confirmar', $data);
     }
-
     //========================================================
     public function familia_servicos_editar($id_familia)
     {
@@ -625,7 +1449,6 @@ class Stocks extends BaseController
         if ($id_familia == -1) {
             return;
         }
-
         //editar familia
         // carregar os dados das familias para passar a View
         $model = new StocksModel();
@@ -644,7 +1467,6 @@ class Stocks extends BaseController
                 $data['error'] = $error;
             }
         }
-
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
@@ -703,6 +1525,7 @@ class Stocks extends BaseController
     {
         helper('funcoes');
         $id_fornecedor = aesDecrypt($id_fornecedor);
+        $editado = "no";
         if ($id_fornecedor == -1) {
             return;
         }
@@ -712,14 +1535,44 @@ class Stocks extends BaseController
         if ($resposta == 'sim') {
             //Eliminacao da familia
             $model->delete_fornecedor($id_fornecedor);
+            $mensagem = "Fornecedor eliminado com Sucesso!";
+            $this->fornecedores_success($mensagem);
+            $editado = "yes";
             //redirecionamento para stock/familias
-            return redirect()->to(site_url('stocks/fornecedores'));
+        }
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        if ($editado == "no") {
+            echo view('stocks/fornecedor_eliminar', $data);
+        }
+    }
+    //========================================================
+    public function cliente_eliminar($id_cliente, $resposta = 'nao')
+    {
+        helper('funcoes');
+        $id_cliente = aesDecrypt($id_cliente);
+        $eliminado = "no";
+        if ($id_cliente == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['cliente'] = $model->get_cliente($id_cliente);
+
+        if ($resposta == 'sim') {
+            //Eliminacao da familia
+            $model->delete_cliente($id_cliente);
+            $sucesso = "Cliente Deletado com Sucesso!!";
+            $this->clientes_success($sucesso);
+            $eliminado = "yes";
         }
 
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-        echo view('stocks/fornecedor_eliminar', $data);
+        if ($eliminado == "no") {
+            echo view('stocks/cliente_eliminar', $data);
+        }
     }
     //========================================================
     public function familias()
@@ -765,7 +1618,17 @@ class Stocks extends BaseController
         }
         echo view('stocks/acompanhamento_servicos', $data);
     }
-
+    //========================================================
+    public function cotacoes_aprovadas()
+    {
+        //carregar os dados da familias para passar a View
+        $model = new StocksModel();
+        $data['cotacoes'] = $model->get_all_cotacoes_aprovadas();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacoes_aprovadas', $data);
+    }
     //========================================================
     public function cotacoes_fornecedor()
     {
@@ -774,7 +1637,9 @@ class Stocks extends BaseController
         $user = $s->name;
         //buscar o id de fornecedor
         $id_fornecedor = $model->get_id_fornecedor($user);
+        
         $data['cotacoes'] = $model->get_all_cotacoes_fornecedor($id_fornecedor);
+        
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
@@ -788,6 +1653,7 @@ class Stocks extends BaseController
         $user = $s->name;
         //buscar o id de fornecedor
         $id_fornecedor = $model->get_id_fornecedor($user);
+       
         $data['cotacoes'] = $model->get_all_cotacoes_fornecedor_aprovadas($id_fornecedor);
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
@@ -953,7 +1819,6 @@ class Stocks extends BaseController
     //========================================================
     public function taxas_eliminar($id_taxa, $resposta = 'nao')
     {
-
         helper('funcoes');
         $id_taxa = aesDecrypt($id_taxa);
         if ($id_taxa == -1) {
@@ -977,33 +1842,65 @@ class Stocks extends BaseController
         echo view('stocks/taxas_eliminar', $data);
     }
     //========================================================
+    public function item_escopo_eliminar($id_item, $resposta = 'nao')
+    {
+        helper('funcoes');
+        $id_item = aesDecrypt($id_item);
+        if ($id_item == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        //pega os dados do escopo
+        $data['escopo'] = $model->get_escopo($id_item);
+        if ($resposta == 'sim') {
+            $id_cot = $model->get_id_cot2($id_item);
+            $model->delete_item_escopo($id_item);
+            $data['success'] = "Item eliminado com sucesso !!";
+            $id_cot = $id_cot[0]['id_cot'];
+            $id_cot_encript = aesEncrypt($id_cot);
+            $elimina_item = 1;
+            $this->cotacao_editar($id_cot_encript, $elimina_item);
+        } else {
+            //verificar tipo de profile
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/item_escopo_eliminar', $data);
+        }
+    }
+    //========================================================
     public function itemCheck_eliminar($id_idCheck, $checkList, $idServico = 0, $resposta = 'nao')
     {
         $model = new StocksModel();
         $data['itemCheck'] = $model->get_itemCheck($id_idCheck, $checkList);
-        $success ="";
+        $success = "";
         if ($resposta == 'sim') {
             $model->delete_itemCheckList($id_idCheck);
             $success = "Eliminado item de check List com sucesso!!";
             $data['get_checkList'] = $model->get_checkList($idServico);
             $data['checklists_editar'] = $model->get_checklists_editar($idServico);
             $data['success'] = $success;
+            //verificar tipo de profile
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
             echo view('stocks/checklists_editar', $data);
+        } else {
+            //verificar tipo de profile
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/itemCheck_eliminar', $data);
         }
-
-        //verificar tipo de profile
-        if ($this->checkProfile('admin')) {
-            $data['admin'] = "true";
-        }
-        echo view('stocks/itemCheck_eliminar', $data);
     }
     //========================================================
-    
+
     public function CheckList_eliminar($id_idCheck, $resposta = 'nao')
     {
+        $delete = 0;
         $model = new StocksModel();
         $data['itemCheck'] = $model->get_Check($id_idCheck);
-        $success ="";
+        $success = "";
         if ($resposta == 'sim') {
             $model->delete_CheckList($id_idCheck);
             $model->delete_itensCheckList($id_idCheck);
@@ -1011,15 +1908,17 @@ class Stocks extends BaseController
             $this->checklists($delete);
         }
         //verificar tipo de profile
-        if ($this->checkProfile('admin')) {
-            $data['admin'] = "true";
+        if ($delete == 0) {
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+
+            echo view('stocks/CheckList_eliminar', $data);
         }
-        echo view('stocks/CheckList_eliminar', $data);
     }
     //========================================================
     public function cotacao_eliminar($id_cotacao, $resposta = 'nao')
     {
-
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
         if ($id_cotacao == -1) {
@@ -1029,23 +1928,101 @@ class Stocks extends BaseController
         $model = new StocksModel();
         $data['cotacao'] = $model->get_cotacao($id_cotacao);
         if ($resposta == 'sim') {
-            //Eliminacao da familia
+            //Eliminacao cotacao
             $model->delete_cotacao($id_cotacao);
-            //redirecionamento para stock/familias
-            return redirect()->to(site_url('stocks/cotacoes'));
+
+            //Eliminacao itens da cotacao
+            $model->delete_Itens_cotacao($id_cotacao);
+
+            //Eliminacao clientes da cotacao
+            $model->delete_clientes_cotacao($id_cotacao);
+
+            //Eliminacao datas e horas da cotacao
+            $ids_horas = $model->get_hora_copia($id_cotacao);
+            $model->delete_data_hora_cotacao($ids_horas);
+
+
+
+            $data['cotacoes'] = $model->get_all_cotacoes();
+            $data['sucess'] = "Cotação eliminada com sucesso !!";
+
+            //verificar tipo de profile
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            //retornar para todas as cotacoes
+            echo view('stocks/cotacoes', $data);
+        } else {
+            //verificar tipo de profile
+            if ($this->checkProfile('admin')) {
+                $data['admin'] = "true";
+            }
+            echo view('stocks/cotacao_eliminar', $data);
         }
+    }
+    //======================================================== 
+    public function cotacao_alterar_data($id_cotacao, $resposta = 'nao')
+    {
+
+        if ($resposta == 'sim') {
+            $data['success'] = "Eliminado a Data com Sucesso!";
+        }
+
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        if ($id_cotacao == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+        // enviar as datas cadastradas no escopo
+        $todas_horas = $data['data_escopo'] = $model->get_datas_escopo($id_cotacao);
+
+        //enviar as horas cadastradas no escopo
+        $data['hora_escopo'] = $model->get_horas_escopo($todas_horas);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
 
         //verificar tipo de profile
         if ($this->checkProfile('admin')) {
             $data['admin'] = "true";
         }
-
-        echo view('stocks/cotacao_eliminar', $data);
+        echo view('stocks/cotacao_alterar_data', $data);
     }
     //========================================================      
-    public function cotacao_eliminar_fornecedor($id_cotacao, $resposta = 'nao')
+
+    public function cotacao_alterar_data_msg_data_vazia($id_cotacao, $resposta = 'nao')
     {
 
+        helper('funcoes');
+        $id_cotacao = aesDecrypt($id_cotacao);
+        if ($id_cotacao == -1) {
+            return;
+        }
+        $model = new StocksModel();
+        $data['cotacao'] = $model->get_cotacao($id_cotacao);
+        // enviar as datas cadastradas no escopo
+        $todas_horas = $data['data_escopo'] = $model->get_datas_escopo($id_cotacao);
+
+        //enviar as horas cadastradas no escopo
+        $data['hora_escopo'] = $model->get_horas_escopo($todas_horas);
+
+        // enviar as datas cadastradas no escopo
+        $data['datas_cadastras'] = $model->get_all_datas_cadastras($id_cotacao);
+        $data['error'] = "Necessario deixar a cotação ao menos com uma Data!";
+
+        //verificar tipo de profile
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/cotacao_alterar_data', $data);
+    }
+
+
+    //========================================================
+    public function cotacao_eliminar_fornecedor($id_cotacao, $resposta = 'nao')
+    {
         helper('funcoes');
         $id_cotacao = aesDecrypt($id_cotacao);
         if ($id_cotacao == -1) {
@@ -1074,7 +2051,6 @@ class Stocks extends BaseController
     //========================================================
     public function produtos()
     {
-
         //carregar os produtos existentes
         //carregar os dados da familias para passar a View
         $model = new StocksModel();
@@ -1088,16 +2064,13 @@ class Stocks extends BaseController
     //======================================================== 
     public function produtos_adicionar()
     {
-
         $model = new StocksModel();
         //carregar familias
         $data['familias'] = $model->get_all_families();
-
         //carregar as taxas
         $data['taxas'] = $model->get_all_taxes();
         $sucesso = '';
         $erro = '';
-
         //tratar a submissao do formulario
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -1154,15 +2127,11 @@ class Stocks extends BaseController
     //========================================================
     public function fornecedores_adicionar()
     {
-
         $model = new StocksModel();
-
         //carregar fornecedores
         $data['familias'] = $model->get_all_families_servicos();
-
         //carregar estados
         $data['select_uf'] = $model->get_all_estados();
-
         $sucesso = '';
         $erro = '';
 
@@ -1218,8 +2187,6 @@ class Stocks extends BaseController
                     $erro = "Já Existe um Fornecedor com esse email";
                 }
             }
-
-            
             if ($erro == '') {
                 //adicionar novo fornecedor
                 $model = new StocksModel();
@@ -1248,19 +2215,101 @@ class Stocks extends BaseController
         echo view('stocks/fornecedores_adicionar', $data);
     }
     //========================================================
-    public function fornecedores_adicionar_cep()
+    public function clientes_adicionar()
     {
-
         $model = new StocksModel();
 
-        // carregar relacao de UF
+        //carregar estados
         $data['select_uf'] = $model->get_all_estados();
 
+        $sucesso = '';
+        $erro = '';
+
+        //tratar a submissao do formulario
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $model = new StocksModel();
+            //verifica se ja existe cliente com o mesmo nome 
+            if ($erro == '') {
+                $result7 = $model->cliente_check();
+                if (count($result7) != 0) {
+                    $erro = "Já existe outro cliente com o mesmo nome";
+                }
+            }
+
+            //verifica se ja existe fornecedor com o mesmo cnpj
+            if ($erro == '') {
+                if ($model->cnpj_check_cli()) {
+                    //erro ja existe outro fornecedor com o mesmo cnpj
+                    $erro = 'Já existe outro cliente com o mesmo cnpj!';
+                }
+            }
+
+            //verificar se ja existe um user com o mesmo  email
+            if ($erro == '') {
+                $result5 = $model->checkExistingEmail_cli();
+                if (count($result5) != 0) {
+                    $erro = "Já Existe um Cliente com o mesmo email";
+                }
+            }
+            if ($erro == '') {
+                //adicionar novo fornecedor
+                $model = new StocksModel();
+                $model->cliente_add();
+                $sucesso = "Adicionado novo Cliente com Sucesso!";
+            }
+        }
+        //passar para a $data a mensagem de erro ou nao
+        if ($erro != '') {
+            $data['error'] = $erro;
+        }
+
+        if ($sucesso != '') {
+            $data['success'] = $sucesso;
+        }
+
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        //apresenta o formulario de adiciona
+        echo view('stocks/clientes_adicionar', $data);
+    }
+    //========================================================
+    public function fornecedores_adicionar_cep()
+    {
+        $model = new StocksModel();
+        // carregar relacao de UF
+        $data['select_uf'] = $model->get_all_estados();
         //carregar fornecedores
         $data['familias'] = $model->get_all_families_servicos();
         $sucesso = '';
         $erro = '';
+        //tratar a submissao do formulario
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        }
+        //passar para a $data a mensagem de erro ou nao
+        if ($erro != '') {
+            $data['error'] = $erro;
+        }
 
+        if ($sucesso != '') {
+            $data['success'] = $sucesso;
+        }
+
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        //apresenta o formulario de adiciona
+        echo view('stocks/fornecedores_adicionar', $data);
+    }
+    //========================================================
+    public function clientes_adicionar_cep()
+    {
+        $model = new StocksModel();
+        // carregar relacao de UF
+        $data['select_uf'] = $model->get_all_estados();
+        $sucesso = '';
+        $erro = '';
         //tratar a submissao do formulario
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
@@ -1277,9 +2326,8 @@ class Stocks extends BaseController
             $data['admin'] = "true";
         }
         //apresenta o formulario de adiciona
-        echo view('stocks/fornecedores_adicionar', $data);
+        echo view('stocks/clientes_adicionar', $data);
     }
-
     //========================================================
     public function ItemCheckList_adicionar()
     {
@@ -1315,8 +2363,6 @@ class Stocks extends BaseController
     }
 
     //========================================================
-
-
     public function produtos_editar($id)
     {
         helper('funcoes');
@@ -1407,7 +2453,6 @@ class Stocks extends BaseController
         $model = new StocksModel();
         $data['produto'] = $model->get_product($id_produto);
         if ($resposta == 'sim') {
-
             //Eliminacao do produto
             $model->delete_product($id_produto);
             //redirecionamento para stock/produtos
@@ -1445,10 +2490,7 @@ class Stocks extends BaseController
             if ($error == '') {
                 $model->movimento_add();
                 $model->movimento_add_produto();
-
                 $data['success'] = "Produto adicionado com sucesso";
-                //para atualizar a lista de familias
-                // $data['familias']= $model->get_all_families();
             } else {
                 $data['error'] = $error;
             }
@@ -1529,7 +2571,41 @@ class Stocks extends BaseController
         }
         echo view('stocks/fornecedores', $data);
     }
-
+    //========================================================
+    public function clientes_success($mensagem)
+    {
+        //carregar os fornecedores existentes
+        $model = new StocksModel();
+        $data['clientes'] = $model->get_all_clientes();
+        $data['success'] = $mensagem;
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/clientes', $data);
+    }
+    //========================================================
+    public function fornecedores_success($mensagem)
+    {
+        //carregar os fornecedores existentes
+        $model = new StocksModel();
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        $data['success'] = $mensagem;
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/fornecedores', $data);
+    }
+    //========================================================
+    public function clientes()
+    {
+        //carregar os fornecedores existentes
+        $model = new StocksModel();
+        $data['clientes'] = $model->get_all_clientes();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+        echo view('stocks/clientes', $data);
+    }
     //========================================================
     public function descobrir_cep()
     {
@@ -1540,6 +2616,17 @@ class Stocks extends BaseController
         }
 
         echo view('stocks/descobrir_cep', $data);
+    }
+    //========================================================
+    public function descobrir_cep_cli()
+    {
+        $model = new StocksModel();
+        $data['fornecedores'] = $model->get_all_fornecedores();
+        if ($this->checkProfile('admin')) {
+            $data['admin'] = "true";
+        }
+
+        echo view('stocks/descobrir_cep_cli', $data);
     }
     //========================================================
 }
