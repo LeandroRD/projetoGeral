@@ -3,10 +3,10 @@ use App\Models\SignupModel;
 use CodeIgniter\Controller;
 
 class Main extends BaseController
-{	
+{
 	//====================================================
 	public function index()
-		{	//verificar se recebera o codigo de novo usuario
+		{ //verificar se recebera o codigo de novo usuario
 			$data = array();
 			if (isset($_GET['a'])){
 				$a = $_GET['a'];

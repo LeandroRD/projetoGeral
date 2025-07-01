@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  */
 $routes->setDefaultNamespace('App\Controllers');
 
-//Alterado para MAIN
+//Alterado para Main
 $routes->setDefaultController('Main');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);

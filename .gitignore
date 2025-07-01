@@ -121,7 +121,84 @@ nb-configuration.xml
 # Visual Studio Code
 .vscode/
 
-/results/
-/phpunit*.xml
-/.phpunit.*.cache
+#-------------------------
+# .NET Core
+#-------------------------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+#-------------------------
+# Logs
+#-------------------------
+*.log
+
+#-------------------------
+# Pacotes
+#-------------------------
+packages/
+*.nupkg
+
+#-------------------------
+# Configurações locais
+#-------------------------
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+#-------------------------
+# Outros
+#-------------------------
+*.sqlite
+*.db
+*.bak
+*.mdf
+*.ldf
+
+#-------------------------
+# Publish
+#-------------------------
+publish/
+
+#-------------------------
+# Node/npm
+#-------------------------
+node_modules/
+
+#-------------------------
+# Python
+#-------------------------
+__pycache__/
+*.pyc
+
+#-------------------------
+# PHP
+#-------------------------
+vendor/
+
+#-------------------------
+# Outros arquivos temporários
+#-------------------------
+*.tmp
+*.temp
+~$*
+
+#-------------------------
+# Arquivos de backup do editor
+#-------------------------
+*~
+*.swp
+*.swn
+*.bak
+*.tmp
+*.old
+*.orig
+
+#-------------------------
+# Arquivos de upload
+#-------------------------
+writable/uploads/
 
